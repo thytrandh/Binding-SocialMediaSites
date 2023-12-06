@@ -1,0 +1,51 @@
+@import "../../../../../assets/scss/media";
+.option-add-post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include sm {
+        justify-content: space-between;
+    }
+    border: 2px dashed var(--grey);
+    padding: 0px 15px;
+    border-radius: 5px;
+    height: 55px;
+    p.title {
+        display: none;
+        color: var(--title-text);
+        font-weight: 500;
+        font-size: 0.95rem;
+        @include sm {
+            display: block;
+        }
+    }
+    ul.option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        li.item-option {
+            margin-right: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            &:last-child {
+                margin-right: 0px;
+            }
+            img {
+                width: 20px;
+                object-fit: cover;
+                @include md {
+                    width: 23px;
+                }
+            }
+            p.desc {
+                margin-left: 5px;
+                font-size: 0.92rem;
+            }
+        }
+        li.item-option.disable {
+            cursor: not-allowed;
+        }
+    }
+}

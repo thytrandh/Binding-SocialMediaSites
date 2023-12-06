@@ -1,0 +1,212 @@
+@import "../../../../../assets/scss/media";
+.friends-profile {
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 5px;
+    min-height: 100vh;
+    padding: 10px 30px;
+    -webkit-animation: back-in-up 0.3s ease-in-out;
+    animation: back-in-up 0.3s ease-in-out;
+    animation-timing-function: 0.3s;
+    animation-delay: 0s;
+    .top-box {
+        padding: 20px 0px;
+        border-bottom: 1px solid var(--grey);
+        @include sm {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        p.title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--title-text);
+        }
+        .searchbar {
+            form.search-box {
+                background-color: var(--white);
+                height: 39px;
+                margin-top: 15px;
+                @include sm {
+                    height: 44px;
+                    width: 250px;
+                    margin-top: 0;
+                }
+                width: 200px;
+                border: 1px solid var(--grey);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                padding: 0px 10px;
+                margin-right: 10px;
+                img.ic-search {
+                    width: 17px;
+                    @include sm {
+                        width: 19px;
+                    }
+                    object-fit: cover;
+                }
+                input.search-input {
+                    width: 100%;
+                    height: 100%;
+                    margin-left: 10px;
+                    &::placeholder {
+                        font-size: 0.93rem;
+                        font-weight: 500;
+                        color: var(--body-text);
+                    }
+                }
+            }
+        }
+    }
+    .friends {
+        padding-top: 25px;
+        display: flex;
+        flex-direction: column;
+        @media (min-width: 950px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .item-friend {
+            position: relative;
+            cursor: pointer;
+            padding: 30px 20px;
+            @media (min-width: 950px) {
+                &:nth-child(2n) {
+                    margin-left: 10px;
+                }
+                &:nth-child(2n-1) {
+                    margin-right: 10px;
+                }
+                width: calc((50%) - 10px);
+            }
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: var(--border-light);
+            img.img-avt {
+                width: 40%;
+                width: 55px !important;
+                height: 55px !important;
+                @include lg {
+                    width: 70px !important;
+                    height: 70px !important;
+                }
+                object-fit: cover;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            .user-info {
+                padding-left: 10px;
+                width: 60%;
+                p {
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .username {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 2px;
+                    p.name {
+                        font-size: 1.05rem;
+                        color: var(--title-text);
+                        font-weight: 500;
+                        @include lg {
+                            font-size: 1.1rem;
+                        }
+                    }
+                }
+                p.email {
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 0.95rem;
+                    @include lg {
+                        font-size: 1rem;
+                    }
+                }
+            }
+            .unfriend-box {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 20px;
+                button.btn-unfriend {
+                    position: relative;
+                    cursor: pointer;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 5px;
+                    background-color: rgba(214, 48, 49, 0.1);
+                    transition: all 0.3s ease;
+                    i {
+                        color: var(--remove);
+                        font-size: 13px;
+                    }
+                    &:hover {
+                        background-color: var(--remove);
+                        i {
+                            color: var(--white);
+                        }
+                        p.tooltip {
+                            opacity: 1;
+                        }
+                    }
+                    p.tooltip {
+                        transition: all 0.3s ease;
+                        opacity: 0;
+                        position: absolute;
+                        z-index: 2;
+                        top: 50%;
+                        right: -20%;
+                        transform: translate(-50%, -50%);
+                        padding: 2px 10px;
+                        background-color: var(--white);
+                        border-radius: 5px;
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        color: var(--title-text);
+                        box-shadow: 0px 0px 5px 0px rgba(#333, 0.3);
+                        &::after {
+                            position: absolute;
+                            content: "";
+                            z-index: 1;
+                            top: 50%;
+                            right: 0%;
+                            transform: translate(50%, -50%) rotate(-45deg);
+                            width: 8px;
+                            height: 8px;
+                            background-color: var(--white);
+                            box-shadow: 0px 0px 20px 0px rgba(#333, 0.3);
+                        }
+                    }
+                }
+            }
+        }
+        p.mess {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+@keyframes back-in-up {
+    0% {
+        -webkit-transform: translate(0, 5%);
+        transform: translate(0, 5%);
+        opacity: 0.5;
+    }
+    50% {
+        -webkit-transform: translate(0, 2.5%);
+        transform: translate(0, 2.5%);
+        opacity: 0.8;
+    }
+    100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,56 @@
+.activity-user {
+    width: 100%;
+    background-color: var(--white);
+    padding: 0px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    p.title {
+        padding: 20px 0px;
+        border-bottom: 1px solid var(--grey);
+        color: var(--title-text);
+        font-weight: 500;
+        font-size: 1.15rem;
+    }
+    > ul.users {
+        padding: 25px 0px;
+        > li.item-users {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            &:last-child {
+                margin-bottom: 0px;
+            }
+            img.img-avt {
+                width: 50px !important;
+                height: 50px !important;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            > .user-info {
+                margin-left: 10px;
+                p.username {
+                    position: relative;
+                    font-size: 1.01rem;
+                    color: var(--title-text);
+                    font-weight: 500;
+                    margin-bottom: 2px;
+                    &::after {
+                        position: absolute;
+                        top: 50%;
+                        right: -15%;
+                        transform: translate(0%, -50%);
+                        content: "";
+                        width: 7px;
+                        height: 7px;
+                        background-color: var(--success);
+                        border-radius: 50%;
+                    }
+                }
+                p.active {
+                    font-size: 0.9rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+@import "../../../assets/scss/media";
+.profile-page {
+    width: 100%;
+    .main-profile {
+        margin-top: 30px;
+        .main-content {
+            margin-top: 20px;
+            width: 100%;
+        }
+    }
+}

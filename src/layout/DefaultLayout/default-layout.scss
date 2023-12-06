@@ -1,0 +1,33 @@
+@import "../../assets/scss/media";
+
+.default-layout {
+    .slider-bar {
+        display: none;
+        @include md {
+            display: block;
+        }
+    }
+    .default-layout-content {
+        .header-default {
+        }
+        .content-default {
+            margin-top: 20px;
+            min-height: 100vh;
+        }
+        .footer-default {
+        }
+    }
+}
+
+.ml-270 {
+    margin-left: 0;
+    @include md {
+        margin-left: 270px;
+    }
+}
+.ml-90 {
+    margin-left: 0;
+    @include md {
+        margin-left: 90px;
+    }
+}

@@ -1,0 +1,74 @@
+@import "../../../../assets/scss/media";
+.advertisement {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: var(--white);
+    padding: 0px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    @include xl {
+        height: 450px;
+    }
+    img.img-ads {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .content {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 40%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            img.img-logo {
+                width: 35px;
+                filter: brightness(0) invert(1);
+                -webkit-filter: brightness(0) invert(1);
+            }
+            p.title {
+                margin-left: 5px;
+                font-size: 1.25rem;
+                color: var(--white);
+                font-weight: 600;
+                font-size: 1.7rem;
+            }
+        }
+        p.desc {
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--white);
+            width: 90%;
+            font-size: 1rem;
+            @media (min-width: 1350px) {
+                width: 80%;
+            }
+            @include xxl {
+                width: 70%;
+                font-size: 1.1rem;
+            }
+        }
+        .btn-contact {
+            padding: 15px 25px;
+            background-color: var(--white);
+            border-radius: 5px;
+            cursor: pointer;
+            p {
+                color: var(--title-text);
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+        }
+    }
+}

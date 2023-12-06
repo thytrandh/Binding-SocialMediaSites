@@ -1,0 +1,17 @@
+.upload-text {
+    margin-bottom: 20px;
+    textarea {
+        border-radius: 3px;
+        width: 100%;
+        max-height: 110px;
+        resize: none;
+        &::placeholder {
+            color: rgba(#6f7f92, 0.8);
+        }
+    }
+}
+.upload-text.w-50 {
+    textarea {
+        max-height: 50px;
+    }
+}

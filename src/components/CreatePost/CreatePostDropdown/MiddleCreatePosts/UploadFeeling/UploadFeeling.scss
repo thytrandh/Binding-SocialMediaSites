@@ -1,0 +1,68 @@
+.upload-feeling {
+    position: relative;
+    border: 2px dashed #b3b3b3;
+    padding: 15px;
+    height: 350px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow-x: scroll;
+    background-color: var(--border-light);
+    border-radius: 5px;
+    ul.feeling-box {
+        display: flex;
+        flex-wrap: wrap;
+        li.item-emoji {
+            padding: 10px;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            .ic-emoji {
+                position: relative;
+                margin-right: 10px;
+                width: 35px;
+                height: 35px;
+                background-color: var(--white);
+                border-radius: 50%;
+                p {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 18px;
+                }
+            }
+            p.desc {
+                color: var(--title-text);
+            }
+            &:hover {
+                background-color: var(--primary);
+                p.desc {
+                    color: var(--white);
+                }
+            }
+        }
+    }
+    .btn-close {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 1px solid var(--grey);
+        background-color: var(--white);
+        position: absolute;
+        z-index: 2;
+        right: 0;
+        top: 0;
+        transform: translate(-70%, 70%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+            color: var(--title-text);
+            font-size: 13px;
+        }
+    }
+}

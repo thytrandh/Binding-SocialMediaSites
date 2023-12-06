@@ -1,0 +1,23 @@
+@import "../../../assets/scss/media";
+.logo-default {
+    display: flex;
+    align-items: center;
+    //justify-content: center;
+    margin-bottom: 20px;
+    img {
+        width: 33px;
+        @include sm {
+            width: 37px;
+        }
+    }
+    p.website-name {
+        font-size: 25px;
+        @include sm {
+            font-size: 27px;
+            margin-top: -5px;
+        }
+        font-weight: 600;
+        color: var(--black);
+        margin-left: 8px;
+    }
+}

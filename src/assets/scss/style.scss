@@ -1,0 +1,129 @@
+@import "../css/reset.css";
+@import "../scss/variables";
+@import "../scss/media";
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+body,
+html,
+button,
+input,
+label,
+textarea,
+a {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--body-text);
+    user-select: none !important;
+    user-select: none;
+    @include sm {
+        font-size: 14px;
+    }
+    @include md {
+        font-size: 15px;
+    }
+}
+body {
+    width: 100vw;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+label,
+button {
+    user-select: none !important;
+}
+
+// box-shadow: 0px 0px 20px 0px rgba(#333, 0.3);
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 25px 15px;
+}
+
+@media (min-width: 576px) {
+    .container,
+    .container-sm {
+        padding: 25px 15px;
+        max-width: 576px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container,
+    .container-sm,
+    .container-md {
+        padding: 25px 20px;
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg {
+        padding: 25px 30px;
+        max-width: 992px;
+    }
+}
+
+@media (min-width: 1250px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl {
+        padding: 25px 30px;
+        max-width: 1250px;
+    }
+}
+
+//Custom dot carousel
+.rec,
+.rec-carousel {
+    .rec,
+    .rec-pagination {
+        button.rec,
+        button.rec-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            box-shadow: none;
+            background-color: #a5a8ab;
+            &:focus {
+                width: 20px;
+                height: 6px;
+                border-radius: 5px;
+                background-color: var(--white);
+            }
+        }
+        button.rec-dot_active {
+            width: 20px;
+            height: 7px;
+            border-radius: 5px;
+            background-color: var(--white);
+        }
+    }
+}
+
+
+// ::-webkit-scrollbar-track {
+//     border-radius: 20px;
+// }
+
+// ::-webkit-scrollbar {
+//     width: 5px;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//     border-radius: 20px;
+//     background-color: var(--primary);
+//     transition: all 0.3s ease;
+// }
+
+// overflow: hidden;
+// text-overflow: ellipsis;
+// white-space: nowrap;

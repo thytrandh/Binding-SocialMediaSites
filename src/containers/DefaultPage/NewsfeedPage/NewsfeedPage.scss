@@ -1,0 +1,39 @@
+@import "../../../assets/scss/media";
+.newsfeed-page {
+    width: 100%;
+    overflow: hidden;
+    @include lg {
+        display: flex;
+        justify-content: space-between;
+    }
+    .sliderbar-activity {
+        padding-right: 20px;
+        width: 100%;
+        @media (min-width: 1100px) {
+            width: 65%;
+        }
+        @include xl {
+            width: 68%;
+        }
+        // @include lg {
+        //     width: 65%;
+        // }
+    }
+    .sliderbar-service {
+        display: none;
+        @media (min-width: 1100px) {
+            width: 35%;
+            display: block;
+        }
+        @include xl {
+            width: 32%;
+        }
+        // @include lg {
+        //     width: 35%;
+        //     display: block;
+        // }
+        padding-left: 10px;
+
+        // background-color: aqua;
+    }
+}

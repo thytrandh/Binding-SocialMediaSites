@@ -1,0 +1,222 @@
+@import "../../../../../assets/scss/media";
+.timeline-profile {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    -webkit-animation: back-in-up 0.3s ease-in-out;
+    animation: back-in-up 0.3s ease-in-out;
+    animation-timing-function: 0.3s;
+    animation-delay: 0s;
+    > .detail {
+        display: none;
+        @media (min-width: 1150px) {
+            width: 32%;
+            display: block;
+        }
+        .gallery-show-box {
+            border-radius: 5px;
+            padding: 20px;
+            background-color: var(--white);
+            margin-bottom: 20px;
+            .top-box {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                padding-bottom: 20px;
+                border-bottom: 1px solid var(--grey);
+                p.subject {
+                    cursor: pointer;
+                    color: var(--title-text);
+                    font-weight: 600;
+                    font-size: 1.05rem;
+                }
+                p.view {
+                    cursor: pointer;
+                    font-size: 0.95rem;
+                }
+            }
+            .gallery {
+                width: 100%;
+                .list-image {
+                    margin-top: 20px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    overflow: hidden;
+                    img.item-img {
+                        cursor: pointer;
+                        width: calc(100% / 3);
+                        object-fit: cover;
+                        overflow: hidden;
+                    }
+                }
+                .list-image.h-1row {
+                    --height-1r: 75px;
+                    height: --height-1r;
+                    @include xl {
+                        --height-1r: 90px;
+                    }
+                    @include xxl {
+                        --height-1r: 110px;
+                    }
+                    img.item-img {
+                        height: calc(var(--height-1r));
+                    }
+                }
+                .list-image.h-2row {
+                    --height-2r: 150px;
+                    height: --height-2r;
+                    @include xl {
+                        --height-2r: 180px;
+                    }
+                    @include xxl {
+                        --height-2r: 220px;
+                    }
+                    img.item-img {
+                        height: calc(var(--height-2r) / 2);
+                    }
+                }
+                .list-image.h-3row {
+                    --height-3r: 225px;
+                    height: --height-3r;
+                    @include xl {
+                        --height-3r: 270px;
+                    }
+                    @include xxl {
+                        --height-3r: 330px;
+                    }
+                    img.item-img {
+                        height: calc(var(--height-3r) / 3);
+                    }
+                }
+                p.mess {
+                    padding: 20px 0px 0px 0px;
+                }
+            }
+        }
+        .friends-show-box {
+            border-radius: 5px;
+            padding: 20px 0px;
+            background-color: var(--white);
+            .top-box {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                margin: 0px 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid var(--grey);
+                p.subject {
+                    cursor: pointer;
+                    color: var(--title-text);
+                    font-weight: 600;
+                    font-size: 1.05rem;
+                }
+                p.view {
+                    cursor: pointer;
+                    font-size: 0.95rem;
+                }
+            }
+            .friends {
+                width: 100%;
+                padding: 0px 15px;
+                .list-users {
+                    margin-top: 15px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    overflow: hidden;
+                    .item-user {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        overflow: hidden;
+                        width: calc(100% / 3);
+                        padding: 5px;
+                        img.img-avt {
+                            cursor: pointer;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            overflow: hidden;
+                            border-radius: 5px;
+                        }
+                        p.username {
+                            margin-top: 5px;
+                            font-size: 0.85rem;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            max-width: 80%;
+                        }
+                    }
+                }
+                .list-users.h-1row {
+                    --height-1r: 125px;
+                    height: --height-1r;
+                    @include xl {
+                        --height-1r: 140px;
+                    }
+                    @include xxl {
+                        --height-1r: 160px;
+                    }
+                    .item-user {
+                        height: calc(var(--height-1r));
+                    }
+                }
+                .list-users.h-2row {
+                    --height-2r: 200px;
+                    height: --height-2r;
+                    @include xl {
+                        --height-2r: 230px;
+                    }
+                    @include xxl {
+                        --height-2r: 270px;
+                    }
+                    .item-user {
+                        height: calc(var(--height-2r) / 2);
+                    }
+                }
+                .list-users.h-3row {
+                    --height-3r: 275px;
+                    height: --height-3r;
+                    @include xl {
+                        --height-3r: 320px;
+                    }
+                    @include xxl {
+                        --height-3r: 380px;
+                    }
+                    .item-user {
+                        height: calc(var(--height-3r) / 3);
+                    }
+                }
+                p.mess {
+                    padding: 20px 0px 0px 0px;
+                }
+            }
+        }
+    }
+    > .content {
+        width: 100%;
+        @media (min-width: 1150px) {
+            width: 70%;
+            padding-left: 20px;
+            display: block;
+        }
+    }
+}
+
+@keyframes back-in-up {
+    0% {
+        -webkit-transform: translate(0, 5%);
+        transform: translate(0, 5%);
+        opacity: 0.5;
+    }
+    50% {
+        -webkit-transform: translate(0, 2.5%);
+        transform: translate(0, 2.5%);
+        opacity: 0.8;
+    }
+    100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}

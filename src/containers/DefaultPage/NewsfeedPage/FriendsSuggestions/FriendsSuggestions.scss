@@ -1,0 +1,124 @@
+@import "../../../../assets/scss/media";
+.friends-suggestions {
+    width: 100%;
+    background-color: var(--white);
+    padding: 0px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    p.title {
+        padding: 20px 0px;
+        border-bottom: 1px solid var(--grey);
+        color: var(--title-text);
+        font-weight: 500;
+        font-size: 1.15rem;
+    }
+    ul.users-suggestion {
+        padding: 25px 0px;
+        li.item-user {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            &:last-child{
+                margin-bottom: 0px;
+            }
+            .avatar {
+                img.img-avt {
+                    width: 50px !important;
+                    height: 50px !important;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+            .item-desc {
+                width: 100%;
+                margin-left: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .user-info {
+                    p {
+                        width: 150px;
+                        @media (min-width: 1100px) {
+                            width: 130px;
+                        }
+                        @media (min-width: 1120px) {
+                            width: 85px;
+                        }
+                        @media (min-width: 1130px) {
+                            width: 95px;
+                        }
+                        @media (min-width: 1220px) {
+                            width: 110px;
+                        }
+                        @include xl {
+                            width: 100px;
+                        }
+                        @media (min-width: 1310px) {
+                            width: 120px;
+                        }
+                        @include xxl {
+                            width: 150px;
+                        }
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    p.username {
+                        position: relative;
+                        font-size: 1.01rem;
+                        color: var(--title-text);
+                        font-weight: 500;
+                        margin-bottom: 1px;
+                    }
+                    p.email {
+                        font-size: 0.9rem;
+                    }
+                }
+                .option-box {
+                    margin-left: 10px;
+                    display: flex;
+                    -ms-flex-align: end;
+                    .btn-option {
+                        cursor: pointer;
+                        width: 33px;
+                        height: 33px;
+                        border-radius: 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.3s ease;
+                        i {
+                            font-size: 13px;
+                        }
+                        &:hover {
+                            i {
+                                color: var(--white);
+                            }
+                        }
+                    }
+                    .btn-add {
+                        margin-right: 5px;
+                        background-color: rgba(47, 101, 185, 0.1);
+                        i {
+                            color: var(--primary);
+                        }
+                        &:hover {
+                            background-color: var(--primary);
+                        }
+                    }
+                    .btn-delete {
+                        background-color: rgba(214, 48, 49, 0.1);
+                        i {
+                            color: var(--remove);
+                        }
+                        &:hover {
+                            background-color: var(--remove);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

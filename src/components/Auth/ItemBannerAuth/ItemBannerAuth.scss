@@ -1,0 +1,28 @@
+@import "../../../assets/scss/media";
+.item-banner-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .img-banner {
+        img {
+            width: 415px;
+            height: 245px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+    }
+    .content {
+        color: var(--white);
+        text-align: center;
+        margin: 15px 0px;
+        p {
+            max-width: 415px;
+        }
+        p.title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    }
+}

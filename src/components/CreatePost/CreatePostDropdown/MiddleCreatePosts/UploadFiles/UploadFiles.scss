@@ -1,0 +1,111 @@
+.upload-file {
+    position: relative;
+    border: 2px dashed #b3b3b3;
+    padding: 7px;
+    height: 310px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 100%;
+    .upload-box {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: var(--border-light);
+        border-radius: 5px;
+        .add-files-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            .img-post {
+                width: 43px;
+                height: 43px;
+                background-color: var(--grey);
+                border-radius: 50%;
+                overflow: hidden;
+                position: relative;
+                img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 23px;
+                    object-fit: cover;
+                }
+            }
+            p.desc {
+                margin-top: 10px;
+                font-weight: 600;
+                color: var(--title-text);
+                font-size: 0.95rem;
+            }
+        }
+        .show-selected-images,
+        .show-selected-videos {
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+            ul.selected-images,
+            .selected-videos {
+                li.item-image,
+                .item-video {
+                    position: relative;
+                    height: 100%;
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 294px;
+                    overflow: hidden;
+                    video,
+                    img {
+                        position: absolute;
+                        z-index: 100;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: auto;
+                        height: 100%;
+                        //object-fit: cover;
+                    }
+                    video {
+                        min-width: 100%;
+                    }
+                    img.img-bg,
+                    video.video-bg {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        z-index: 2;
+                        filter: blur(8px);
+                        -webkit-filter: blur(8px);
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+    .btn-close {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 1px solid var(--grey);
+        background-color: var(--white);
+        position: absolute;
+        z-index: 2;
+        right: 0;
+        top: 0;
+        transform: translate(-70%, 70%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+            color: var(--title-text);
+            font-size: 13px;
+        }
+    }
+}
