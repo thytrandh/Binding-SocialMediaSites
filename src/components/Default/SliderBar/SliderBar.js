@@ -19,11 +19,18 @@ const SliderBar = () => {
       navigate: "/",
       active: true,
     },
+    // {
+    //   id: 1,
+    //   icon: "/images/Icon/IconMenu/2 User.png",
+    //   name: "Friends List",
+    //   navigate: "/profile/friends",
+    //   active: false,
+    // },
     {
       id: 1,
       icon: "/images/Icon/IconMenu/2 User.png",
-      name: "Friends List",
-      navigate: "/profile/friends",
+      name: "Friends",
+      navigate: "/friends",
       active: false,
     },
     {

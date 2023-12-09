@@ -15,6 +15,10 @@ export const HOME_PAGE = "/home";
 //NEWSFEED PAGE SECTION
 export const NEWSFEED_PAGE = "/";
 
+//FRIENDS PAGE SECTION
+export const FRIENDS_PAGE = "/friends";
+export const FRIENDS_REQUESTS = "/friends/requests";
+export const FRIENDS_SENT_REQUESTS = "/friends/sent-requests";
 //PROFILE PAGE SECTION
 export const PROFILE_PAGE = "/profile";
 // export const PROFILES_TIME_LINE = "/profile/timeline";

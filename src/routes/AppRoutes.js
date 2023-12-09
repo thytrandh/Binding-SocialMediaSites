@@ -5,6 +5,7 @@ import DefaultLayout from "../layout/DefaultLayout/default-layout";
 import pMinDelay from "p-min-delay";
 import PrivateRoute from "./PrivateRoute";
 import {
+  FRIENDS_PAGE,
   HOME_PAGE,
   LOGIN_PAGE,
   MEMBERS_ABOUT,
@@ -26,6 +27,8 @@ import {
 import TimelineProfile from "../containers/DefaultPage/ProfilePage/MainProfile/TimelineProfile/TimelineProfile";
 
 //Authencation Page
+//================================= AUTHENCATION PAGE ==================================
+
 const LoginPage = React.lazy(() =>
   pMinDelay(import("../containers/AuthPage/LoginPage/LoginPage"), 600)
 );
@@ -38,6 +41,10 @@ const VerifyPage = React.lazy(() =>
   pMinDelay(import("../containers/AuthPage/VerifyPage/VerifyPage"), 600)
 );
 
+//======================================================================================
+
+////DEFAULT PAGE
+
 const HomePage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/HomePage/HomePage"), 600)
 );
@@ -46,7 +53,11 @@ const NewsfeedPage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/NewsfeedPage/NewsfeedPage"), 600)
 );
 
-//================================= PROFILE ==============================
+const FriendsPage = React.lazy(() =>
+  pMinDelay(import("../containers/DefaultPage/FriendsPage/FriendsPage"), 600)
+);
+
+//================================= PROFILE ===========================================
 
 const ProfilePage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/ProfilePage/ProfilePage"), 600)
@@ -160,6 +171,14 @@ const AppRoutes = () => {
           element={
             <React.Suspense fallback={<Loader />}>
               <NewsfeedPage />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={FRIENDS_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <FriendsPage />
             </React.Suspense>
           }
         />

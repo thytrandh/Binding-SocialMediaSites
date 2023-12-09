@@ -33,10 +33,27 @@ const DefaultLayout = () => {
         }
       >
         <Header />
-        <div className="content-default container">
-          <Outlet />
-        </div>
-        <Footer/>
+        {width > 768 ? (
+          <div
+            className="content-default container"
+            style={
+              toggleSliderbar
+                ? { width: `${width - 270 - 30}px` }
+                : { width: `${width - 90 - 20}px` }
+            }
+          >
+            <Outlet />
+          </div>
+        ) : (
+          <div
+            className="content-default container"
+            style={{ width: `${width - 20}px` }}
+          >
+            <Outlet />
+          </div>
+        )}
+
+        <Footer />
       </div>
     </div>
   );

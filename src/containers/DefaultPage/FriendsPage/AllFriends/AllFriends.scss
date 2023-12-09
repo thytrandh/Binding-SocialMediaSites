@@ -1,0 +1,79 @@
+@import "../../../../assets/scss/media";
+.all-friends {
+    .friends {
+        padding-top: 25px;
+        display: flex;
+        flex-direction: column;
+        @media (min-width: 950px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .item-friend {
+            position: relative;
+            cursor: pointer;
+            padding: 30px 20px;
+            @media (min-width: 950px) {
+                &:nth-child(2n) {
+                    margin-left: 10px;
+                }
+                &:nth-child(2n-1) {
+                    margin-right: 10px;
+                }
+                width: calc((50%) - 10px);
+            }
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: var(--border-light);
+            img.img-avt {
+                width: 40%;
+                width: 55px !important;
+                height: 55px !important;
+                @include lg {
+                    width: 70px !important;
+                    height: 70px !important;
+                }
+                object-fit: cover;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            .user-info {
+                padding-left: 10px;
+                width: 60%;
+                p {
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .username {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 2px;
+                    p.name {
+                        font-size: 1.05rem;
+                        color: var(--title-text);
+                        font-weight: 500;
+                        @include lg {
+                            font-size: 1.1rem;
+                        }
+                    }
+                }
+                p.email {
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 0.95rem;
+                    @include lg {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+        p.mess {
+            font-size: 1.1rem;
+        }
+    }
+}

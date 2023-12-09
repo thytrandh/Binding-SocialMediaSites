@@ -1,0 +1,36 @@
+@import "../../assets/scss/media";
+.banner-ads {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    @include sm {
+        height: 290px;
+    }
+    @include lg {
+        height: 330px;
+    }
+    overflow: hidden;
+    margin-bottom: 40px;
+    border-radius: 5px;
+    img.bg-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .title {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translate(0%, -50%);
+        z-index: 3;
+        color: var(--white);
+        p.subject {
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        p.desc {
+            font-size: 1.1rem;
+        }
+    }
+}
