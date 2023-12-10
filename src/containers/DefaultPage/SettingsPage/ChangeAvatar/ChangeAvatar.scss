@@ -1,0 +1,149 @@
+.settings-component,
+.setting-change-avatar {
+    background-color: var(--white);
+    -webkit-animation: back-in-up 0.3s ease-in-out;
+    animation: back-in-up 0.3s ease-in-out;
+    animation-timing-function: 0.3s;
+    animation-delay: 0s;
+    p.top-title {
+        padding: 30px;
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: var(--title-text);
+        border-bottom: 1px solid var(--grey);
+    }
+    .main-setting-change-avatar {
+        padding: 30px;
+        .upload-files-box {
+            position: relative;
+            margin-top: 40px;
+            width: 100%;
+            height: 480px;
+            background-color: var(--border-light);
+            border-radius: 5px;
+            .add-files-box {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: calc(100% - 50px);
+                height: calc(100% - 50px);
+                border: 2px dashed var(--grey);
+                background-color: var(--white);
+                .img-post {
+                    cursor: pointer;
+                    width: 50px;
+                    height: 50px;
+                    background-color: var(--grey);
+                    border-radius: 50%;
+                    overflow: hidden;
+                    position: relative;
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 25px;
+                        object-fit: cover;
+                    }
+                }
+                p.desc {
+                    margin-top: 10px;
+                    font-weight: 600;
+                    color: var(--title-text);
+                    font-size: 1rem;
+                }
+            }
+            .selected-file {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: calc(100% - 50px);
+                height: calc(100% - 50px);
+                .img-selected {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    img.img-show {
+                        position: absolute;
+                        z-index: 2;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: auto;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    img.img-blur {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        filter: blur(5px);
+                        -webkit-filter: blur(5px);
+                        object-fit: cover;
+                    }
+                }
+            }
+            button.btn-delete-file {
+                cursor: pointer;
+                position: absolute;
+                z-index: 2;
+                top: 5%;
+                right: 5%;
+                transform: translate(-25%, 50%);
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                background-color: rgba(#000, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                i {
+                    color: var(--white);
+                    font-size: 14px;
+                }
+            }
+        }
+        .bottom-settings {
+            padding-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            button.btn-save-change {
+                cursor: pointer;
+                padding: 14px 15px;
+                color: var(--white);
+                background-color: #27ae60;
+                font-weight: 600;
+                font-size: 0.85rem;
+                border-radius: 3px;
+            }
+        }
+    }
+}
+
+@keyframes back-in-up {
+    0% {
+        -webkit-transform: translate(0, 5%);
+        transform: translate(0, 5%);
+        opacity: 0.5;
+    }
+    50% {
+        -webkit-transform: translate(0, 2.5%);
+        transform: translate(0, 2.5%);
+        opacity: 0.8;
+    }
+    100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}

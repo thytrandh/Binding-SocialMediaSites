@@ -1,0 +1,139 @@
+.settings-page {
+    .main-settings-page {
+        display: flex;
+        .left {
+            width: 32%;
+            padding-right: 25px;
+            .tab-menu {
+                &:first-child {
+                    margin-bottom: 25px;
+                }
+                .top-title {
+                    padding: 14px 18px;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background-color: var(--white);
+                    cursor: pointer;
+                    .title {
+                        display: flex;
+                        align-items: center;
+                        img.icon {
+                            width: 18px !important;
+                        }
+                        p {
+                            margin-left: 10px;
+                            color: var(--title-text);
+                            font-weight: 500;
+                            font-size: 1rem;
+                        }
+                    }
+                    .icon-chev {
+                        transform: rotate(-90deg);
+                        i {
+                            color: var(--title-text);
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .top-title.active {
+                    background-color: var(--primary);
+
+                    .title {
+                        img.icon {
+                            filter: brightness(0) invert(1);
+                            -webkit-filter: brightness(0) invert(1);
+                        }
+                        p {
+                            color: var(--white);
+                        }
+                    }
+                    .icon-chev {
+                        animation: 0.5s ease 0s animateRotateDownChev;
+                        transform: rotate(0deg);
+                        i {
+                            color: var(--white);
+                        }
+                    }
+                }
+                .menu-dropdown {
+                    animation: 0.4s ease 0s animateBackInUp;
+                    margin-top: 12px;
+                    background-color: var(--white);
+                    border-radius: 0px 0px 5px 5px;
+                    p.item-menu {
+                        cursor: pointer;
+                        padding: 23px 0px;
+                        margin: 0px 20px;
+                        border-bottom: 1px solid var(--grey);
+                        font-weight: 500;
+                        font-size: 0.98rem;
+                        transition: all 0.3s ease;
+                        &:last-child {
+                            border-bottom: 0px;
+                        }
+                        &:hover {
+                            color: var(--title-text);
+                        }
+                    }
+                }
+            }
+        }
+        .right {
+            width: 68%;
+            .profile-box {
+                width: 100%;
+                background-color: var(--white);
+                border-radius: 5px;
+                padding: 30px;
+                display: flex;
+                align-items: center;
+                img.img-avt {
+                    width: 90px !important;
+                    height: 90px !important;
+                    object-fit: cover;
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
+                .desc {
+                    margin-left: 15px;
+                    p.username {
+                        font-weight: 500;
+                        font-size: 1.6rem;
+                        color: var(--title-text);
+                        margin-bottom: 1.5px;
+                    }
+                    p.year {
+                        font-size: 1.05rem;
+                    }
+                }
+            }
+            .main-settings-content {
+                margin-top: 30px;
+            }
+        }
+    }
+}
+
+@keyframes animateRotateDownChev {
+    0% {
+        transform: rotate(-90deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes animateBackInUp {
+    0% {
+        transform: translate(0%, -10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+}

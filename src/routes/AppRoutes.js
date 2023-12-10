@@ -5,6 +5,9 @@ import DefaultLayout from "../layout/DefaultLayout/default-layout";
 import pMinDelay from "p-min-delay";
 import PrivateRoute from "./PrivateRoute";
 import {
+  ACCOUNT_SETTING,
+  AVATAR_SETTING,
+  BACKGROUND_COVER_SETTING,
   FRIENDS_PAGE,
   HOME_PAGE,
   LOGIN_PAGE,
@@ -15,6 +18,7 @@ import {
   MESSAGE_PAGE,
   NOTIFICATIONS_PAGE,
   PAGES,
+  PASSWORD_SETTING,
   PROFILES_ABOUT,
   PROFILES_FRIENDS,
   PROFILES_GALLERY,
@@ -101,9 +105,56 @@ const ProfileArchivePage = React.lazy(() =>
 
 //======================================================================================
 
+//================================= SETTINGS PAGE ===========================================
+
 const SettingsPage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/SettingsPage/SettingsPage"), 600)
 );
+
+const ChangeProfileInfoPage = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/SettingsPage/PersonalInformation/PersonalInformation"
+    ),
+    600
+  )
+);
+
+const ChangeAvatarPage = React.lazy(() =>
+  pMinDelay(
+    import("../containers/DefaultPage/SettingsPage/ChangeAvatar/ChangeAvatar"),
+    600
+  )
+);
+
+const ChangeBackgroundCoverPage = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/SettingsPage/ChangeBackground/ChangeBackground"
+    ),
+    600
+  )
+);
+
+const ChangeAccountInfoPage = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/SettingsPage/AccountInformation/AccountInformation"
+    ),
+    600
+  )
+);
+
+const ChangePasswordPage = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/SettingsPage/ChangePassword/ChangePassword"
+    ),
+    600
+  )
+);
+
+//======================================================================================
 
 const NotificationsPage = React.lazy(() =>
   pMinDelay(
@@ -190,6 +241,7 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+
         {/* PROFILE */}
         <Route
           path={PROFILE_PAGE}
@@ -271,6 +323,8 @@ const AppRoutes = () => {
           />
         </Route>
         {/* MEMBERS_END */}
+
+        {/* SETTINGS */}
         <Route
           path={SETTINGS_PAGE}
           element={
@@ -278,7 +332,51 @@ const AppRoutes = () => {
               <SettingsPage />
             </React.Suspense>
           }
-        />
+        >
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChangeProfileInfoPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={AVATAR_SETTING}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChangeAvatarPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={BACKGROUND_COVER_SETTING}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChangeBackgroundCoverPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={ACCOUNT_SETTING}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChangeAccountInfoPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PASSWORD_SETTING}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChangePasswordPage />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        {/* SETTINGS_end */}
+
         <Route
           path={NOTIFICATIONS_PAGE}
           element={

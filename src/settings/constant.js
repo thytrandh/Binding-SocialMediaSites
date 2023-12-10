@@ -39,8 +39,11 @@ export const MEMBERS_GALLERY = "/members/:memberId/gallery";
 
 //SETTINGS PAGE SECTION
 export const SETTINGS_PAGE = "/settings";
-export const PROFILE_SETTING = "/settings/profile";
-export const ACCOUNT_SETTING = "/settings/account";
+export const AVATAR_SETTING = "/settings/profile/change-avatar";
+export const BACKGROUND_COVER_SETTING = "/settings/profile/change-bg-cover";
+
+export const ACCOUNT_SETTING = "/settings/account-info";
+export const PASSWORD_SETTING = "/settings/account/change-password";
 
 //NOTIFICATIONS PAGE SECTION
 export const NOTIFICATIONS_PAGE = "/notifications";
