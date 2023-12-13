@@ -29,13 +29,9 @@ export const PROFILES_STORY_ARCHIVE = "/profile/archive";
 
 //MEMBERS PAGE SECTION
 export const MEMBERS_PAGE = "/members/:memberId";
-// export const MEMBERS_TIME_LINE = "/members/:memberId/timeline";
 export const MEMBERS_ABOUT = "/members/:memberId/about";
 export const MEMBERS_FRIENDS = "/members/:memberId/friends";
 export const MEMBERS_GALLERY = "/members/:memberId/gallery";
-
-//STORY ARCHIVE PAGE SECTION
-// export const STORY_ARCHIVE_PAGE = "/story/archive";
 
 //SETTINGS PAGE SECTION
 export const SETTINGS_PAGE = "/settings";
@@ -54,8 +50,8 @@ export const CHAT = "/message/:userId";
 
 //PAGES
 export const PAGES = "/pages";
-export const CREATE_PAGES = "/pages/create";
-export const MY_PAGES = "/pages/my-pages";
 export const LIKED_PAGE = "/pages/liked-pages";
+export const MY_PAGES = "/pages/my-pages";
+export const CREATE_PAGES = "/pages/create";
 
 //======================================================================

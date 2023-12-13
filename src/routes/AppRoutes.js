@@ -9,6 +9,8 @@ import {
   AVATAR_SETTING,
   BACKGROUND_COVER_SETTING,
   FRIENDS_PAGE,
+  FRIENDS_REQUESTS,
+  FRIENDS_SENT_REQUESTS,
   HOME_PAGE,
   LOGIN_PAGE,
   MEMBERS_ABOUT,
@@ -46,6 +48,7 @@ const VerifyPage = React.lazy(() =>
 );
 
 //======================================================================================
+//======================================================================================
 
 ////DEFAULT PAGE
 
@@ -55,10 +58,6 @@ const HomePage = React.lazy(() =>
 
 const NewsfeedPage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/NewsfeedPage/NewsfeedPage"), 600)
-);
-
-const FriendsPage = React.lazy(() =>
-  pMinDelay(import("../containers/DefaultPage/FriendsPage/FriendsPage"), 600)
 );
 
 //================================= PROFILE ===========================================
@@ -103,7 +102,8 @@ const ProfileArchivePage = React.lazy(() =>
   )
 );
 
-//======================================================================================
+//============================================================================================
+//============================================================================================
 
 //================================= SETTINGS PAGE ===========================================
 
@@ -154,7 +154,40 @@ const ChangePasswordPage = React.lazy(() =>
   )
 );
 
-//======================================================================================
+//========================================================================================
+//========================================================================================
+
+//================================= FRIENDS PAGE ===========================================
+
+const FriendsPage = React.lazy(() =>
+  pMinDelay(import("../containers/DefaultPage/FriendsPage/FriendsPage"), 600)
+);
+
+const AllFriendsPage = React.lazy(() =>
+  pMinDelay(
+    import("../containers/DefaultPage/FriendsPage/AllFriends/AllFriends"),
+    600
+  )
+);
+
+const FriendsRequestsPage = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/FriendsPage/FriendsRequests/FriendsRequests"
+    ),
+    600
+  )
+);
+
+const FriendsSentRequestsPage = React.lazy(() =>
+  pMinDelay(
+    import("../containers/DefaultPage/FriendsPage/SentRequests/SentRequests"),
+    600
+  )
+);
+
+//==========================================================================================
+//==========================================================================================
 
 const NotificationsPage = React.lazy(() =>
   pMinDelay(
@@ -178,7 +211,8 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* Authentication */}
+      {/* ====================== Authentication ======================
+          ============================================================*/}
       <Route element={<AuthLayout />}>
         <Route
           path={LOGIN_PAGE}
@@ -205,8 +239,11 @@ const AppRoutes = () => {
           }
         />
       </Route>
+      {/* ============================================================
+          ============================================================*/}
 
-      {/* INDEX */}
+      {/* ====================== INDEX =============================
+          ===========================================================*/}
       <Route
         path="/"
         element={
@@ -217,6 +254,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
+        {/* ====================== NEWSFEED =========================*/}
         <Route
           index
           element={
@@ -225,14 +263,10 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
-        <Route
-          path={FRIENDS_PAGE}
-          element={
-            <React.Suspense fallback={<Loader />}>
-              <FriendsPage />
-            </React.Suspense>
-          }
-        />
+
+        {/* ====================== NEWSFEED_END ===================== */}
+
+        {/* ====================== HOME_PAGE =========================*/}
         <Route
           path={HOME_PAGE}
           element={
@@ -242,7 +276,45 @@ const AppRoutes = () => {
           }
         />
 
-        {/* PROFILE */}
+        {/* ====================== HOME_PAGE_END ===================== */}
+
+        {/* ====================== FRIENDS ======================*/}
+        <Route
+          path={FRIENDS_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <FriendsPage />
+            </React.Suspense>
+          }
+        >
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <AllFriendsPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={FRIENDS_REQUESTS}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <FriendsRequestsPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={FRIENDS_SENT_REQUESTS}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <FriendsSentRequestsPage />
+              </React.Suspense>
+            }
+          />
+        </Route>
+        {/* ====================== FRIENDS_END ====================== */}
+
+        {/* ====================== PROFILE ====================== */}
         <Route
           path={PROFILE_PAGE}
           element={
@@ -285,9 +357,9 @@ const AppRoutes = () => {
             }
           />
         </Route>
-        {/* PROFILE_END */}
+        {/* ====================== PROFILE_END ====================== */}
 
-        {/* MEMBERS */}
+        {/* ====================== MEMBERS ====================== ===*/}
         <Route
           path={MEMBERS_PAGE}
           element={
@@ -322,9 +394,9 @@ const AppRoutes = () => {
             }
           />
         </Route>
-        {/* MEMBERS_END */}
+        {/* ====================== MEMBERS_END ====================== */}
 
-        {/* SETTINGS */}
+        {/* ====================== SETTINGS =========================*/}
         <Route
           path={SETTINGS_PAGE}
           element={
@@ -375,8 +447,9 @@ const AppRoutes = () => {
           />
         </Route>
 
-        {/* SETTINGS_end */}
+        {/* ====================== SETTINGS_END ========================== */}
 
+        {/* ====================== NOTIFICATIONS =========================*/}
         <Route
           path={NOTIFICATIONS_PAGE}
           element={
@@ -385,6 +458,9 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        {/* ====================== NOTIFICATIONS_END ===================== */}
+
+        {/* ====================== MESSAGES_PAGE =========================*/}
         <Route
           path={MESSAGE_PAGE}
           element={
@@ -393,6 +469,9 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        {/* ====================== MESSAGES_PAGE_END ===================== */}
+
+        {/* ====================== PAGES =========================*/}
         <Route
           path={PAGES}
           element={
@@ -401,6 +480,7 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        {/* ====================== PAGES_END ===================== */}
       </Route>
     </Routes>
   );

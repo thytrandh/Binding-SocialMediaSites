@@ -3,6 +3,9 @@
     animation: back-in-up 0.3s ease-in-out;
     animation-timing-function: 0.3s;
     animation-delay: 0s;
+    .main-account-information{
+        padding: 30px;
+    }
 }
 
 @keyframes back-in-up {

@@ -205,19 +205,19 @@ const DropdownIcon = () => {
       id: 1,
       name: "Account Settings",
       icon: "/images/Icon/IconDropdown/Setting.png",
-      navigate: "/settings/account",
+      navigate: "/settings/account-info",
     },
     {
       id: 2,
       name: "Profile Settings",
       icon: "/images/Icon/IconDropdown/Folder.png",
-      navigate: "/settings/profile",
+      navigate: "/settings",
     },
     {
       id: 3,
       name: "Change Avatar",
       icon: "/images/Icon/IconDropdown/Image.png",
-      navigate: "/settings  ",
+      navigate: "/settings/profile/change-avatar",
     },
   ];
   const navigate = useNavigate();

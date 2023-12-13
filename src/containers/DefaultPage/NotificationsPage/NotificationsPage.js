@@ -75,7 +75,7 @@ const NotificationsPage = () => {
       <div className="main-noti-content">
         <div className="left">
           <div className="top-box">
-            <p className="title">Notification</p>
+            <p className="title">Notifications</p>
             <div className="tab-menu">
               {tabMenu.map((item) => (
                 <p

@@ -1,8 +1,138 @@
 .settings-component {
+    background-color: var(--white);
     -webkit-animation: back-in-up 0.3s ease-in-out;
     animation: back-in-up 0.3s ease-in-out;
     animation-timing-function: 0.3s;
     animation-delay: 0s;
+    p.top-title {
+        padding: 30px;
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: var(--title-text);
+        border-bottom: 1px solid var(--grey);
+    }
+    .main-setting-personal {
+        padding: 40px 30px;
+        form.form-settings {
+            width: 100%;
+            .input-item {
+                margin-bottom: 40px;
+                position: relative;
+                width: 100%;
+                label {
+                    position: absolute;
+                    top: 0px;
+                    left: 15px;
+                    transform: translate(0, -50%);
+                    font-size: 0.85rem;
+                    background-color: var(--white);
+                    padding: 0px 5px;
+                    font-weight: 500;
+                }
+                input.input-box {
+                    width: 100%;
+                    border: 1px solid var(--grey);
+                    height: 52px;
+                    padding: 0px 15px;
+                    border-radius: 5px;
+                    font-weight: 500;
+                    color: var(--title-text);
+                    &::placeholder {
+                        color: var(--body-text);
+                        font-weight: 400;
+                        font-size: 0.95rem;
+                    }
+                    &:focus {
+                        border: 2px solid var(--primary);
+                    }
+                }
+                &:focus {
+                    label {
+                        color: var(--primary);
+                    }
+                    input.input-box {
+                        border: 1px solid var(--primary);
+                    }
+                    i.ic-chev{
+                        color: var(--primary);
+                    }
+                }
+                .input-dropdown {
+                    cursor: pointer;
+                    input.input-box {
+                        cursor: pointer;
+                    }
+                    i.ic-chev {
+                        position: absolute;
+                        top: 50%;
+                        right: 20px;
+                        transform: translate(0, -50%);
+                        font-size: 14px;
+                    }
+                    .dropdown-box {
+                        position: absolute;
+                        z-index: 2;
+                        width: 100%;
+                        border: 1px solid var(--grey);
+                        border-top: none;
+                        background-color: var(--white);
+                        padding: 15px 30px;
+                        p.item {
+                            padding-bottom: 15px;
+                            transition: all 0.3s ease;
+                            &:hover {
+                                color: var(--primary);
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                    .dropdown-box-date {
+                        max-height: 200px;
+                        overflow-y: scroll;
+                    }
+                    ::-webkit-scrollbar-track {
+                        border-radius: 20px;
+                    }
+
+                    ::-webkit-scrollbar {
+                        width: 5px;
+                    }
+
+                    ::-webkit-scrollbar-thumb {
+                        border-radius: 20px;
+                        background-color: var(--primary);
+                        transition: all 0.3s ease;
+                    }
+                }
+            }
+            .mb-10 {
+                margin-bottom: 10px;
+            }
+            .divide-column-2 {
+                display: flex;
+               // align-items: center;
+                justify-content: space-between;
+                > .input-item {
+                    width: 49%;
+                }
+            }
+            .divide-column-3 {
+                display: flex;
+               // align-items: center;
+                justify-content: space-between;
+                > .input-item {
+                    width: 32%;
+                }
+            }
+            p.err-msg{
+                margin-top: 5px;
+                margin-left: 2px;
+                color: var(--remove);
+                font-size: 0.95rem;
+                font-weight: 500;
+            }
+        }
+    }
 }
 
 @keyframes back-in-up {
