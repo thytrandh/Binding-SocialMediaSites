@@ -26,6 +26,9 @@ const Pages = () => {
       navigate: "/pages/my-pages",
     },
   ]);
+
+  // const [isPage, setIsPage] = useState(true);
+  // const callAPICheckMyPage = () => {};
   return (
     <div className="pages pages-control">
       <BannerAds
@@ -63,16 +66,10 @@ const Pages = () => {
             ))}
           </div>
         </div>
-        <div className="btn-create-pages-box">
-          <button className="btn-create-pages">
-            <i class="fa-solid fa-plus"></i>
-            Create new page
-          </button>
-        </div>
         <div className="pages-content">
           {tabMenu[0].isActive && <DiscoverPages />}
           {tabMenu[1].isActive && <LikedPages />}
-          {tabMenu[2].isActive && <MyPages />}
+          {tabMenu[2].isActive && <MyPages isPage={true}/>}
         </div>
       </div>
     </div>
