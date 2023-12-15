@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import "../MyPages/MyPages.scss";
 import { useState } from "react";
 import CreatePage from "../CreatePage/CreatePage";
+import { PageContext } from "../context/pageContext";
 const MyPages = ({ isPage }) => {
   const {
     handleSubmit,
@@ -28,8 +29,10 @@ const MyPages = ({ isPage }) => {
     console.log(name, category, contact, intro);
   };
 
+  const [openCreatePage, setOpenCreatePage] = useState(false);
+
   return (
-    <>
+    <PageContext.Provider value={{ openCreatePage, setOpenCreatePage }}>
       <div className="my-pages">
         <div
           className={isPage ? "header-my-pages flex-end" : "header-my-pages"}
@@ -42,6 +45,13 @@ const MyPages = ({ isPage }) => {
               className={
                 isPage ? "btn-create-pages unable" : "btn-create-pages"
               }
+              onClick={() => {
+                if (!isPage) {
+                  setOpenCreatePage(true);
+                } else {
+                  return false;
+                }
+              }}
             >
               <i class="fa-solid fa-plus"></i>
               Create new page
@@ -217,8 +227,8 @@ const MyPages = ({ isPage }) => {
           </>
         )}
       </div>
-      <CreatePage/>
-    </>
+      {openCreatePage && <CreatePage />}
+    </PageContext.Provider>
   );
 };
 export default MyPages;

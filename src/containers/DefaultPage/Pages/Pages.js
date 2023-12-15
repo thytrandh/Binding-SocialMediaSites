@@ -69,7 +69,7 @@ const Pages = () => {
         <div className="pages-content">
           {tabMenu[0].isActive && <DiscoverPages />}
           {tabMenu[1].isActive && <LikedPages />}
-          {tabMenu[2].isActive && <MyPages isPage={true}/>}
+          {tabMenu[2].isActive && <MyPages isPage={false}/>}
         </div>
       </div>
     </div>
