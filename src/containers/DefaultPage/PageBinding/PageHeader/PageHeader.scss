@@ -1,5 +1,5 @@
 @import "../../../../assets/scss/media";
-.profile-header {
+.page-binding-header {
     position: relative;
     width: 100%;
     height: 300px;
@@ -40,7 +40,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        .user-info {
+        .page-info {
             display: flex;
             align-items: center;
             width: calc(100%);
@@ -90,36 +90,18 @@
                 @include sm {
                     width: calc(100% - 155px);
                 }
-                p.username {
+                p.namepage {
                     width: 100%;
                     font-weight: 600;
                     font-size: 1.5rem;
                     color: var(--white);
                     margin-bottom: 5px;
                 }
-                p.email {
+                p.category {
                     width: 100%;
                     color: rgba(#fff, 0.8);
                     margin-bottom: 15px;
                     font-size: 1.05rem;
-                }
-                .status-friend-box {
-                    button {
-                        color: var(--white);
-                        padding: 7px 10px;
-                        border-radius: 5px;
-                        font-size: 0.9rem;
-                        font-weight: 600;
-                        &:first-child {
-                            margin-right: 7px;
-                        }
-                    }
-                    button.btn-green {
-                        background-color: #27ae60;
-                    }
-                    button.btn-red {
-                        background-color: var(--remove);
-                    }
                 }
             }
         }
@@ -160,13 +142,20 @@
                     border-radius: 5px;
                 }
             }
-            .list-friends {
+            .list-members {
                 width: 100%;
                 display: none;
                 @include lg {
                     display: block;
                 }
-                img.img-avt-friend {
+                p.subject {
+                    width: 100%;
+                    color: rgba(#fff, 0.75);
+                    font-size: 0.9rem;
+                    text-align: right;
+                    margin-top: 1px;
+                }
+                img.img-avt-member {
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;

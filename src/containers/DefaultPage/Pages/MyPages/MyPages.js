@@ -3,6 +3,7 @@ import "../MyPages/MyPages.scss";
 import { useState } from "react";
 import CreatePage from "../CreatePage/CreatePage";
 import { PageContext } from "../context/pageContext";
+import { useNavigate } from "react-router-dom";
 const MyPages = ({ isPage }) => {
   const {
     handleSubmit,
@@ -30,6 +31,8 @@ const MyPages = ({ isPage }) => {
   };
 
   const [openCreatePage, setOpenCreatePage] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <PageContext.Provider value={{ openCreatePage, setOpenCreatePage }}>
@@ -60,6 +63,13 @@ const MyPages = ({ isPage }) => {
               className={
                 isPage ? "btn-access-pages" : "btn-access-pages unable"
               }
+              onClick={() => {
+                if (isPage) {
+                  navigate("/page-binding");
+                } else {
+                  return false;
+                }
+              }}
             >
               <i class="fa-solid fa-arrow-right"></i>
               Access Page

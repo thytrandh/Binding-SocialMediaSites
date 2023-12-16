@@ -62,14 +62,13 @@ const ProfileHeader = ({ accountOwner }) => {
       isActive: true,
     },
   ];
+
+  const bannerCover = "/images/Profile/bg-cover-01.jpeg";
+
   return (
     <div className="profile-header">
       <div className="banner-cover">
-        <img
-          src="/images/Profile/bg-cover-01.jpeg"
-          alt=""
-          className="img-banner"
-        />
+        <img src={bannerCover} alt="" className="img-banner" />
         <div className="blur"></div>
       </div>
       <div className="header-content">
@@ -130,7 +129,7 @@ const ProfileHeader = ({ accountOwner }) => {
                         className="img-avt-friend"
                       />
                     ))}
-                  <p className="subject">{friends.length} followers</p>
+                  {/* <p className="subject">{friends.length} followers</p> */}
                 </div>
               )}
             </>

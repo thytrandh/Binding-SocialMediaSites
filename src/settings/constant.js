@@ -53,5 +53,10 @@ export const PAGES = "/pages";
 export const LIKED_PAGE = "/pages/liked-pages";
 export const MY_PAGES = "/pages/my-pages";
 export const CREATE_PAGES = "/pages/create";
+//==Profile
+export const PAGE_BINDING = "/page-binding";
+export const PAGE_INTRO = "/page-binding/intro";
+export const PAGE_MEMBERS = "/page-binding/members";
+export const PAGE_GALLERY = "/page-binding/gallery";
 
 //======================================================================

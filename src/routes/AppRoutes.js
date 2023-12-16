@@ -20,6 +20,7 @@ import {
   MESSAGE_PAGE,
   NOTIFICATIONS_PAGE,
   PAGES,
+  PAGE_BINDING,
   PASSWORD_SETTING,
   PROFILES_ABOUT,
   PROFILES_FRIENDS,
@@ -202,6 +203,9 @@ const MessagesPage = React.lazy(() =>
 
 const Pages = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/Pages/Pages"), 600)
+);
+const PageBinding = React.lazy(() =>
+  pMinDelay(import("../containers/DefaultPage/PageBinding/PageBinding"), 600)
 );
 
 const AppRoutes = () => {
@@ -480,6 +484,15 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        <Route
+          path={PAGE_BINDING}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PageBinding />
+            </React.Suspense>
+          }
+        />
+
         {/* ====================== PAGES_END ===================== */}
       </Route>
     </Routes>
