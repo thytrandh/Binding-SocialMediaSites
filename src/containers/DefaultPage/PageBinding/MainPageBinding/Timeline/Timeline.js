@@ -1,3 +1,4 @@
+import CreatePost from "../../../../../components/CreatePost/CreatePost";
 import Posts from "../../../../../components/Posts/Posts";
 import "../Timeline/Timeline.scss";
 const Timeline = ({ pageOwner }) => {
@@ -94,7 +95,8 @@ const Timeline = ({ pageOwner }) => {
     {
       id: 0,
       user: {
-        username: "Aaron Jones",
+        username:
+          "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM ",
         avatar:
           "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
       },
@@ -322,6 +324,19 @@ const Timeline = ({ pageOwner }) => {
         </div>
       </div>
       <div className="content">
+        {pageOwner && (
+          <CreatePost
+            userInfo={{
+              id: 0,
+              userName:
+                "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM",
+              avatar:
+                "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
+            }}
+            postOnPage={true}
+          />
+        )}
+
         <Posts accountOwner={pageOwner} posts={posts} />
       </div>
     </div>

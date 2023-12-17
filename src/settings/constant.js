@@ -58,5 +58,10 @@ export const PAGE_BINDING = "/page-binding";
 export const PAGE_INTRO = "/page-binding/intro";
 export const PAGE_MEMBERS = "/page-binding/members";
 export const PAGE_GALLERY = "/page-binding/gallery";
+//== Page Binding
+export const PAGE_MEMBER_BINDING = "/page-binding/:pageId";
+export const PAGE_MEMBER_INTRO = "/page-binding/:pageId/intro";
+export const PAGE_MEMBER_MEMBERS = "/page-binding/:pageId/members";
+export const PAGE_MEMBER_GALLERY = "/page-binding/:pageId/gallery";
 
 //======================================================================

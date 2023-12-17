@@ -6,13 +6,12 @@ import "../CreatePostDropdown/CreatePostDropdown.scss";
 import { DataCreatePostContext } from "./context/dataCreatePostContext";
 import HeaderCreatePosts from "./HeaderCreatePosts/HeaderCreatePosts";
 import UserInfoCreatePosts from "./MiddleCreatePosts/UserInfoCreatePosts/UserInfoCreatePosts";
-
 import UploadFeeling from "./MiddleCreatePosts/UploadFeeling/UploadFeeling";
 import UploadFiles from "./MiddleCreatePosts/UploadFiles/UploadFiles";
 import UploadText from "./MiddleCreatePosts/UploadText/UploadText";
 import OptionAddPosts from "./MiddleCreatePosts/OptionAddPosts/OptionAddPosts";
 
-const CreatePostDropdown = () => {
+const CreatePostDropdown = ({ userInfo, postOnPage }) => {
   const { setOpenDropdown } = useContext(DropdownContext);
 
   const [postContent, setPostContent] = useState("");
@@ -330,9 +329,10 @@ const CreatePostDropdown = () => {
             <HeaderCreatePosts />
             <div className="middle">
               <UserInfoCreatePosts
-                avatar={"/images/User/user-01.jpg"}
-                userName={"Marvin McKinney"}
+                avatar={userInfo?.avatar}
+                userName={userInfo?.userName}
                 feelingArr={feelingArr}
+                postOnPage={postOnPage}
               />
               <div className="middle-content">
                 <UploadText addOption={addOption} />

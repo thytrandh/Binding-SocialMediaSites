@@ -8,7 +8,7 @@ import { PostsOpenContext } from "./context/postsOpenContext";
 import EditPosts from "../EditPosts/EditPosts";
 import { PostsEditContext } from "./context/postsEditContext";
 
-const Posts = ({ posts }) => {
+const Posts = ({ accountOwner, posts }) => {
   const listEmoji = [
     {
       id: 1,
@@ -45,7 +45,7 @@ const Posts = ({ posts }) => {
           {posts.map((item) => (
             <div key={item.id} className="posts">
               <PostsHeader
-                accountOwner={true}
+                accountOwner={accountOwner}
                 avatar={item.user.avatar}
                 username={item.user.username}
                 status={item.status}

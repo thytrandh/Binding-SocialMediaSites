@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "../DiscoverPages/DiscoverPages.scss";
+import { useNavigate } from "react-router-dom";
 
 const DiscoverPages = () => {
+  const navigate = useNavigate();
+
   const [discoverPages] = useState([
     {
       id: 0,
@@ -200,7 +203,12 @@ const DiscoverPages = () => {
     <div className="discover-pages pages-component">
       {discoverPages.map((item) => (
         <div key={item.id} className="item-page-box">
-          <div className="top-item">
+          <div
+            className="top-item"
+            onClick={() => {
+              navigate(`/page-binding/${item.id}`);
+            }}
+          >
             <img src={item.pageInfo.bgCover} alt="" className="bg-cover" />
             <img src={item.pageInfo.avatar} alt="" className="avatar" />
           </div>

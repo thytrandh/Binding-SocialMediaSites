@@ -60,6 +60,18 @@ const PageHeader = ({ pageOwner }) => {
           <div className="info">
             <p className="namepage">{pageInfo?.namePage}</p>
             <p className="category">{[pageInfo?.categoryPage]}</p>
+            {!pageOwner && (
+              <div className="status-friend-box">
+                <button
+                  className="btn-action"
+                  onClick={() => {
+                    setIsLikePage(!isLikePage);
+                  }}
+                >
+                  {isLikePage ? "Dislike Page" : "Like Page"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="option-settings">

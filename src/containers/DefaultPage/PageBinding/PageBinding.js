@@ -2,50 +2,26 @@ import PageHeader from "./PageHeader/PageHeader";
 import "../PageBinding/PageBinding.scss";
 import TabMenuPage from "./TabMenuPage/TabMenuPage";
 import { useState } from "react";
-import { PageBindingContext } from "./context/pageBindingContext";
-import Timeline from "./MainPageBinding/Timeline/Timeline";
-import Introduce from "./MainPageBinding/Introduce/Introduce";
-import Members from "./MainPageBinding/Members/Members";
-import Gallery from "./MainPageBinding/Gallery/Gallery";
+import { PageOpenFileBoxContext } from "./context/pageOpenFileBoxContext";
+import { Outlet } from "react-router-dom";
 
-const PageBinding = (Page) => {
-  const [tabMenu, setTabMenu] = useState([
-    {
-      id: 0,
-      name: "Timeline",
-      isActive: true,
-    },
-    {
-      id: 1,
-      name: "Introduce",
-      isActive: false,
-    },
-    {
-      id: 2,
-      name: "Members",
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: "Gallery",
-      isActive: false,
-    },
-  ]);
+const PageBinding = ({ pageOwner }) => {
+  const [openShowFileBox, setOpenShowFileBox] = useState(false);
+
   return (
-    <PageBindingContext.Provider value={{ tabMenu, setTabMenu }}>
-      <div className="page-binding profile-my-page">
-        <PageHeader pageOwner={true} />
-        <div className="main-page-binding">
-          <TabMenuPage />
-          <div className="main-content">
-            {tabMenu[0].isActive && <Timeline pageOwner={true} />}
-            {tabMenu[1].isActive && <Introduce />}
-            {tabMenu[2].isActive && <Members />}
-            {tabMenu[3].isActive && <Gallery />}
-          </div>
+    <div className="page-binding profile-my-page">
+      <PageHeader pageOwner={pageOwner} />
+      <div className="main-page-binding">
+        <TabMenuPage pageOwner={pageOwner} />
+        <div className="main-content">
+          <PageOpenFileBoxContext.Provider
+            value={{ openShowFileBox, setOpenShowFileBox }}
+          >
+            <Outlet />
+          </PageOpenFileBoxContext.Provider>
         </div>
       </div>
-    </PageBindingContext.Provider>
+    </div>
   );
 };
 export default PageBinding;

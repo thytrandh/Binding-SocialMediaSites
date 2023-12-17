@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../CreatePost/CreatePost.scss";
 import CreatePostDropdown from "./CreatePostDropdown/CreatePostDropdown";
 import { DropdownContext } from "./dropdownContext";
-const CreatePost = () => {
+const CreatePost = ({ userInfo, postOnPage }) => {
   const optionPost = [
     {
       id: 0,
@@ -37,7 +37,7 @@ const CreatePost = () => {
         >
           <div className="create-post-header">
             <div className="user">
-              <img src="/images/User/user-01.jpg" alt="" className="avatar" />
+              <img src={userInfo?.avatar} alt="" className="avatar" />
             </div>
             <ul className="option">
               {optionPost.map((item) => (
@@ -68,7 +68,9 @@ const CreatePost = () => {
           </div>
         </div>
 
-        {openDropdown && <CreatePostDropdown />}
+        {openDropdown && (
+          <CreatePostDropdown userInfo={userInfo} postOnPage={postOnPage} />
+        )}
       </div>
     </DropdownContext.Provider>
   );

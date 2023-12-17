@@ -1,5 +1,5 @@
 import "../UserInfoCreatePosts/UserInfoCreatePosts.scss";
-const UserInfoCreatePosts = ({ avatar, userName, feelingArr }) => {
+const UserInfoCreatePosts = ({ avatar, userName, feelingArr, postOnPage }) => {
   return (
     <div className="middle-top user-info">
       <img src={avatar} alt="" className="avatar" />
@@ -18,7 +18,9 @@ const UserInfoCreatePosts = ({ avatar, userName, feelingArr }) => {
 
         <div className="lock">
           <i class="fa-duotone fa-earth-americas"></i>
-          <p className="desc">Posts on Your Profile</p>
+          <p className="desc">
+            {postOnPage ? "Posts on Your Page" : "Posts on Your Profile"}
+          </p>
         </div>
       </div>
     </div>

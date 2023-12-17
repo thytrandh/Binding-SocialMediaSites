@@ -197,8 +197,15 @@ const NewsfeedPage = () => {
     <div className="newsfeed-page">
       <div className="sliderbar-activity">
         <StoriesStream />
-        <CreatePost />
-        <Posts posts={posts}/>
+        <CreatePost
+          userInfo={{
+            id: 0,
+            userName: "Marvin MCKinney",
+            avatar: "/images/User/user-01.jpg",
+          }}
+          postOnPage={false}
+        />
+        <Posts posts={posts} />
       </div>
       <div className="sliderbar-service">
         <ServiceAdvertisement />

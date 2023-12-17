@@ -103,6 +103,20 @@
                     margin-bottom: 15px;
                     font-size: 1.05rem;
                 }
+                .status-friend-box {
+                    button {
+                        color: var(--white);
+                        background-color: var(--primary);
+                        padding: 7px 10px;
+                        border-radius: 3px;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        &:hover {
+                            background-color: var(--primary-hover);
+                        }
+                    }
+                }
             }
         }
         .option-settings {

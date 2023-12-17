@@ -35,7 +35,10 @@
         .about-box {
             padding: 25px 0px;
             .item-about {
-                padding: 25px 0px;
+               padding-bottom: 25px;
+               &:last-child{
+                padding-bottom: 0px;
+               }
                 p.title {
                     color: var(--title-text);
                     font-weight: 600;

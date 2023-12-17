@@ -135,11 +135,21 @@ const SliderBar = () => {
       >
         <i class="fa-light fa-angle-left"></i>
       </div>
-      <div className="slider-bar-header">
+      <div
+        className="slider-bar-header"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <LogoDefault />
       </div>
       <div className="slider-bar-content">
-        <div className="user-info">
+        <div
+          className="user-info"
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
           <div className="avatar">
             <img src="/images/User/user-01.jpg" alt="" />
           </div>

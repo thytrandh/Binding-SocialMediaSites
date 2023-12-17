@@ -1,0 +1,66 @@
+@import "../../../../../assets/scss/media";
+.show-file-binding-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000, 0.7);
+    .show-file-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        $width: 60vw;
+        width: $width;
+        height: calc($width / 1.5);
+        overflow: hidden;
+        // background-color: var(--white);
+        // padding: 20px;
+        img.img-show,
+        video.video-show {
+            position: absolute;
+            z-index: 2;
+            width: auto;
+            @include lg {
+                min-width: 380px;
+            }
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        video {
+            max-width: 100%;
+        }
+        img.img-blur,
+        video.video-blur {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            filter: blur(5px);
+            -webkit-filter: blur(4px);
+            object-fit: cover;
+        }
+    }
+    .btn-close-posts {
+        position: absolute;
+        right: 30px;
+        transform: translate(-100%, 100%);
+        z-index: 2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i {
+            color: var(--white);
+            font-size: 18px;
+        }
+    }
+}

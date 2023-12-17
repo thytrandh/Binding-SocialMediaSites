@@ -21,6 +21,13 @@ import {
   NOTIFICATIONS_PAGE,
   PAGES,
   PAGE_BINDING,
+  PAGE_GALLERY,
+  PAGE_INTRO,
+  PAGE_MEMBERS,
+  PAGE_MEMBER_BINDING,
+  PAGE_MEMBER_GALLERY,
+  PAGE_MEMBER_INTRO,
+  PAGE_MEMBER_MEMBERS,
   PASSWORD_SETTING,
   PROFILES_ABOUT,
   PROFILES_FRIENDS,
@@ -190,6 +197,55 @@ const FriendsSentRequestsPage = React.lazy(() =>
 //==========================================================================================
 //==========================================================================================
 
+//================================= PAGE BINDING ===========================================
+
+const Pages = React.lazy(() =>
+  pMinDelay(import("../containers/DefaultPage/Pages/Pages"), 600)
+);
+
+const PageBinding = React.lazy(() =>
+  pMinDelay(import("../containers/DefaultPage/PageBinding/PageBinding"), 600)
+);
+
+const TimelinePageBinding = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/PageBinding/MainPageBinding/Timeline/Timeline"
+    ),
+    600
+  )
+);
+
+const IntroducePageBinding = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/PageBinding/MainPageBinding/Introduce/Introduce"
+    ),
+    600
+  )
+);
+
+const MembersPageBinding = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/PageBinding/MainPageBinding/Members/Members"
+    ),
+    600
+  )
+);
+
+const GalleryPageBinding = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/PageBinding/MainPageBinding/Gallery/Gallery"
+    ),
+    600
+  )
+);
+
+//==========================================================================================
+//==========================================================================================
+
 const NotificationsPage = React.lazy(() =>
   pMinDelay(
     import("../containers/DefaultPage/NotificationsPage/NotificationsPage"),
@@ -199,13 +255,6 @@ const NotificationsPage = React.lazy(() =>
 
 const MessagesPage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/MessagesPage/MessagesPage"), 600)
-);
-
-const Pages = React.lazy(() =>
-  pMinDelay(import("../containers/DefaultPage/Pages/Pages"), 600)
-);
-const PageBinding = React.lazy(() =>
-  pMinDelay(import("../containers/DefaultPage/PageBinding/PageBinding"), 600)
 );
 
 const AppRoutes = () => {
@@ -340,7 +389,7 @@ const AppRoutes = () => {
             path={PROFILES_FRIENDS}
             element={
               <React.Suspense fallback={<Loader />}>
-                <ProfileFriendsPage />
+                <ProfileFriendsPage accountOwner={true} />
               </React.Suspense>
             }
           />
@@ -484,14 +533,91 @@ const AppRoutes = () => {
             </React.Suspense>
           }
         />
+        {/* Owner */}
         <Route
           path={PAGE_BINDING}
           element={
             <React.Suspense fallback={<Loader />}>
-              <PageBinding />
+              <PageBinding pageOwner={true} />
             </React.Suspense>
           }
-        />
+        >
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <TimelinePageBinding pageOwner={true} />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_INTRO}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <IntroducePageBinding />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_MEMBERS}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <MembersPageBinding pageOwner={true} />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_GALLERY}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <GalleryPageBinding />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        {/* Member */}
+        <Route
+          path={PAGE_MEMBER_BINDING}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PageBinding pageOwner={false} />
+            </React.Suspense>
+          }
+        >
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <TimelinePageBinding pageOwner={false} />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_MEMBER_INTRO}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <IntroducePageBinding />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_MEMBER_MEMBERS}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <MembersPageBinding pageOwner={false} />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={PAGE_MEMBER_GALLERY}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <GalleryPageBinding />
+              </React.Suspense>
+            }
+          />
+        </Route>
 
         {/* ====================== PAGES_END ===================== */}
       </Route>

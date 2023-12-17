@@ -1,7 +1,10 @@
 import { useState } from "react";
 import Tick from "../../../../../components/Tick/Tick";
 import "../FriendsProfile/FriendsProfile.scss";
+import useWindowSize from "../../../../../library/hooks/useWindowSize";
 const FriendsProfile = ({ accountOwner }) => {
+  const { width } = useWindowSize();
+
   const friends = [
     {
       id: 0,
@@ -95,25 +98,37 @@ const FriendsProfile = ({ accountOwner }) => {
           <>
             {resultSearch.map((friend) => (
               <div key={friend.id} className="item-friend">
-                <img src={friend.avatar} alt="" className="img-avt" />
-                <div className="user-info">
-                  <div className="username">
-                    <p className="name">{friend.userName}</p>
-                    <Tick />
+                <div
+                  className={
+                    width >= 1150 || (width < 950 && width > 460)
+                      ? "user-info w-plus"
+                      : "user-info"
+                  }
+                >
+                  <img src={friend.avatar} alt="" className="img-avt" />
+                  <div className="desc-info">
+                    <div className="username">
+                      <p className="name">{friend.userName}</p>
+                      <Tick />
+                    </div>
+                    <p className="email">{friend.email}</p>
                   </div>
-                  <p className="email">{friend.email}</p>
                 </div>
+
                 {accountOwner && (
-                  <div className="unfriend-box">
-                    <button
-                      className="btn-unfriend"
-                      onClick={() => {
-                        handleUnfriend();
-                      }}
-                    >
-                      <i class="fa-solid fa-xmark"></i>
-                      <p className="tooltip">Unfriend</p>
-                    </button>
+                  <div
+                    className="unfriend-box"
+                    onClick={() => {
+                      handleUnfriend();
+                    }}
+                  >
+                    {width >= 1150 || (width < 950 && width > 460) ? (
+                      <button className="btn-unfriend">Unfriend</button>
+                    ) : (
+                      <button className="btn-unfriend btn-unfriend-mini">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
