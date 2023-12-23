@@ -132,18 +132,6 @@
             @include lg {
                 width: fit-content;
             }
-            .header-searchbar {
-                width: 13.5%;
-                @include lg {
-                    width: fit-content;
-                }
-            }
-            .header-dropdown-icon {
-                width: 86.5%;
-                @include lg {
-                    width: fit-content;
-                }
-            }
         }
     }
 }

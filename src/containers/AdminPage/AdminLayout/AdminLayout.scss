@@ -1,0 +1,32 @@
+@import "../../../assets/scss/media";
+.admin-layout {
+    .slider-bar-admin {
+        display: none;
+        @include lg {
+            display: block;
+        }
+    }
+    .admin-layout-content {
+        > .header-admin {
+        }
+        > .main-content-admin {
+            margin-top: 20px;
+            min-height: 100vh;
+        }
+        > .footer-admin {
+        }
+    }
+}
+
+.ml-270 {
+    margin-left: 0;
+    @include lg {
+        margin-left: 270px;
+    }
+}
+.ml-90 {
+    margin-left: 0;
+    @include lg {
+        margin-left: 90px;
+    }
+}

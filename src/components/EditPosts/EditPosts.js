@@ -9,7 +9,7 @@ import EditFeeling from "./MiddleEditPosts/EditFeeling/EditFeeling";
 import { useContext } from "react";
 import { PostsEditContext } from "../Posts/context/postsEditContext";
 import OutsideClickHandler from "react-outside-click-handler";
-const EditPosts = () => {
+const EditPosts = ({ userInfo, postOnPage }) => {
   const { setOpenEditPosts } = useContext(PostsEditContext);
 
   const [postContent, setPostContent] = useState("");
@@ -327,9 +327,10 @@ const EditPosts = () => {
             <HeaderEditPosts />
             <div className="middle">
               <UserInfoEditPosts
-                avatar={"/images/User/user-01.jpg"}
-                userName={"Marvin McKinney"}
+                avatar={userInfo?.avatar}
+                userName={userInfo?.userName}
                 feelingArr={feelingArr}
+                postOnPage={postOnPage}
               />
               <div className="middle-content">
                 <EditText addOption={addOption} />

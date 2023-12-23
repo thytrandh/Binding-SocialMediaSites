@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../DropdownIcon/DropdownIcon.scss";
 import { useNavigate } from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../../redux/slice/Auth/loginSlice";
+import { DataContext } from "../../../../context/dataContext";
 
 const DropdownIcon = () => {
+  const { userData } = useContext(DataContext);
+
   const [menuDropdown, setMenuDropdown] = useState([
     {
       id: 0,
@@ -225,6 +230,8 @@ const DropdownIcon = () => {
     navigate(pathname);
   };
 
+  const dispatch = useDispatch();
+
   return (
     <div className="header-dropdown-icon">
       <ul className="menu-dropdown">
@@ -330,7 +337,14 @@ const DropdownIcon = () => {
               setDropdownUserMenu(!dropdownUserMenu);
             }}
           >
-            <img src="/images/User/user-01.jpg" alt="" />
+            <img
+              src={
+                userData?.image?.imgLink
+                  ? userData?.image?.imgLink
+                  : "/images/User/Avatar Default/default-avatar.jpg"
+              }
+              alt=""
+            />
           </div>
           {dropdownUserMenu && (
             <ul className="dropdown-box">
@@ -349,6 +363,7 @@ const DropdownIcon = () => {
               <div
                 className="btn-logout"
                 onClick={() => {
+                  dispatch(logOut());
                   navigate("/login");
                 }}
               >

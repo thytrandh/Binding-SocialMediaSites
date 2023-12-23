@@ -2,14 +2,25 @@ import { useState } from "react";
 import LogoTitle from "../../../components/Logo/LogoTitle/LogoTitle";
 import RegisterForm from "./RegisterForm";
 import VerifyForm from "./VerifyForm";
+import { RegisterContext } from "../context/registerContext";
 
 const RegisterPage = () => {
-  const [isVerify] = useState(true);
+  const [openVeriryRegister, setOpenVeriryRegister] = useState(false);
+  const [emailRegister, setEmailRegister] = useState("");
   return (
-    <div className="register-page auth-page ">
-      <LogoTitle />
-      {isVerify ? <VerifyForm /> : <RegisterForm />}
-    </div>
+    <RegisterContext.Provider
+      value={{
+        openVeriryRegister,
+        setOpenVeriryRegister,
+        emailRegister,
+        setEmailRegister,
+      }}
+    >
+      <div className="register-page auth-page ">
+        <LogoTitle />
+        {openVeriryRegister ? <VerifyForm /> : <RegisterForm />}
+      </div>
+    </RegisterContext.Provider>
   );
 };
 

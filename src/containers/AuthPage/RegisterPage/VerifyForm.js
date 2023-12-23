@@ -1,8 +1,26 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { LOGIN_PAGE } from "../../../settings/constant";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LOGIN_PAGE, REGISTER_PAGE } from "../../../settings/constant";
+import { RegisterContext } from "../context/registerContext";
+import {
+  deteteStateRegister,
+  verifyRegister,
+} from "../../../redux/slice/Auth/registerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { message } from "antd";
 
 const VerifyForm = () => {
+  const { setOpenVeriryRegister, setEmailRegister, emailRegister } = useContext(
+    RegisterContext
+  );
+
+  const isError = useSelector(
+    (state) => state.persistedReducer?.registerAuth?.error
+  );
+  const getTokenRegister = useSelector(
+    (state) => state.persistedReducer?.registerAuth?.currentVerify?.token
+  );
+
   const [otp, setOtp] = useState(new Array(6).fill(null));
 
   const handleChange = (element, index) => {
@@ -15,11 +33,37 @@ const VerifyForm = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleSubmit = () => {
-    console.log(otp);
     var code = otp.join("");
-    console.log(code);
+    const email = emailRegister;
+
+    dispatch(
+      verifyRegister({
+        email,
+        code,
+      })
+    );
   };
+
+  const handleBackRegister = () => {
+    setEmailRegister("");
+    setOpenVeriryRegister(false);
+    dispatch(deteteStateRegister());
+  };
+
+  useEffect(() => {
+    if (isError) {
+      setOtp(new Array(6).fill(null));
+    }
+    if (getTokenRegister) {
+      message.success("Your registration was successful");
+      dispatch(deteteStateRegister());
+      navigate(LOGIN_PAGE);
+    }
+  }, [isError, navigate, getTokenRegister, dispatch]);
 
   return (
     <div className="verify-form auth-form">
@@ -53,8 +97,15 @@ const VerifyForm = () => {
           SUBMIT
         </button>
         <div className="link-to-page">
-          <p>Already Have An Account?</p>
-          <Link to={LOGIN_PAGE}>Sign In</Link>
+          <p>Didn't get a code?</p>
+          <Link
+            onClick={() => {
+              handleBackRegister();
+            }}
+            to={REGISTER_PAGE}
+          >
+            Redirect back to registration page
+          </Link>
         </div>
       </div>
     </div>

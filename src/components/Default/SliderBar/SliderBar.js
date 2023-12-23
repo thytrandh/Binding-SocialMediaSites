@@ -7,8 +7,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "../../../context/toggleContext";
 import useWindowSize from "../../../library/hooks/useWindowSize";
+import { DataContext } from "../../../context/dataContext";
 
 const SliderBar = () => {
+  const { userData } = useContext(DataContext);
+
   const { width } = useWindowSize();
 
   const [menuArr, setMenuArr] = useState([
@@ -151,14 +154,23 @@ const SliderBar = () => {
           }}
         >
           <div className="avatar">
-            <img src="/images/User/user-01.jpg" alt="" />
+            <img
+              src={
+                userData?.image?.imgLink
+                  ? userData?.image?.imgLink
+                  : "/images/User/Avatar Default/default-avatar.jpg"
+              }
+              alt=""
+            />
           </div>
           <div className="detail-data">
             <p className="title">
-              Marvin McKinney
+              {userData?.firstName} {userData?.lastName}
               <Tick />
             </p>
-            <p className="desc">@marvin</p>
+            <p className="desc">
+              {userData?.email ? userData?.email : `@${userData?.firstName}`}
+            </p>
           </div>
         </div>
         <div className="navigate-menu">

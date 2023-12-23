@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { DataEditPostsContext } from "../context/dataEditPostsContext";
 import "../HeaderEditPosts/HeaderEditPosts.scss";
 import { PostsEditContext } from "../../Posts/context/postsEditContext";
 

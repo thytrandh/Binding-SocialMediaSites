@@ -1,19 +1,90 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { LOGIN_PAGE } from "../../../settings/constant";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../../redux/slice/Auth/registerSlice";
+import { useContext, useEffect, useState } from "react";
+import { RegisterContext } from "../context/registerContext";
 
 const RegisterForm = () => {
   const {
     handleSubmit,
     register,
     getValues,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const [registerPhone, setRegisterPhone] = useState(false);
+
+  const { setOpenVeriryRegister, setEmailRegister } = useContext(
+    RegisterContext
+  );
+
+  const dispatch = useDispatch();
+
+  const isError = useSelector(
+    (state) => state.persistedReducer?.registerAuth?.error
+  );
+  const getCurrentRegister = useSelector(
+    (state) => state.persistedReducer?.registerAuth?.currentRegister
+  );
+
   const onSubmit = (data) => {
-    const { fname, lname, user, password } = data;
-    console.log(fname, lname, user, password);
+    const { fname, lname, email, phone, password } = data;
+    console.log(fname, lname, email, phone, password);
+    const firstName = fname;
+    const lastName = lname;
+    const enabled = false;
+
+    if (registerPhone) {
+      dispatch(
+        registerUser({
+          firstName,
+          lastName,
+          phone,
+          password,
+          enabled,
+        })
+      );
+    } else {
+      dispatch(
+        registerUser({
+          firstName,
+          lastName,
+          email,
+          password,
+          enabled,
+        })
+      );
+    }
+
+    setEmailRegister(email);
+
+    reset({
+      fname: "",
+      lname: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+    });
   };
+
+  useEffect(() => {
+    if (getCurrentRegister) {
+      setOpenVeriryRegister(true);
+    }
+    if (isError) {
+      reset({
+        fname: "",
+        lname: "",
+        email: "",
+        password: "",
+        confirmpassword: "",
+      });
+    }
+  }, [getCurrentRegister, isError, setOpenVeriryRegister, reset]);
+
   return (
     <div className="register-form auth-form">
       <form
@@ -73,7 +144,23 @@ const RegisterForm = () => {
         </div>
         <div className="input-item">
           <label htmlFor="email" className="lb-input">
-            Email or Phone Number
+            <span
+              className={registerPhone ? "badge-choose" : "badge-choose active"}
+              onClick={() => {
+                setRegisterPhone(false);
+              }}
+            >
+              Email
+            </span>
+            <span> or </span>
+            <span
+              className={registerPhone ? "badge-choose active" : "badge-choose"}
+              onClick={() => {
+                setRegisterPhone(true);
+              }}
+            >
+              Phone Number
+            </span>
           </label>
           <div className="input-box">
             <div className="ic-auth">
@@ -83,25 +170,59 @@ const RegisterForm = () => {
                 alt=""
               />
             </div>
-            <input
-              name="email"
-              type="text"
-              className="input-content"
-              placeholder="Your email or phone number"
-              {...register("email", {
-                required: true,
-                // pattern: {
-                //   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                // },
-              })}
-            />
+            {registerPhone ? (
+              <input
+                name="phone"
+                type="text"
+                className="input-content"
+                placeholder="Your phone number"
+                {...register("phone", {
+                  required: true,
+                  minLength: 10,
+                  maxLength: 10,
+                  pattern: {
+                    value: /^[0-9]+$/,
+                  },
+                })}
+              />
+            ) : (
+              <input
+                name="email"
+                type="text"
+                className="input-content"
+                placeholder="Your email address"
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  },
+                })}
+              />
+            )}
           </div>
-          {errors.email?.type === "required" && (
-            <p className="err-msg">Email address is required</p>
+          {registerPhone && (
+            <>
+              {errors.phone?.type === "required" && (
+                <p className="err-msg">Phone number is required</p>
+              )}
+              {(errors.phone?.type === "pattern" ||
+                errors.phone?.type === "minLength" ||
+                errors.phone?.type === "maxLength") && (
+                <p className="err-msg">Invalid phone number</p>
+              )}
+            </>
           )}
-          {/* {errors.email?.type === "pattern" && (
-            <p className="err-msg">Invalid email address</p>
-          )} */}
+
+          {!registerPhone && (
+            <>
+              {errors.email?.type === "required" && (
+                <p className="err-msg">Email address is required</p>
+              )}
+              {errors.email?.type === "pattern" && (
+                <p className="err-msg">Invalid email address</p>
+              )}
+            </>
+          )}
         </div>
         <div className="input-item">
           <label htmlFor="password" className="lb-input">

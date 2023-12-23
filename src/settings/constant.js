@@ -46,7 +46,7 @@ export const NOTIFICATIONS_PAGE = "/notifications";
 
 //MESSAGE PAGE SECTION
 export const MESSAGE_PAGE = "/message";
-export const CHAT = "/message/:userId";
+export const CONVERSATION = "/message/:chatId";
 
 //PAGES
 export const PAGES = "/pages";
@@ -65,3 +65,9 @@ export const PAGE_MEMBER_MEMBERS = "/page-binding/:pageId/members";
 export const PAGE_MEMBER_GALLERY = "/page-binding/:pageId/gallery";
 
 //======================================================================
+
+export const ADMIN_PAGE = "/admin-page";
+export const USERS_MANAGEMENT = "/admin-page/users";
+export const POSTS_MANAGEMENT = "/admin-page/posts";
+export const COMMENTS_MANAGEMENT = "/admin-page/comments";
+export const PAGES_MANAGEMENT = "/admin-page/pages";

@@ -6,8 +6,11 @@ import pMinDelay from "p-min-delay";
 import PrivateRoute from "./PrivateRoute";
 import {
   ACCOUNT_SETTING,
+  ADMIN_PAGE,
   AVATAR_SETTING,
   BACKGROUND_COVER_SETTING,
+  COMMENTS_MANAGEMENT,
+  CONVERSATION,
   FRIENDS_PAGE,
   FRIENDS_REQUESTS,
   FRIENDS_SENT_REQUESTS,
@@ -20,6 +23,7 @@ import {
   MESSAGE_PAGE,
   NOTIFICATIONS_PAGE,
   PAGES,
+  PAGES_MANAGEMENT,
   PAGE_BINDING,
   PAGE_GALLERY,
   PAGE_INTRO,
@@ -29,6 +33,7 @@ import {
   PAGE_MEMBER_INTRO,
   PAGE_MEMBER_MEMBERS,
   PASSWORD_SETTING,
+  POSTS_MANAGEMENT,
   PROFILES_ABOUT,
   PROFILES_FRIENDS,
   PROFILES_GALLERY,
@@ -36,9 +41,17 @@ import {
   PROFILE_PAGE,
   REGISTER_PAGE,
   SETTINGS_PAGE,
+  USERS_MANAGEMENT,
   VERIFY_PAGE,
 } from "../settings/constant";
 import TimelineProfile from "../containers/DefaultPage/ProfilePage/MainProfile/TimelineProfile/TimelineProfile";
+import ConversationEmpty from "../containers/DefaultPage/MessagesPage/ConversationSide/ConversationEmpty/ConversationEmpty";
+import AdminLayout from "../containers/AdminPage/AdminLayout/AdminLayout";
+import AdminHome from "../containers/AdminPage/AdminHome/AdminHome";
+import UsersManagement from "../containers/AdminPage/UsersManagement/UsersManagement";
+import PostsManagement from "../containers/AdminPage/PostsManagement/PostsManagement";
+import CommentsManagement from "../containers/AdminPage/CommentsManagement/CommentsManagement";
+import PagesManagement from "../containers/AdminPage/PagesManagement/PagesManagement";
 
 //Authencation Page
 //================================= AUTHENCATION PAGE ==================================
@@ -55,7 +68,6 @@ const VerifyPage = React.lazy(() =>
   pMinDelay(import("../containers/AuthPage/VerifyPage/VerifyPage"), 600)
 );
 
-//======================================================================================
 //======================================================================================
 
 ////DEFAULT PAGE
@@ -111,7 +123,6 @@ const ProfileArchivePage = React.lazy(() =>
 );
 
 //============================================================================================
-//============================================================================================
 
 //================================= SETTINGS PAGE ===========================================
 
@@ -163,7 +174,6 @@ const ChangePasswordPage = React.lazy(() =>
 );
 
 //========================================================================================
-//========================================================================================
 
 //================================= FRIENDS PAGE ===========================================
 
@@ -194,7 +204,6 @@ const FriendsSentRequestsPage = React.lazy(() =>
   )
 );
 
-//==========================================================================================
 //==========================================================================================
 
 //================================= PAGE BINDING ===========================================
@@ -244,7 +253,6 @@ const GalleryPageBinding = React.lazy(() =>
 );
 
 //==========================================================================================
-//==========================================================================================
 
 const NotificationsPage = React.lazy(() =>
   pMinDelay(
@@ -257,6 +265,15 @@ const MessagesPage = React.lazy(() =>
   pMinDelay(import("../containers/DefaultPage/MessagesPage/MessagesPage"), 600)
 );
 
+const Conversation = React.lazy(() =>
+  pMinDelay(
+    import(
+      "../containers/DefaultPage/MessagesPage/ConversationSide/Conversation/Conversation"
+    ),
+    600
+  )
+);
+
 const AppRoutes = () => {
   const Loader = () => {
     return <>Loading</>;
@@ -264,8 +281,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* ====================== Authentication ======================
-          ============================================================*/}
+      {/* ====================== Authentication ======================*/}
       <Route element={<AuthLayout />}>
         <Route
           path={LOGIN_PAGE}
@@ -292,11 +308,63 @@ const AppRoutes = () => {
           }
         />
       </Route>
-      {/* ============================================================
-          ============================================================*/}
+      {/* ============================================================*/}
 
-      {/* ====================== INDEX =============================
-          ===========================================================*/}
+      {/* ====================== ADMIN ======================*/}
+      <Route
+        path={ADMIN_PAGE}
+        element={
+          <PrivateRoute>
+            <React.Suspense fallback={<Loader />}>
+              <AdminLayout />
+            </React.Suspense>
+          </PrivateRoute>
+        }
+      >
+        <Route
+          index
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <AdminHome />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={USERS_MANAGEMENT}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <UsersManagement />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={POSTS_MANAGEMENT}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PostsManagement />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={COMMENTS_MANAGEMENT}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <CommentsManagement />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={PAGES_MANAGEMENT}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PagesManagement />
+            </React.Suspense>
+          }
+        />
+      </Route>
+      {/* ============================================================*/}
+
+      {/* ====================== INDEX =============================*/}
       <Route
         path="/"
         element={
@@ -521,7 +589,25 @@ const AppRoutes = () => {
               <MessagesPage />
             </React.Suspense>
           }
-        />
+        >
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ConversationEmpty />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path={CONVERSATION}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Conversation />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
         {/* ====================== MESSAGES_PAGE_END ===================== */}
 
         {/* ====================== PAGES =========================*/}

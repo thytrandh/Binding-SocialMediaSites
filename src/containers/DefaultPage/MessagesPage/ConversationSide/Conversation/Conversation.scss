@@ -1,0 +1,15 @@
+@import "../../../../../assets/scss/media";
+.conversation {
+    position: relative;
+    height: 100%;
+    background-color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .conversation-content {
+        width: 100%;
+        height: calc(100% - 60px);
+        padding: 20px;
+    }
+}

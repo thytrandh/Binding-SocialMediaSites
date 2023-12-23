@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { REGISTER_PAGE } from "../../../../settings/constant";
 import { useContext } from "react";
 import { StepContext } from "../stepContext";
+import { useDispatch } from "react-redux";
+import { sentEmail } from "../../../../redux/slice/Auth/resetPasswordSlice";
 
 const Step01 = () => {
   const { setStepArr } = useContext(StepContext);
@@ -12,9 +14,19 @@ const Step01 = () => {
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     const { user } = data;
     console.log(user);
+
+    const email = user;
+
+    dispatch(
+      sentEmail({
+        email,
+      })
+    );
 
     setStepArr((prev) => {
       return prev.map((item) => {
@@ -38,6 +50,31 @@ const Step01 = () => {
       });
     });
   };
+
+  // const handleProcess = () => {
+  //   setStepArr((prev) => {
+  //     return prev.map((item) => {
+  //       if (item.step === 1) {
+  //         return {
+  //           ...item,
+  //           active: false,
+  //           complete: true,
+  //         };
+  //       } else if (item.step === 2) {
+  //         return {
+  //           ...item,
+  //           active: true,
+  //         };
+  //       } else {
+  //         return {
+  //           ...item,
+  //           active: false,
+  //         };
+  //       }
+  //     });
+  //   });
+  // };
+
   return (
     <div className="forgot-password-step step01">
       <div className="title">

@@ -1,19 +1,69 @@
 // import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { REGISTER_PAGE, VERIFY_PAGE } from "../../../settings/constant";
+import {
+  NEWSFEED_PAGE,
+  REGISTER_PAGE,
+  VERIFY_PAGE,
+} from "../../../settings/constant";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/slice/Auth/loginSlice";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../context/authContext";
+import { deteteStateRegister } from "../../../redux/slice/Auth/registerSlice";
 
 const LoginForm = () => {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const [loginPhone, setLoginPhone] = useState(false);
+
+  const { isAuth } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const isError = useSelector(
+    (state) => state.persistedReducer?.loginAuth?.error
+  );
+
   const onSubmit = (data) => {
-    const { user, password } = data;
-    console.log(user, password);
+    const { email, phone, password } = data;
+    console.log(email, phone, password);
+
+    if (loginPhone) {
+      dispatch(
+        login({
+          phone,
+          password,
+        })
+      );
+    } else {
+      dispatch(
+        login({
+          email,
+          password,
+        })
+      );
+    }
   };
+
+  useEffect(() => {
+    if (isError) {
+      reset({
+        user: "",
+        password: "",
+      });
+    }
+    if (isAuth) {
+      navigate(NEWSFEED_PAGE);
+    }
+    dispatch(deteteStateRegister());
+  }, [reset, isError, navigate, isAuth, dispatch]);
 
   return (
     <div className="login-form auth-form">
@@ -24,7 +74,23 @@ const LoginForm = () => {
       >
         <div className="input-item">
           <label htmlFor="user" className="lb-input">
-            Email or Phone Number
+            <span
+              className={loginPhone ? "badge-choose" : "badge-choose active"}
+              onClick={() => {
+                setLoginPhone(false);
+              }}
+            >
+              Email
+            </span>
+            <span> or </span>
+            <span
+              className={loginPhone ? "badge-choose active" : "badge-choose"}
+              onClick={() => {
+                setLoginPhone(true);
+              }}
+            >
+              Phone Number
+            </span>
           </label>
           <div className="input-box">
             <div className="ic-auth">
@@ -34,26 +100,58 @@ const LoginForm = () => {
                 alt=""
               />
             </div>
-            <input
-              name="user"
-              type="text"
-              className="input-content"
-              placeholder="Your email or phone number"
-              {...register("user", {
-                required: true,
-                // pattern: {
-                //   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-
-                // },
-              })}
-            />
+            {loginPhone ? (
+              <input
+                name="user"
+                type="text"
+                className="input-content"
+                placeholder="Your phone number"
+                {...register("phone", {
+                  required: true,
+                  minLength: 10,
+                  maxLength: 10,
+                  pattern: {
+                    value: /^[0-9]+$/,
+                  },
+                })}
+              />
+            ) : (
+              <input
+                name="user"
+                type="text"
+                className="input-content"
+                placeholder="Your email address"
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  },
+                })}
+              />
+            )}
           </div>
-          {errors.user?.type === "required" && (
-            <p className="err-msg">Email or Phone Number is required</p>
+          {loginPhone && (
+            <>
+              {errors.phone?.type === "required" && (
+                <p className="err-msg">Phone number is required</p>
+              )}
+              {(errors.phone?.type === "pattern" ||
+                errors.phone?.type === "minLength" ||
+                errors.phone?.type === "maxLength") && (
+                <p className="err-msg">Invalid phone number</p>
+              )}
+            </>
           )}
-          {/* {errors.user?.type === "pattern" && (
-            <p className="err-msg">Invalid email address</p>
-          )} */}
+          {!loginPhone && (
+            <>
+              {errors.email?.type === "required" && (
+                <p className="err-msg">Email address is required</p>
+              )}
+              {errors.email?.type === "pattern" && (
+                <p className="err-msg">Invalid email address</p>
+              )}
+            </>
+          )}
         </div>
         <div className="input-item">
           <label htmlFor="password" className="lb-input">

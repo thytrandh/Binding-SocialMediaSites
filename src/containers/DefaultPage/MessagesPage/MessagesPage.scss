@@ -1,1 +1,90 @@
-
+@import "../../../assets/scss/media";
+.messages-page {
+    height: 80vh;
+    min-height: 560px;
+    max-height: 700px;
+    @media (min-width: 1100px) {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .messages-side-threads {
+        width: 100%;
+        @media (min-width: 1100px) {
+            width: calc(40% - 25px);
+        }
+        @include xl {
+            width: calc(33% - 25px);
+        }
+        height: 100%;
+    }
+    .conversation-side-thread {
+        margin-top: 20px;
+        width: 100%;
+        @media (min-width: 1100px) {
+            margin-top: 0px;
+            width: 60%;
+        }
+        @include xl {
+            width: 67%;
+        }
+        height: 100%;
+        .top-header-conversation {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            padding: 0px 20px;
+            height: 63px;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .left-top-header {
+                display: flex;
+                align-items: center;
+                button.btn-back {
+                    font-size: 15px;
+                }
+                .user-conversation {
+                    margin-left: 15px;
+                    display: flex;
+                    align-items: center;
+                    img.img-avt {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                    .user-desc {
+                        margin-left: 10px;
+                        p.userName {
+                            color: var(--title-text);
+                            font-weight: 500;
+                            font-size: 1.05rem;
+                        }
+                        p.status {
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+            }
+            button.btn-size {
+                cursor: pointer;
+                i {
+                    color: var(--primary);
+                    font-weight: 600;
+                    font-size: 17px;
+                }
+            }
+        }
+        .top-header-conversation.flex-end {
+            justify-content: flex-end;
+        }
+        .conversation-content {
+            position: relative;
+            border-radius: 5px;
+            width: 100%;
+            height: calc(100% - 63px - 15px);
+            overflow: hidden;
+        }
+    }
+}

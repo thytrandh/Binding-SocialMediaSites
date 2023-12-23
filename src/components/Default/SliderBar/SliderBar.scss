@@ -43,6 +43,7 @@
             }
             .detail-data {
                 margin-left: 10px;
+                width: calc(100% - 60px);
                 p.title {
                     color: var(--title-text);
                     font-weight: 600;
@@ -50,11 +51,15 @@
                     margin-bottom: 5px;
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
+                    //justify-content: space-between;
                     transition: all 0.5s ease;
                 }
                 p.desc {
+                    width: calc(100% - 0px);
                     font-size: 0.85rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
             }
         }
