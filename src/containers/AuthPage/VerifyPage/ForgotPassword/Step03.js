@@ -1,19 +1,78 @@
 import { useForm } from "react-hook-form";
-import { REGISTER_PAGE } from "../../../../settings/constant";
-import { Link } from "react-router-dom";
+import { LOGIN_PAGE, REGISTER_PAGE } from "../../../../settings/constant";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { StepContext } from "../stepContext";
+import {
+  deleteStateResetPassword,
+  deleteStateResetPasswordRq,
+  resetPassword,
+} from "../../../../redux/slice/Auth/resetPasswordSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Step03 = () => {
+  const { userResetPassword } = useContext(StepContext);
+  const { isResetPhone } = useContext(StepContext);
+  const { verifyCode } = useContext(StepContext);
+
+  const isError = useSelector(
+    (state) => state.persistedReducer?.resetPasswordAuth?.error
+  );
+  const currentResetPassword = useSelector(
+    (state) => state.persistedReducer?.resetPasswordAuth?.currentResetPassword
+  );
+
   const {
     handleSubmit,
     register,
     getValues,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     const { password } = data;
-    console.log(password);
+    const newPassword = password;
+
+    if (isResetPhone) {
+      const phone = userResetPassword;
+      dispatch(
+        resetPassword({
+          verifyCode,
+          phone,
+          newPassword,
+        })
+      );
+    } else {
+      const email = userResetPassword;
+      dispatch(
+        resetPassword({
+          verifyCode,
+          email,
+          newPassword,
+        })
+      );
+    }
   };
+
+  useEffect(() => {
+    if (isError) {
+      reset({
+        password: "",
+        confirmpassword: "",
+      });
+    }
+
+    if (!isError && currentResetPassword !== null) {
+      dispatch(deleteStateResetPasswordRq());
+      dispatch(deleteStateResetPassword());
+      navigate(LOGIN_PAGE);
+    }
+  }, [isError, currentResetPassword, dispatch, navigate, reset]);
+
   return (
     <div className="forgot-password-step step03">
       <div className="title">
@@ -90,7 +149,7 @@ const Step03 = () => {
         </div>
         <div className="submit-box">
           <button htmlType="submit" className="btn-submit">
-           Reset Password
+            Reset Password
           </button>
         </div>
       </form>

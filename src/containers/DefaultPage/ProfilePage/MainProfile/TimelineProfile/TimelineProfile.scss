@@ -7,6 +7,10 @@
     animation: back-in-up 0.3s ease-in-out;
     animation-timing-function: 0.3s;
     animation-delay: 0s;
+    p.mess-center{
+        font-size: 1.05rem;
+        padding: 20px 0px;
+    }
     > .detail {
         display: none;
         @media (min-width: 1150px) {

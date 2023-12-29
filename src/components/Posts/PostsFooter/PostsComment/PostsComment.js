@@ -5,12 +5,17 @@ const PostsComment = ({ postsComment }) => {
     <ul className="list-comment">
       {postsComment.map((comment) => (
         <ItemComment
-          key={comment.idComment}
-          avatar={comment.user.avatar}
-          userName={comment.user.username}
-          time={comment.time}
-          contentCmt={comment.content}
-          accountOwner={comment.idComment === 0}
+          key={comment?.id}
+          idCmt={comment?.id}
+          idUserCmt={comment?.userComment?.userId}
+          avatar={comment?.userComment?.avatar}
+          userName={
+            comment?.userComment?.firstName +
+            " " +
+            comment.userComment?.lastName
+          }
+          time={comment?.createTime.slice(0, 10)}
+          contentCmt={comment?.content}
         />
       ))}
     </ul>

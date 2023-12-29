@@ -2,9 +2,11 @@ import "../CreateStory/CreateStory.scss";
 import { useContext, useState } from "react";
 import { OpenCreateStory } from "../context/openCreateStory";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useDispatch } from "react-redux";
+import { createStory } from "../../../../../redux/slice/Stories/storiesSlice";
 const CreateStory = () => {
   const { setOpenCreateStory } = useContext(OpenCreateStory);
-  const [selectedFile, setSelectedFile] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
@@ -17,12 +19,12 @@ const CreateStory = () => {
         const strTemp = item.type.slice(0, 5).toString();
         if (strTemp === "image") {
           return {
-            source: URL.createObjectURL(item),
+            source: item,
             type: "image",
           };
         } else {
           return {
-            source: URL.createObjectURL(item),
+            source: item,
             type: "video",
           };
         }
@@ -30,11 +32,31 @@ const CreateStory = () => {
     });
   }
 
+  const dispatch = useDispatch();
+
+  const [image, setImage] = useState(null);
+  const [video, setVideo] = useState(null);
+
   const handleSubmitStory = () => {
-    if (selectedFile.length <= 0) {
-      return false;
-    } else {
+    if (selectedFile !== null) {
+      if (selectedFile[0].type === "image") {
+        setImage(selectedFile[0].source);
+        dispatch(
+          createStory({
+            image,
+          })
+        );
+      } else if (selectedFile[0].type === "video") {
+        setVideo(selectedFile[0].source);
+        dispatch(
+          createStory({
+            video,
+          })
+        );
+      }
       setOpenCreateStory(false);
+    } else {
+      return false;
     }
   };
   return (
@@ -68,17 +90,17 @@ const CreateStory = () => {
                 accept="image/*,video/*"
                 onChange={onSelectFile}
               />
-              {selectedFile.length > 0 ? (
+              {selectedFile !== null ? (
                 <div className="selected-file">
                   {selectedFile[0].type === "image" ? (
                     <div className="img-selected">
                       <img
-                        src={selectedFile[0].source}
+                        src={URL.createObjectURL(selectedFile[0].source)}
                         alt=""
                         className="img-show"
                       />
                       <img
-                        src={selectedFile[0].source}
+                        src={URL.createObjectURL(selectedFile[0].source)}
                         alt=""
                         className="img-blur"
                       />
@@ -86,12 +108,13 @@ const CreateStory = () => {
                   ) : (
                     <div className="video-selected">
                       <video
-                        src={selectedFile[0].source}
+                        src={URL.createObjectURL(selectedFile[0].source)}
                         className="video-show"
+                        autoPlay
                         controls
                       ></video>
                       <video
-                        src={selectedFile[0].source}
+                        src={URL.createObjectURL(selectedFile[0].source)}
                         className="video-blur"
                       ></video>
                     </div>
@@ -110,7 +133,7 @@ const CreateStory = () => {
           <div className="bottom-box">
             <div
               className={
-                selectedFile.length > 0
+                selectedFile !== null
                   ? "btn-create-story enable"
                   : "btn-create-story unable"
               }

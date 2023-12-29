@@ -210,7 +210,8 @@ const DropdownIcon = () => {
       id: 1,
       name: "Account Settings",
       icon: "/images/Icon/IconDropdown/Setting.png",
-      navigate: "/settings/account-info",
+      // navigate: "/settings/account-info",
+      navigate: "/settings/account/change-password",
     },
     {
       id: 2,

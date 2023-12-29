@@ -449,7 +449,7 @@ const AppRoutes = () => {
             path={PROFILES_ABOUT}
             element={
               <React.Suspense fallback={<Loader />}>
-                <ProfileAboutPage />
+                <ProfileAboutPage accountOwner={true} />
               </React.Suspense>
             }
           />
@@ -465,7 +465,7 @@ const AppRoutes = () => {
             path={PROFILES_GALLERY}
             element={
               <React.Suspense fallback={<Loader />}>
-                <ProfileGalleryPage />
+                <ProfileGalleryPage accountOwner={true} />
               </React.Suspense>
             }
           />
@@ -610,7 +610,7 @@ const AppRoutes = () => {
 
         {/* ====================== MESSAGES_PAGE_END ===================== */}
 
-        {/* ====================== PAGES =========================*/}
+        {/* ====================== PAGES BINDING=========================*/}
         <Route
           path={PAGES}
           element={
@@ -640,7 +640,7 @@ const AppRoutes = () => {
             path={PAGE_INTRO}
             element={
               <React.Suspense fallback={<Loader />}>
-                <IntroducePageBinding />
+                <IntroducePageBinding pageOwner={true} />
               </React.Suspense>
             }
           />
@@ -656,7 +656,7 @@ const AppRoutes = () => {
             path={PAGE_GALLERY}
             element={
               <React.Suspense fallback={<Loader />}>
-                <GalleryPageBinding />
+                <GalleryPageBinding pageOwner={true} />
               </React.Suspense>
             }
           />
@@ -683,7 +683,7 @@ const AppRoutes = () => {
             path={PAGE_MEMBER_INTRO}
             element={
               <React.Suspense fallback={<Loader />}>
-                <IntroducePageBinding />
+                <IntroducePageBinding pageOwner={false} />
               </React.Suspense>
             }
           />
@@ -699,7 +699,7 @@ const AppRoutes = () => {
             path={PAGE_MEMBER_GALLERY}
             element={
               <React.Suspense fallback={<Loader />}>
-                <GalleryPageBinding />
+                <GalleryPageBinding pageOwner={false} />
               </React.Suspense>
             }
           />

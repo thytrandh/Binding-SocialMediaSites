@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { DataEditPostsContext } from "../../context/dataEditPostsContext";
+import "../../../CreatePost/CreatePostDropdown/MiddleCreatePosts/UploadFeeling/UploadFeeling.scss";
 
 const EditFeeling = () => {
   const { feelingArr, setFeelingArr } = useContext(DataEditPostsContext);

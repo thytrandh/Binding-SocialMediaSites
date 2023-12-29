@@ -13,31 +13,42 @@ const PostsBody = ({
   postsVideo,
   postsReaction,
   listEmoji,
+  postsItem,
+  countLike,
 }) => {
   const { setPostsOpen } = useContext(PostsOpenContext);
 
-  function RenderEmotion({ arr }) {
-    const unique = arr.filter(
-      (obj, index) =>
-        arr.findIndex((item) => item.emojiCode === obj.emojiCode) === index
-    );
-    return unique.map((emotion) => {
-      return (
-        <img
-          src={listEmoji[emotion.emojiCode - 1].iconEmoji}
-          alt=""
-          className="img-emoji"
-        />
-      );
-    });
-  }
+  const handleOpenPostsBox = () => {
+    if (postsContent !== null) {
+      setPostsOpen(postsItem);
+    } else {
+      return false;
+    }
+  };
+
+  // function RenderEmotion({ arr }) {
+  //   const unique = arr.filter(
+  //     (obj, index) =>
+  //       arr.findIndex((item) => item.emojiCode === obj.emojiCode) === index
+  //   );
+  //   return unique.map((emotion) => {
+  //     return (
+  //       <img
+  //         src={listEmoji[emotion.emojiCode - 1].iconEmoji}
+  //         alt=""
+  //         className="img-emoji"
+  //       />
+  //     );
+  //   });
+  // }
+
   return (
     <div className="posts-body">
       <p className="posts-content">{postsContent}</p>
       <div
         className="posts-files"
         onClick={() => {
-          setPostsOpen(postsId);
+          handleOpenPostsBox();
         }}
       >
         <Swiper
@@ -48,21 +59,21 @@ const PostsBody = ({
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {postsImage.length > 0 &&
+          {postsImage !== null &&
             postsImage.map((image) => (
               <SwiperSlide>
-                <div key={image.src} className="item-image item-file">
-                  <img src={image.src} alt="" className="img-show" />
-                  <img className="img-bg" src={image.src} alt="" />
+                <div key={image.id} className="item-image item-file">
+                  <img src={image.imgLink} alt="" className="img-show" />
+                  <img className="img-bg" src={image.imgLink} alt="" />
                 </div>
               </SwiperSlide>
             ))}
-          {postsVideo.length > 0 &&
+          {postsVideo !== null &&
             postsVideo.map((video) => (
               <SwiperSlide>
-                <div key={video.src} className="item-video item-file">
+                <div key={video.id} className="item-video item-file">
                   <video
-                    src={video.src}
+                    src={video.videoLink}
                     alt=""
                     className="video-show"
                     controls
@@ -73,13 +84,22 @@ const PostsBody = ({
             ))}
         </Swiper>
       </div>
-      {postsReaction.length > 0 && (
+
+      {countLike > 0 && (
         <div className="posts-react">
           <div className="list-emotion">
-            <RenderEmotion arr={postsReaction} />
+            <img
+              src="/images/Posts/Emoji/love.png"
+              alt=""
+              className="img-emoji"
+            />
           </div>
           <div className="list-user-reacted">
             <p className="subject">
+              Reacted by
+              <span className="username desc"> {countLike} person</span>
+            </p>
+            {/* <p className="subject">
               Reacted by
               <span className="username desc">
                 {" "}
@@ -91,7 +111,7 @@ const PostsBody = ({
                   {postsReaction.length > 1 && postsReaction.length - 1} Others
                 </span>
               )}
-            </p>
+            </p> */}
           </div>
         </div>
       )}

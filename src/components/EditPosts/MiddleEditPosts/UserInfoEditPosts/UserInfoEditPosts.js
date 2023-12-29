@@ -1,7 +1,15 @@
+import "../../../CreatePost/CreatePostDropdown/MiddleCreatePosts/UserInfoCreatePosts/UserInfoCreatePosts.scss";
+
 const UserInfoEditPosts = ({ avatar, userName, feelingArr, postOnPage }) => {
   return (
     <div className="middle-top user-info use-info-edit-posts">
-      <img src={avatar} alt="" className="avatar" />
+      <img
+        src={
+          avatar !== null ? avatar : "/images/DefaultPage/default-avatar.jpg"
+        }
+        alt=""
+        className="avatar"
+      />
       <div className="subject">
         <p className="username">
           {userName}

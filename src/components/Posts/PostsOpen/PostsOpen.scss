@@ -16,90 +16,124 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 90vw;
-        max-width: 1100px;
-        height: 85vh;
         border-radius: 5px;
         overflow: hidden;
+        width: 90vw;
+        max-width: 1050px;
+        height: 70vh;
+        max-height: 600px;
         @media (min-width: 650px) {
             width: 60vw;
             overflow-y: hidden;
         }
         @include md {
-            width: 90vw;
+            width: 80vw;
             flex-direction: row;
+            justify-content: space-between;
         }
-        @include xl {
-            height: 90vh;
+
+        @include lg {
+            height: 80vh;
+        }
+        @include xxl {
+            height: 600px;
         }
         background-color: var(--white);
         -webkit-animation: bounce-in 0.5s ease-in-out;
         animation: bounce-in 0.5s ease-in-out;
         animation-timing-function: 0.5s;
         animation-delay: 0s;
-        .posts-files {
+        > .posts-files-2 {
             width: 100%;
             height: 100%;
             @include md {
                 width: 50%;
+                height: 100%;
             }
-            @include xl {
-                width: 52%;
-            }
-            .item-image,
-            .item-file,
-            .item-video {
+            .item-image-2,
+            .item-file-2,
+            .item-video-2 {
+                position: relative;
                 width: 100%;
-                height: 85vh;
-                @include xl {
-                    height: 90vh;
+                height: 70vh;
+                @include lg {
+                    height: 80vh;
                 }
-                overflow: hidden;
-                img.img-show,
-                video.video-show {
-                    cursor: pointer;
-                    width: 100%;
-                    height: 100%;
+                @include xxl {
+                    height: 600px;
+                }
+                padding: 20px;
+                img.img-show-2,
+                video.video-show-2 {
+                    position: absolute;
+                    z-index: 2;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: calc(100% - 40px);
+                    height: calc(70vh - 40px);
+                    @include lg {
+                        height: calc(80vh - 40px);
+                    }
+                    @include xxl {
+                        height: calc(600px - 40px);
+                    }
+                    overflow: hidden;
                     object-fit: cover;
+                    border-radius: 5px;
                 }
+                // img.img-bg {
+                //     position: absolute;
+                //     width: 100%;
+                //     height: 100%;
+                //     top: 50%;
+                //     left: 50%;
+                //     transform: translate(-50%, -50%);
+                //     z-index: 1;
+                //     filter: blur(5px);
+                //     -webkit-filter: blur(5px);
+                //     object-fit: cover;
+                // }
             }
         }
-        .show-posts-desc {
+        > .show-posts-desc {
             position: relative;
             width: 100%;
             height: 100%;
             @include md {
                 width: 50%;
             }
-            @include xl {
-                width: 48%;
-            }
             .posts-desc-header {
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 0px 20px;
+                padding: 20px 20px;
                 @include lg {
-                    padding: 0px 25px;
+                    padding: 20px 25px;
                 }
-                height: 60px;
+
                 border-bottom: 1px solid var(--grey);
                 .user-info {
                     display: flex;
                     align-items: center;
                     img.img-avt {
-                        width: 38px !important;
-                        height: 38px !important;
+                        width: 44px !important;
+                        height: 44px !important;
                         object-fit: cover;
                         border-radius: 50%;
                         overflow: hidden;
+                        border: 1px solid var(--grey);
                     }
                     p.username {
                         margin-left: 8px;
                         color: var(--title-text);
                         font-weight: 500;
-                        font-size: 0.95rem;
+                        font-size: 1.05rem;
+                        span.content {
+                            color: var(--body-text);
+                            font-weight: 400;
+                        }
                     }
                 }
                 .posts-option {
@@ -136,7 +170,7 @@
             .posts-desc-body {
                 padding: 15px 20px;
                 @include lg {
-                    padding: 15px 25px;
+                    padding: 20px 25px;
                 }
                 max-height: 80%;
                 height: 80%;
@@ -161,7 +195,7 @@
                         p.username {
                             color: var(--title-text);
                             font-weight: 500;
-                            font-size: 0.95rem;
+                            font-size: 1rem;
                             span.content {
                                 color: var(--body-text);
                                 font-weight: 400;

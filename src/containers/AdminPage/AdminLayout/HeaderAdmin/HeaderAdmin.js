@@ -38,12 +38,12 @@ const HeaderAdmin = () => {
 
   return (
     <div className="header-admin">
-      <div className="header-top">
+      <div className="header-top-admin">
         <div className="logo">
           <img className="logo-img" src="/images/Logo/logo-blue.svg" alt="" />
           <p className="title">Binding</p>
         </div>
-        <div className="menu">
+        <div className="menu-admin">
           <div
             className="btn-open-menu"
             onClick={() => {
@@ -86,7 +86,7 @@ const HeaderAdmin = () => {
           )}
         </div>
       </div>
-      <div className="header-default">
+      <div className="header-admin-default">
         <div className="header-left">
           <ul className="main-menu">
             {menu

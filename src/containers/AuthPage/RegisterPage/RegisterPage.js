@@ -6,14 +6,19 @@ import { RegisterContext } from "../context/registerContext";
 
 const RegisterPage = () => {
   const [openVeriryRegister, setOpenVeriryRegister] = useState(false);
-  const [emailRegister, setEmailRegister] = useState("");
+  const [userRegister, setUserRegister] = useState("");
+  const [isRegisterPhone, setIsRegisterPhone] = useState(false);
   return (
     <RegisterContext.Provider
       value={{
         openVeriryRegister,
         setOpenVeriryRegister,
-        emailRegister,
-        setEmailRegister,
+
+        userRegister,
+        setUserRegister,
+
+        isRegisterPhone,
+        setIsRegisterPhone,
       }}
     >
       <div className="register-page auth-page ">

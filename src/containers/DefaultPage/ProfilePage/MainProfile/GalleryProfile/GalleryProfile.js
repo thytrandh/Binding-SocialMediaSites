@@ -1,78 +1,88 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../GalleryProfile/GalleryProfile.scss";
 import ShowFileBox from "../ShowFileBox/ShowFileBox.js";
 import { OpenShowFileContext } from "../context/openShowFileContext.js";
 import { useContext } from "react";
-const GalleryProfile = () => {
-  const images = [
-    {
-      id: 0,
-      source: "/images/Profile/Gallery/1.jpg",
-    },
-    {
-      id: 1,
-      source: "/images/Profile/Gallery/2.jpg",
-    },
-    {
-      id: 2,
-      source: "/images/Profile/Gallery/3.jpg",
-    },
-    {
-      id: 3,
-      source: "/images/Profile/Gallery/4.jpg",
-    },
-    {
-      id: 4,
-      source: "/images/Profile/Gallery/5.jpg",
-    },
-    {
-      id: 5,
-      source: "/images/Profile/Gallery/6.jpg",
-    },
-    {
-      id: 6,
-      source: "/images/Profile/Gallery/7.jpg",
-    },
-    {
-      id: 7,
-      source: "/images/Profile/Gallery/8.jpg",
-    },
-    {
-      id: 8,
-      source: "/images/Profile/Gallery/9.jpg",
-    },
-    {
-      id: 9,
-      source: "/images/Profile/Gallery/10.jpg",
-    },
-    {
-      id: 10,
-      source: "/images/Profile/Gallery/11.jpg",
-    },
-  ];
+import { DataContext } from "../../../../../context/dataContext.js";
+import { useSelector } from "react-redux";
+const GalleryProfile = ({ accountOwner }) => {
+  // const images = [
+  //   {
+  //     id: 0,
+  //     source: "/images/Profile/Gallery/1.jpg",
+  //   },
+  //   {
+  //     id: 1,
+  //     source: "/images/Profile/Gallery/2.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     source: "/images/Profile/Gallery/3.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     source: "/images/Profile/Gallery/4.jpg",
+  //   },
+  //   {
+  //     id: 4,
+  //     source: "/images/Profile/Gallery/5.jpg",
+  //   },
+  //   {
+  //     id: 5,
+  //     source: "/images/Profile/Gallery/6.jpg",
+  //   },
+  //   {
+  //     id: 6,
+  //     source: "/images/Profile/Gallery/7.jpg",
+  //   },
+  //   {
+  //     id: 7,
+  //     source: "/images/Profile/Gallery/8.jpg",
+  //   },
+  //   {
+  //     id: 8,
+  //     source: "/images/Profile/Gallery/9.jpg",
+  //   },
+  //   {
+  //     id: 9,
+  //     source: "/images/Profile/Gallery/10.jpg",
+  //   },
+  //   {
+  //     id: 10,
+  //     source: "/images/Profile/Gallery/11.jpg",
+  //   },
+  // ];
 
-  const videos = [
-    {
-      id: 0,
-      source: "/images/Profile/Gallery/videos/1.mp4",
-    },
-    {
-      id: 1,
-      source: "/images/Profile/Gallery/videos/2.mp4",
-    },
-    {
-      id: 2,
-      source: "/images/Profile/Gallery/videos/3.mp4",
-    },
-    {
-      id: 3,
-      source: "/images/Profile/Gallery/videos/4.mp4",
-    },
-    {
-      id: 4,
-      source: "/images/Profile/Gallery/videos/5.mp4",
-    },
-  ];
+  // const videos = [
+  //   {
+  //     id: 0,
+  //     source: "/images/Profile/Gallery/videos/1.mp4",
+  //   },
+  //   {
+  //     id: 1,
+  //     source: "/images/Profile/Gallery/videos/2.mp4",
+  //   },
+  //   {
+  //     id: 2,
+  //     source: "/images/Profile/Gallery/videos/3.mp4",
+  //   },
+  //   {
+  //     id: 3,
+  //     source: "/images/Profile/Gallery/videos/4.mp4",
+  //   },
+  //   {
+  //     id: 4,
+  //     source: "/images/Profile/Gallery/videos/5.mp4",
+  //   },
+  // ];
+
+  const { userData } = useContext(DataContext);
+  const getCurrentMember = useSelector(
+    (state) => state.persistedReducer?.userInfo?.currentMember?.data
+  );
+
+  const [images, setImages] = useState(null);
+  const [videos, setVideos] = useState(null);
 
   const [optionGallery, setOptionGallery] = useState([
     {
@@ -104,6 +114,19 @@ const GalleryProfile = () => {
     updatedValue = { type: "video", source: src };
     setFileShow(updatedValue);
   };
+
+  useEffect(() => {
+    const handleInformation = () => {
+      if (accountOwner) {
+        setImages(userData?.images);
+        setVideos(userData?.videos);
+      } else {
+        setImages(getCurrentMember?.images);
+        setVideos(getCurrentMember?.videos);
+      }
+    };
+    handleInformation();
+  }, [accountOwner, getCurrentMember, userData]);
 
   return (
     <div className="gallery-profile">
@@ -141,18 +164,18 @@ const GalleryProfile = () => {
         {optionGallery[0].isActive && (
           <div className="photos-box">
             <div className="photos-show">
-              {images.length > 0 ? (
+              {images !== null ? (
                 <>
                   {images.map((img) => (
                     <div
                       key={img.id}
                       className="item-image"
                       onClick={() => {
-                        handleClickImage(img.source);
+                        handleClickImage(img?.imgLink);
                         setOpenFileBox(true);
                       }}
                     >
-                      <img src={img.source} alt="" />
+                      <img src={img?.imgLink} alt="" />
                     </div>
                   ))}
                 </>
@@ -165,18 +188,18 @@ const GalleryProfile = () => {
         {optionGallery[1].isActive && (
           <div className="videos-box">
             <div className="videos-show">
-              {videos.length > 0 ? (
+              {videos !== null ? (
                 <>
                   {videos.map((vid) => (
                     <div
                       key={vid.id}
                       className="item-video"
                       onClick={() => {
-                        handleClickVideo(vid.source);
+                        handleClickVideo(vid.videoLink);
                         setOpenFileBox(true);
                       }}
                     >
-                      <video src={vid.source} alt="" />
+                      <video src={vid.videoLink} alt="" />
                       <button className="btn-play">
                         <i class="fa-solid fa-play"></i>
                       </button>

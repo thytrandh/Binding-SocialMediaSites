@@ -50,12 +50,19 @@ const LoginForm = () => {
         })
       );
     }
+
+    reset({
+      phone: "",
+      email: "",
+      password: "",
+    });
   };
 
   useEffect(() => {
     if (isError) {
       reset({
-        user: "",
+        phone: "",
+        email: "",
         password: "",
       });
     }

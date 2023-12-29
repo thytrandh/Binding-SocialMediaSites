@@ -1,7 +1,40 @@
+import { useContext, useEffect, useState } from "react";
 import Advertisement from "../../../NewsfeedPage/Advertisement/Advertisement";
 import ServiceAdvertisement from "../../../NewsfeedPage/ServiceAdvertisement/ServiceAdvertisement";
 import "../Introduce/Introduce.scss";
-const Introduce = () => {
+import { DataContext } from "../../../../../context/dataContext";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+const Introduce = ({ pageOwner }) => {
+  const { userData } = useContext(DataContext);
+  const [pagesData, setPagesData] = useState(userData?.page);
+  const params = useParams();
+  const dispatch = useDispatch();
+  const [category, setCategory] = useState(null);
+  const [contact, setContact] = useState(null);
+  const [intro, setIntro] = useState(null);
+
+  const handleInformation = () => {
+    if (pageOwner) {
+      setCategory(pagesData?.category);
+      setContact(pagesData?.contact);
+      setIntro(pagesData?.introduce);
+      return;
+    } else {
+      // const memberId = params.memberId;
+      // const userId = memberId;
+      // dispatch(getUserById({ userId }));
+      // if (memberData) {
+      //   setGalleryShow(memberData?.images);
+      //   setPosts(memberData?.posts);
+      // }
+      return;
+    }
+  };
+
+  useEffect(() => {
+    handleInformation();
+  }, []);
   return (
     <div className="introduce-page-binding">
       <div className="left">
@@ -12,19 +45,19 @@ const Introduce = () => {
           <div className="item-about">
             <p className="title">Categories</p>
             <div className="item">
-              <p className="content">Public School</p>
+              <p className="content">{category ? category : "Not update"}</p>
             </div>
           </div>
           <div className="item-about">
             <p className="title">Contact Info</p>
             <div className="desc">
-              <div className="item">
+              {/* <div className="item">
                 <p className="subject">Phone number:</p>
                 <p className="content">0769842084</p>
-              </div>
+              </div> */}
               <div className="item">
-                <p className="subject">Email Address:</p>
-                <p className="content">jennyWilson@gmail.com</p>
+                <p className="subject">Address:</p>
+                <p className="content">{contact ? contact : "Not update"}</p>
               </div>
             </div>
           </div>
@@ -32,16 +65,7 @@ const Introduce = () => {
             <p className="title">Introduce</p>
             <div className="desc">
               <div className="item">
-                <p className="content">
-                  The course is designed to highlight the learning objectives,
-                  requirements and professional orientation in English Applied
-                  Linguistics program at Ho Chi Minh City University of
-                  Technology and Education . In this course, students are
-                  provided with fundamental knowledge of Translation and
-                  Interpretation as well as Business fields in a systematic,
-                  scientific, complete and detailed way with practical
-                  situations.
-                </p>
+                <p className="content">{intro ? intro : "Not update"}</p>
               </div>
             </div>
           </div>

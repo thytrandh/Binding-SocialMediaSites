@@ -17,9 +17,9 @@ const RegisterForm = () => {
 
   const [registerPhone, setRegisterPhone] = useState(false);
 
-  const { setOpenVeriryRegister, setEmailRegister } = useContext(
-    RegisterContext
-  );
+  const { setOpenVeriryRegister } = useContext(RegisterContext);
+  const { setUserRegister } = useContext(RegisterContext);
+  const { setIsRegisterPhone } = useContext(RegisterContext);
 
   const dispatch = useDispatch();
 
@@ -47,6 +47,8 @@ const RegisterForm = () => {
           enabled,
         })
       );
+      setUserRegister(phone);
+      setIsRegisterPhone(true);
     } else {
       dispatch(
         registerUser({
@@ -57,13 +59,14 @@ const RegisterForm = () => {
           enabled,
         })
       );
+      setUserRegister(email);
+      setIsRegisterPhone(false);
     }
-
-    setEmailRegister(email);
 
     reset({
       fname: "",
       lname: "",
+      phone: "",
       email: "",
       password: "",
       confirmpassword: "",
@@ -78,6 +81,7 @@ const RegisterForm = () => {
       reset({
         fname: "",
         lname: "",
+        phone: "",
         email: "",
         password: "",
         confirmpassword: "",

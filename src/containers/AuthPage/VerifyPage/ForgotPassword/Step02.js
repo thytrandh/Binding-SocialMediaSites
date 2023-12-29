@@ -6,6 +6,7 @@ import { useContext } from "react";
 
 const Step02 = () => {
   const { setStepArr } = useContext(StepContext);
+  const { setVerifyCode } = useContext(StepContext);
 
   const [otp, setOtp] = useState(new Array(6).fill(null));
 
@@ -19,33 +20,37 @@ const Step02 = () => {
     }
   };
 
+  const handleProcess = () => {
+    setStepArr((prev) => {
+      return prev.map((item) => {
+        if (item.step === 2) {
+          return {
+            ...item,
+            active: false,
+            complete: true,
+          };
+        } else if (item.step === 3) {
+          return {
+            ...item,
+            active: true,
+          };
+        } else {
+          return {
+            ...item,
+            active: false,
+          };
+        }
+      });
+    });
+  };
+
   const handleSubmit = () => {
     console.log(otp);
     var code = otp.join("");
     console.log(code);
-
     if (code.length === 6) {
-      setStepArr((prev) => {
-        return prev.map((item) => {
-          if (item.step === 2) {
-            return {
-              ...item,
-              active: false,
-              complete: true,
-            };
-          } else if (item.step === 3) {
-            return {
-              ...item,
-              active: true,
-            };
-          } else {
-            return {
-              ...item,
-              active: false,
-            };
-          }
-        });
-      });
+      handleProcess();
+      setVerifyCode(code);
     }
   };
   return (

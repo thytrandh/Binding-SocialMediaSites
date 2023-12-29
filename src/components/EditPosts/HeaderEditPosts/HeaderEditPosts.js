@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import "../HeaderEditPosts/HeaderEditPosts.scss";
 import { PostsEditContext } from "../../Posts/context/postsEditContext";
+import "../../CreatePost/CreatePostDropdown/HeaderCreatePosts/HeaderCreatePosts.scss";
 
 const HeaderEditPosts = () => {
   const { setOpenEditPosts } = useContext(PostsEditContext);

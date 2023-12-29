@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { DataCreatePostContext } from "../../context/dataCreatePostContext";
 import "../UploadText/UploadText.scss";
 
-const UploadText = ({ addOption }) => {
+const UploadText = ({ addOption, userName }) => {
   const { setPostContent } = useContext(DataCreatePostContext);
   return (
     <div
@@ -13,7 +13,7 @@ const UploadText = ({ addOption }) => {
       }
     >
       <textarea
-        placeholder="What's on your mind, Marvin?"
+        placeholder={`What's on your mind, ${userName}?`}
         id=""
         cols="30"
         rows="10"

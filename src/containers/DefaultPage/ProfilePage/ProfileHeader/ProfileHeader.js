@@ -1,39 +1,52 @@
+import { useNavigate, useParams } from "react-router-dom";
 import "../ProfileHeader/ProfileHeader.scss";
+import {
+  AVATAR_SETTING,
+  BACKGROUND_COVER_SETTING,
+} from "../../../../settings/constant";
+import { useContext, useEffect, useState } from "react";
+import { DataContext } from "../../../../context/dataContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addFriend } from "../../../../redux/slice/User/friendSlice";
 
 const ProfileHeader = ({ accountOwner }) => {
-  const friends = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-02.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Freya Davies",
-      avatar: "/images/User/user-03.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Aaron Jones",
-      avatar: "/images/User/user-04.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-05.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Ariana McCoy",
-      avatar: "/images/User/user-06.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-  ];
-  const friendStatus = [
+  const { userData } = useContext(DataContext);
+  const getCurrentMember = useSelector(
+    (state) => state.persistedReducer?.userInfo?.currentMember?.data
+  );
+
+  const isFriend = useSelector(
+    (state) => state.persistedReducer?.friend?.checkIsFriend?.message
+  );
+
+  const navigate = useNavigate();
+
+  const [avatar, setAvatar] = useState(null);
+  const [background, setBackground] = useState(null);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+
+  useEffect(() => {
+    const hanldeInformation = () => {
+      if (accountOwner) {
+        setAvatar(userData?.image?.imgLink);
+        setBackground(userData?.background?.imgLink);
+        setName(`${userData?.firstName} ${userData?.lastName}`);
+        setPhone(userData?.phone);
+        setEmail(userData?.email);
+      } else {
+        setAvatar(getCurrentMember?.image?.imgLink);
+        setBackground(getCurrentMember?.background?.imgLink);
+        setName(`${getCurrentMember?.firstName} ${getCurrentMember?.lastName}`);
+        setPhone(getCurrentMember?.phone);
+        setEmail(getCurrentMember?.email);
+      }
+    };
+    hanldeInformation();
+  }, [accountOwner, getCurrentMember, userData]);
+
+  const [friendStatus, setFriendStatus] = useState([
     {
       idStatus: 1,
       status: "friend",
@@ -61,22 +74,93 @@ const ProfileHeader = ({ accountOwner }) => {
       ],
       isActive: true,
     },
-  ];
+  ]);
 
-  const bannerCover = "/images/Profile/bg-cover-01.jpeg";
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  const handleStateFriend = (action) => {
+    console.log("action", action);
+    const memberId = params.memberId;
+    const friendId = memberId;
+    console.log("FriendId", friendId);
+    if (action === "Add friend") {
+      dispatch(
+        addFriend({
+          friendId,
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    //chua ket ban
+    if (isFriend === "User isn't friend") {
+      setFriendStatus((prev) => {
+        return prev.map((item) => {
+          if (item.status === "stranger") {
+            return {
+              ...item,
+              isActive: true,
+            };
+          } else {
+            return {
+              ...item,
+              isActive: false,
+            };
+          }
+        });
+      });
+    } else if (isFriend === "Success") {
+      // da la ban be
+      setFriendStatus((prev) => {
+        return prev.map((item) => {
+          if (item.status === "friend") {
+            return {
+              ...item,
+              isActive: true,
+            };
+          } else {
+            return {
+              ...item,
+              isActive: false,
+            };
+          }
+        });
+      });
+    }
+  }, [isFriend]);
+
 
   return (
     <div className="profile-header">
       <div className="banner-cover">
-        <img src={bannerCover} alt="" className="img-banner" />
+        <img
+          src={background ? background : "/images/DefaultPage/bg-default.jpg"}
+          alt=""
+          className="img-banner"
+        />
         <div className="blur"></div>
       </div>
       <div className="header-content">
         <div className="user-info">
           <div className="avatar">
-            <img src="/images/User/user-01.jpg" alt="" className="img-avt" />
+            <img
+              src={
+                avatar
+                  ? avatar
+                  : "/images/User/Avatar Default/default-avatar.jpg"
+              }
+              alt=""
+              className="img-avt"
+            />
             {accountOwner && (
-              <div className="btn-change-avt">
+              <div
+                className="btn-change-avt"
+                onClick={() => {
+                  navigate(AVATAR_SETTING);
+                }}
+              >
                 <img
                   src="/images/Profile/icon/Camera.png"
                   alt=""
@@ -86,8 +170,8 @@ const ProfileHeader = ({ accountOwner }) => {
             )}
           </div>
           <div className="info">
-            <p className="username">Marvin McKinney</p>
-            <p className="email">@mavinMc@gmail.com</p>
+            <p className="username">{name}</p>
+            <p className="email">@{email === null ? phone : email}</p>
             {!accountOwner && (
               <div className="status-friend-box">
                 {friendStatus.map((status) => (
@@ -95,7 +179,12 @@ const ProfileHeader = ({ accountOwner }) => {
                     {status.isActive && (
                       <>
                         {status.nextAction.map((action) => (
-                          <button className={`btn-${action.color}`}>
+                          <button
+                            className={`btn-${action.color}`}
+                            onClick={() => {
+                              handleStateFriend(action.action);
+                            }}
+                          >
                             {action.action}
                           </button>
                         ))}
@@ -108,8 +197,13 @@ const ProfileHeader = ({ accountOwner }) => {
           </div>
         </div>
         <div className="option-settings">
-          {accountOwner ? (
-            <div className="edit-cover-photo">
+          {accountOwner && (
+            <div
+              className="edit-cover-photo"
+              onClick={() => {
+                navigate(BACKGROUND_COVER_SETTING);
+              }}
+            >
               <img
                 src="/images/Profile/icon/Camera.png"
                 alt=""
@@ -117,22 +211,6 @@ const ProfileHeader = ({ accountOwner }) => {
               />
               <p className="subject">Edit background cover</p>
             </div>
-          ) : (
-            <>
-              {friends && (
-                <div className="list-friends">
-                  {friends &&
-                    friends.map((friend) => (
-                      <img
-                        src={friend.avatar}
-                        alt=""
-                        className="img-avt-friend"
-                      />
-                    ))}
-                  {/* <p className="subject">{friends.length} followers</p> */}
-                </div>
-              )}
-            </>
           )}
         </div>
       </div>

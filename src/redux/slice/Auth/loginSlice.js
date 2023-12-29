@@ -13,7 +13,6 @@ const initialState = {
 export const login = createAsyncThunk("loginAuth", async (data, thunkAPI) => {
   try {
     const { email, phone, password } = data;
-    console.log("phone", phone);
     let result;
 
     if (email === undefined) {

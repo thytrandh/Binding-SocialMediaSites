@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PostsOpenContext } from "../context/postsOpenContext";
 import "../PostsOpen/PostsOpen.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,31 +9,125 @@ import OutsideClickHandler from "react-outside-click-handler";
 
 const PostsOpen = ({
   postsUser,
+  postsPages,
   postsTime,
   postsImage,
   postsVideo,
   postsContent,
   postsComment,
+  postsFeeling,
   postsReaction,
   listEmoji,
 }) => {
   const { setPostsOpen } = useContext(PostsOpenContext);
-  const [openOptionBox, setOpenOptionBox] = useState(false);
-  function RenderEmotion({ arr }) {
-    const unique = arr.filter(
-      (obj, index) =>
-        arr.findIndex((item) => item.emojiCode === obj.emojiCode) === index
-    );
-    return unique.map((emotion) => {
-      return (
-        <img
-          src={listEmoji[emotion.emojiCode - 1].iconEmoji}
-          alt=""
-          className="img-emoji"
-        />
-      );
-    });
-  }
+
+  const day = postsTime.slice(8, 10);
+  const month = postsTime.slice(5, 7);
+  const year = postsTime.slice(0, 4);
+  const [mm, setMm] = useState();
+
+  useEffect(() => {
+    const monthTime = [
+      {
+        id: 1,
+        value: "01",
+        month: "January",
+      },
+      {
+        id: 2,
+        value: "02",
+        month: "February",
+      },
+      {
+        id: 3,
+        value: "03",
+        month: "March",
+      },
+      {
+        id: 4,
+        value: "04",
+        month: "April",
+      },
+      {
+        id: 5,
+        value: "05",
+        month: "May",
+      },
+      {
+        id: 6,
+        value: "06",
+        month: "June",
+      },
+      {
+        id: 7,
+        value: "07",
+        month: "July",
+      },
+      {
+        id: 8,
+        value: "08",
+        month: "August",
+      },
+      {
+        id: 9,
+        value: "09",
+        month: "September",
+      },
+      {
+        id: 10,
+        value: "10",
+        month: "October",
+      },
+      {
+        id: 11,
+        value: "11",
+        month: "November",
+      },
+      {
+        id: 12,
+        value: "12",
+        month: "December",
+      },
+    ];
+    const arrFilter = monthTime.filter((item) => item.value === month);
+    setMm(arrFilter[0].month);
+
+    console.log("postsUser", postsUser);
+  }, [month]);
+
+  // function RenderEmotion({ arr }) {
+  //   const unique = arr.filter(
+  //     (obj, index) =>
+  //       arr.findIndex((item) => item.emojiCode === obj.emojiCode) === index
+  //   );
+  //   return unique.map((emotion) => {
+  //     return (
+  //       <img
+  //         src={listEmoji[emotion.emojiCode - 1].iconEmoji}
+  //         alt=""
+  //         className="img-emoji"
+  //       />
+  //     );
+  //   });
+  // }
+
+  const [avatar, setAvatar] = useState(null);
+  const [name, setName] = useState(null);
+  const handleInfo = () => {
+    if (postsPages !== null) {
+      setAvatar(postsPages.avatar?.imgLink);
+      setName(postsPages?.pageName);
+    } else {
+      setAvatar(postsUser?.avatar);
+      setName(`${postsUser?.firstName} ${postsUser?.lastName}`);
+    }
+  };
+  useEffect(() => {
+    handleInfo();
+    console.log("postsUser", postsUser);
+    console.log("postsPages", postsPages);
+  }, []);
+
   return (
     <div className="posts-open">
       <OutsideClickHandler
@@ -42,7 +136,7 @@ const PostsOpen = ({
         }}
       >
         <div className="posts-open-box">
-          <div className="posts-files">
+          <div className="posts-files-2">
             <Swiper
               pagination={{
                 type: "progressbar",
@@ -51,23 +145,23 @@ const PostsOpen = ({
               modules={[Pagination, Navigation]}
               className="mySwiper"
             >
-              {postsImage.length > 0 &&
+              {postsImage !== null &&
                 postsImage.map((image) => (
                   <SwiperSlide>
-                    <div key={image.src} className="item-image item-file">
-                      <img src={image.src} alt="" className="img-show" />
-                      <img className="img-bg" src={image.src} alt="" />
+                    <div key={image.id} className="item-image-2 item-file-2">
+                      <img src={image.imgLink} alt="" className="img-show-2" />
+                      {/* <img className="img-bg" src={image.imgLink} alt="" /> */}
                     </div>
                   </SwiperSlide>
                 ))}
-              {postsVideo.length > 0 &&
+              {postsVideo !== null &&
                 postsVideo.map((video) => (
                   <SwiperSlide>
-                    <div key={video.src} className="item-video item-file">
+                    <div key={video.id} className="item-video-2 item-file-2">
                       <video
-                        src={video.src}
+                        src={video.videoLink}
                         alt=""
-                        className="video-show"
+                        className="video-show-2"
                         controls
                         autoPlay
                       />
@@ -79,64 +173,70 @@ const PostsOpen = ({
           <div className="show-posts-desc">
             <div className="posts-desc-header">
               <div className="user-info">
-                <img src={postsUser.avatar} alt="" className="img-avt" />
-                <p className="username">{postsUser.username}</p>
-              </div>
-              <div className="posts-option">
-                <div
-                  className="btn-menu"
-                  onClick={() => {
-                    setOpenOptionBox(!openOptionBox);
-                  }}
-                >
-                  <i class="fa-solid fa-ellipsis"></i>
-                </div>
-                <OutsideClickHandler
-                  onOutsideClick={() => {
-                    setOpenOptionBox(false);
-                  }}
-                >
-                  {openOptionBox && (
-                    <div className="box-option-dropdown">
-                      <div className="own">
-                        <p>Delete</p>
-                        <p>Edit</p>
-                      </div>
-                      {/* <div className="guest">
-                        <p>Report</p>
-                      </div> */}
-                    </div>
+                <img
+                  src={
+                    avatar !== null
+                      ? avatar
+                      : "/images/User/Avatar Default/default-avatar.jpg"
+                  }
+                  alt=""
+                  className="img-avt"
+                />
+                <p className="username">
+                  {name}
+
+                  {postsFeeling !== null && (
+                    <span className="content">
+                      {" - "}
+                      {postsFeeling}
+                    </span>
                   )}
-                </OutsideClickHandler>
+                </p>
               </div>
             </div>
             <div className="posts-desc-body">
               <div className="posts-desc-content">
-                <img src={postsUser.avatar} alt="" className="img-avt" />
+                <img
+                  src={
+                    avatar
+                      ? avatar
+                      : "/images/User/Avatar Default/default-avatar.jpg"
+                  }
+                  alt=""
+                  className="img-avt"
+                />
                 <div className="desc-content">
                   <p className="username">
-                    {postsUser.username}{" "}
-                    <span className="content">{postsContent}</span>
+                    {name} <span className="content">{postsContent}</span>
                   </p>
-                  <p className="time">{postsTime}</p>
+                  <p className="time">
+                    {mm} {day}, {year}
+                  </p>
                 </div>
               </div>
               <div className="posts-comment">
                 <p className="title">Comment</p>
-                {postsComment.length > 0 ? (
+                {postsComment !== null ? (
                   postsComment.map((comment) => (
-                    <div key={comment.idComment} className="item-posts-comment">
+                    <div key={comment.id} className="item-posts-comment">
                       <img
-                        src={comment.user.avatar}
+                        src={
+                          comment?.userComment?.avatar !== null
+                            ? comment?.userComment?.avatar
+                            : "/images/DefaultPage/default-avatar.jpg"
+                        }
                         alt=""
                         className="img-avt"
                       />
                       <div className="desc-comment">
                         <p className="username">
-                          {comment.user.username}{" "}
-                          <span className="content">{comment.content}</span>
+                          {comment.userComment?.firstName}{" "}
+                          {comment.userComment?.lastName}
+                          <span className="content"> {comment.content}</span>
                         </p>
-                        <p className="time">{comment.time} ago</p>
+                        <p className="time">
+                          {comment?.createTime.slice(0, 10)}
+                        </p>
                       </div>
                     </div>
                   ))
@@ -145,7 +245,7 @@ const PostsOpen = ({
                 )}
               </div>
             </div>
-            {postsReaction.length > 0 && (
+            {/* {postsReaction.length > 0 && (
               <div className="posts-desc-footer">
                 <div className="posts-react">
                   <div className="list-emotion">
@@ -169,7 +269,7 @@ const PostsOpen = ({
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </OutsideClickHandler>

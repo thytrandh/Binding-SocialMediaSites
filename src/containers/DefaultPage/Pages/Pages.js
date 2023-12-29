@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BannerAds from "../../../components/BannerAds/BannerAds";
 import "../Pages/Pages.scss";
 import DiscoverPages from "./DiscoverPages/DiscoverPages";
 import LikedPages from "./LikedPages/LikedPages";
 import MyPages from "./MyPages/MyPages";
+import { DataContext } from "../../../context/dataContext";
 
 const Pages = () => {
+  const { userData } = useContext(DataContext);
+
   const [tabMenu, setTabMenu] = useState([
     {
       id: 0,
@@ -27,7 +30,15 @@ const Pages = () => {
     },
   ]);
 
-  // const [isPage, setIsPage] = useState(true);
+  const [isPage, setIsPage] = useState(true);
+
+  useEffect(() => {
+    if (userData?.page !== null) {
+      setIsPage(true);
+    } else {
+      setIsPage(false);
+    }
+  }, []);
   // const callAPICheckMyPage = () => {};
   return (
     <div className="pages pages-control">
@@ -69,7 +80,7 @@ const Pages = () => {
         <div className="pages-content">
           {tabMenu[0].isActive && <DiscoverPages />}
           {tabMenu[1].isActive && <LikedPages />}
-          {tabMenu[2].isActive && <MyPages isPage={true}/>}
+          {tabMenu[2].isActive && <MyPages isPage={isPage} />}
         </div>
       </div>
     </div>

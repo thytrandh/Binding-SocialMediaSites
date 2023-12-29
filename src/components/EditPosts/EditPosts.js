@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataEditPostsContext } from "./context/dataEditPostsContext";
 import HeaderEditPosts from "./HeaderEditPosts/HeaderEditPosts";
 import UserInfoEditPosts from "./MiddleEditPosts/UserInfoEditPosts/UserInfoEditPosts";
@@ -9,10 +9,16 @@ import EditFeeling from "./MiddleEditPosts/EditFeeling/EditFeeling";
 import { useContext } from "react";
 import { PostsEditContext } from "../Posts/context/postsEditContext";
 import OutsideClickHandler from "react-outside-click-handler";
-const EditPosts = ({ userInfo, postOnPage }) => {
+import "../CreatePost/CreatePostDropdown/CreatePostDropdown.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteStateUserPosts,
+  editPosts,
+} from "../../redux/slice/Posts/postsSlice";
+const EditPosts = ({ postOnPage, postInfo }) => {
   const { setOpenEditPosts } = useContext(PostsEditContext);
 
-  const [postContent, setPostContent] = useState("");
+  const [postContent, setPostContent] = useState(postInfo?.content);
 
   const [addOption, setAddOption] = useState([
     {
@@ -35,8 +41,16 @@ const EditPosts = ({ userInfo, postOnPage }) => {
     },
   ]);
 
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [selectedVideos, setSelectedVideos] = useState([]);
+  const isSuccess = useSelector(
+    (state) => state.persistedReducer?.userPosts?.currentEditPosts?.status
+  );
+
+  const [selectedImages, setSelectedImages] = useState(postInfo?.images);
+  const [selectedVideos, setSelectedVideos] = useState(
+    postInfo?.videos !== null ? postInfo?.videos : null
+  );
+  const [image, setImage] = useState([]);
+  const [video, setVideo] = useState([]);
 
   const [feelingArr, setFeelingArr] = useState([
     {
@@ -281,36 +295,77 @@ const EditPosts = ({ userInfo, postOnPage }) => {
     },
   ]);
 
+  const dispatch = useDispatch();
+
   const handleEditPosts = () => {
     const emojiFilter = feelingArr.filter((val) => {
       return val.isChoose;
     });
-    const feeling =
-      emojiFilter[0]?.icon + " feeling " + emojiFilter[0]?.content;
+
+    var feeling = null;
+    if (emojiFilter.length > 0) {
+      feeling = emojiFilter[0]?.icon + " feeling " + emojiFilter[0]?.content;
+    } else {
+      feeling = null;
+    }
+
     const content = postContent;
-    const images = [...selectedImages];
-    const videos = [...selectedVideos];
-    console.log("test", feeling, content, images, videos);
-    if (
-      postContent.length <= 0 &&
-      selectedImages.length <= 0 &&
-      selectedVideos.length <= 0
-    ) {
+    const id = postInfo?.id;
+
+    if (postContent.length <= 0 && image.length <= 0 && video.length <= 0) {
       return false;
     } else {
-      setOpenEditPosts(false);
+      if (postOnPage) {
+        const pageId = postInfo?.page?.id;
+        dispatch(
+          editPosts({
+            id,
+            content,
+            video,
+            image,
+            feeling,
+            pageId,
+          })
+        );
+      } else {
+        dispatch(
+          editPosts({
+            id,
+            content,
+            video,
+            image,
+            feeling,
+          })
+        );
+      }
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenEditPosts(false);
+      dispatch(deleteStateUserPosts());
+    }
+
+    console.log("postInfo", postInfo);
+  }, [isSuccess, dispatch, setOpenEditPosts]);
 
   return (
     <DataEditPostsContext.Provider
       value={{
         postContent,
         setPostContent,
+
         selectedImages,
         setSelectedImages,
+        image,
+        setImage,
+
         selectedVideos,
         setSelectedVideos,
+        video,
+        setVideo,
+
         addOption,
         setAddOption,
         feelingArr,
@@ -327,8 +382,18 @@ const EditPosts = ({ userInfo, postOnPage }) => {
             <HeaderEditPosts />
             <div className="middle">
               <UserInfoEditPosts
-                avatar={userInfo?.avatar}
-                userName={userInfo?.userName}
+                avatar={
+                  postInfo?.page !== null
+                    ? postInfo?.page?.avatar?.imgLink
+                    : postInfo?.userPost?.avatar
+                }
+                userName={
+                  postInfo?.page !== null
+                    ? postInfo?.page?.pageName
+                    : postInfo?.userPost?.firstName +
+                      " " +
+                      postInfo?.userPost?.lastName
+                }
                 feelingArr={feelingArr}
                 postOnPage={postOnPage}
               />

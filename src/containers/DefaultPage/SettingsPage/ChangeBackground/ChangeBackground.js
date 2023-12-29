@@ -1,20 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeBackground } from "../../../../redux/slice/User/updateUserSlice";
+import { message } from "antd";
+import "../ChangeAvatar/ChangeAvatar.scss";
 
 const ChangeBackground = () => {
+  const isSuccess = useSelector(
+    (state) =>
+      state.persistedReducer?.userSettings?.currentChangeBackground?.status
+  );
+
   const [selectedFile, setSelectedFile] = useState(null);
+  const [picture, setPicture] = useState(null);
   const onSelectFile = (event) => {
     const selectedFile = event.target.files[0];
+    setPicture(selectedFile);
     const temp = URL.createObjectURL(selectedFile);
     setSelectedFile(temp);
   };
 
+  const dispatch = useDispatch();
+
   const handleSaveChanges = () => {
-    if (selectedFile !== null) {
-      setSelectedFile(null);
+    if (picture !== null) {
+      dispatch(changeBackground({ picture }));
     } else {
+      message.error("Unsuccessful background cover update.");
       return false;
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSelectedFile(null);
+      setPicture(null);
+    }
+  }, [isSuccess]);
   return (
     <div className="setting-change-avatar settings-component">
       <p className="top-title">Change Background Cover</p>

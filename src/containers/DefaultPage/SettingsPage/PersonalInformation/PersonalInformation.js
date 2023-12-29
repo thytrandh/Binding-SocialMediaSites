@@ -1,38 +1,82 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../PersonalInformation/PersonalInformation.scss";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useForm } from "react-hook-form";
+import { DataContext } from "../../../../context/dataContext";
+import { useDispatch } from "react-redux";
+import { updatePersonal } from "../../../../redux/slice/User/updateUserSlice";
 
 const PersonalInformation = () => {
+  // const isSuccess = useSelector(
+  //   (state) =>
+  //     state.persistedReducer?.userSettings?.currentUpdatePersonal?.status
+  // );
+
+  const { userData } = useContext(DataContext);
+
   const [genderDropdown, setGenderDropdown] = useState(false);
-
   const [dayDropdown, setDayDropdown] = useState(false);
-
   const [monthDropdown, setMonthDropdown] = useState(false);
-
   const [yearDropdown, setYearDropdown] = useState(false);
+
+  const firstName = userData?.firstName;
+  const lastName = userData?.lastName;
+  const gender = userData?.gender;
+  const address = userData?.address;
+  const day = userData?.birthday ? userData?.birthday.slice(8, 10) : null;
+  const month = userData?.birthday ? userData?.birthday.slice(5, 7) : null;
+  const year = userData?.birthday ? userData?.birthday.slice(0, 4) : null;
+
+  const initialValues = {
+    fname: firstName,
+    lname: lastName,
+    gender: gender,
+    address: address,
+    day: day,
+    month: month,
+    year: year,
+  };
 
   const {
     handleSubmit,
     register,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: initialValues });
+
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    const {
-      fname,
-      lname,
-      email,
-      phone,
-      gender,
-      day,
-      month,
-      year,
-      address,
-    } = data;
-    console.log(fname, lname, email, phone, gender, day, month, year, address);
+    const { fname, lname, gender, day, month, year, address } = data;
+
+    const firstName = fname;
+    const lastName = lname;
+    const birthday = year + "-" + month + "-" + day;
+    dispatch(
+      updatePersonal({
+        firstName,
+        lastName,
+        address,
+        gender,
+        birthday,
+      })
+    );
   };
+
+  // useEffect(() => {
+  //   if (!isSuccess) {
+  //     reset({
+  //       fname: "",
+  //       lname: "",
+  //       gender: "",
+  //       day: "",
+  //       month: "",
+  //       year: "",
+  //       address: "",
+  //     });
+  //   }
+  //   console.log(initialValues);
+  // }, [isSuccess, reset]);
 
   return (
     <div className="settings-component setting-personal-information">
@@ -71,7 +115,7 @@ const PersonalInformation = () => {
               )}
             </div>
           </div>
-          <div className="input-item">
+          {/* <div className="input-item">
             <label htmlFor="email">Email Address</label>
             <input
               name="email"
@@ -87,8 +131,8 @@ const PersonalInformation = () => {
             {errors.email?.type === "pattern" && (
               <p className="err-msg">Invalid email address</p>
             )}
-          </div>
-          <div className="input-item">
+          </div> */}
+          {/* <div className="input-item">
             <label htmlFor="phone">Phone Number</label>
             <input
               name="phone"
@@ -97,7 +141,7 @@ const PersonalInformation = () => {
               placeholder="---"
               {...register("phone")}
             />
-          </div>
+          </div> */}
           <div className="input-item">
             <OutsideClickHandler
               onOutsideClick={() => {
@@ -188,10 +232,14 @@ const PersonalInformation = () => {
                           key={i}
                           className="item"
                           onClick={() => {
-                            setValue("day", i + 1);
+                            if (i < 9) {
+                              setValue("day", `0${i + 1}`);
+                            } else {
+                              setValue("day", `${i + 1}`);
+                            }
                           }}
                         >
-                          {i + 1}
+                          {i < 9 ? `0${i + 1}` : `${i + 1}`}
                         </p>
                       ))}
                     </div>
@@ -238,10 +286,14 @@ const PersonalInformation = () => {
                           key={i}
                           className="item"
                           onClick={() => {
-                            setValue("month", i + 1);
+                            if (i < 9) {
+                              setValue("month", `0${i + 1}`);
+                            } else {
+                              setValue("month", `${i + 1}`);
+                            }
                           }}
                         >
-                          {i + 1}
+                          {i < 9 ? `0${i + 1}` : `${i + 1}`}
                         </p>
                       ))}
                     </div>

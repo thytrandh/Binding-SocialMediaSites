@@ -4,6 +4,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { DataEditPostsContext } from "../../context/dataEditPostsContext";
+import "../../../CreatePost/CreatePostDropdown/MiddleCreatePosts/UploadFiles/UploadFiles.scss";
+
 const EditFiles = () => {
   const { selectedImages, setSelectedImages } = useContext(
     DataEditPostsContext
@@ -11,11 +13,15 @@ const EditFiles = () => {
   const { selectedVideos, setSelectedVideos } = useContext(
     DataEditPostsContext
   );
+  const { setImage, setVideo } = useContext(DataEditPostsContext);
+
   const { addOption, setAddOption } = useContext(DataEditPostsContext);
 
   const onSelectImage = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
+    setImage(selectedFilesArray);
+
     const imagesArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
@@ -25,11 +31,15 @@ const EditFiles = () => {
   const onSelectVideo = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
+    setVideo(selectedFilesArray);
     const videosArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file);
     });
     setSelectedVideos(videosArray);
   };
+
+  
+
   return (
     <div className="upload-file">
       <div
@@ -50,7 +60,7 @@ const EditFiles = () => {
         />
         {addOption[0].isActive && (
           <>
-            {selectedImages.length > 0 ? (
+            {selectedImages !== null ? (
               <div className="show-selected-images">
                 <ul className="selected-images">
                   <Swiper
@@ -61,8 +71,16 @@ const EditFiles = () => {
                     {selectedImages.map((image, idx) => (
                       <SwiperSlide>
                         <li key={idx} className="item-image">
-                          <img src={image} alt="" className="img-selected" />
-                          <img className="img-bg" src={image} alt="" />
+                          <img
+                            src={image?.imgLink ? image?.imgLink : image}
+                            alt=""
+                            className="img-selected"
+                          />
+                          <img
+                            className="img-bg"
+                            src={image?.imgLink ? image?.imgLink : image}
+                            alt=""
+                          />
                         </li>
                       </SwiperSlide>
                     ))}
@@ -81,7 +99,7 @@ const EditFiles = () => {
         )}
         {addOption[1].isActive && (
           <>
-            {selectedVideos.length > 0 ? (
+            {selectedVideos !== null ? (
               <div className="show-selected-videos">
                 <ul className="selected-videos">
                   <Swiper
@@ -93,12 +111,17 @@ const EditFiles = () => {
                       <SwiperSlide>
                         <li key={idx} className="item-video">
                           <video
-                            src={video}
+                            src={video?.videoLink ? video?.videoLink : video}
                             alt=""
                             className="video-selected"
                             controls
+                            autoPlay
                           />
-                          <video className="video-bg" src={video} alt="" />
+                          {/* <video
+                            className="video-bg"
+                            src={video?.videoLink ? video?.videoLink : video}
+                            alt=""
+                          /> */}
                         </li>
                       </SwiperSlide>
                     ))}
@@ -120,8 +143,8 @@ const EditFiles = () => {
         className="btn-close"
         onClick={() => {
           addOption[0].isActive
-            ? setSelectedImages([])
-            : addOption[1].isActive && setSelectedVideos([]);
+            ? setSelectedImages(null)
+            : addOption[1].isActive && setSelectedVideos(null);
           setAddOption((prev) => {
             return prev.map((item) => {
               return {

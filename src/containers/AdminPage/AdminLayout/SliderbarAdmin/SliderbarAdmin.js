@@ -9,7 +9,7 @@ import useWindowSize from "../../../../library/hooks/useWindowSize";
 
 const SliderbarAdmin = () => {
   const { userData } = useContext(DataContext);
-  const { toggleSliderbar, setToggleSliderBar } = useContext(
+  const { toggleSliderbarAdmin, setToggleSliderBarAdmin } = useContext(
     ToggleAdminContext
   );
 
@@ -85,9 +85,9 @@ const SliderbarAdmin = () => {
   return (
     <div
       className={
-        toggleSliderbar
-          ? "slider-bar-admin slider-bar-default animate-fade-in-left"
-          : "slider-bar-admin slider-bar-mini animate-fade-in-right"
+        toggleSliderbarAdmin
+          ? "slider-bar-admin slider-bar-admin-default animate-fade-in-left"
+          : "slider-bar-admin slider-bar-admin-mini animate-fade-in-right"
       }
     >
       <div
@@ -96,21 +96,21 @@ const SliderbarAdmin = () => {
           if (width < 800 || (width < 1120 && width >= 1100)) {
             return false;
           } else {
-            setToggleSliderBar(!toggleSliderbar);
+            setToggleSliderBarAdmin(!toggleSliderbarAdmin);
           }
         }}
       >
         <i class="fa-light fa-angle-left"></i>
       </div>
       <div
-        className="slider-bar-header"
+        className="slider-bar-admin-header"
         onClick={() => {
           navigate("/admin-page");
         }}
       >
         <LogoDefault />
       </div>
-      <div className="slider-bar-content">
+      <div className="slider-bar-admin-content">
         <div
           className="user-info"
           onClick={() => {

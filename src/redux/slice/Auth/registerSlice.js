@@ -50,16 +50,20 @@ export const registerUser = createAsyncThunk(
 export const verifyRegister = createAsyncThunk(
   "registerAuth/verify",
   async (data, thunkAPI) => {
-    const { code, email } = data;
-    const formData = new FormData();
-    formData.append("code", code);
-    formData.append("email", email);
+    const { code, email, phone } = data;
     try {
-      //call API
-      const result = await api.post(
-        "/api/v1/auth/verifyRegistration",
-        formData
-      );
+      let result;
+      if (email === undefined) {
+        result = await api.post("/api/v1/auth/verifyRegistration", {
+          code,
+          phone,
+        });
+      } else {
+        result = await api.post("/api/v1/auth/verifyRegistration", {
+          code,
+          email,
+        });
+      }
       setAuthHeader(result.data.token);
       return result.data; //payload
     } catch (error) {

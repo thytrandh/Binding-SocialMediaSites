@@ -6,15 +6,10 @@ import AppRoutes from "./routes/AppRoutes";
 import { useSelector } from "react-redux";
 
 function App() {
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(true);
   const getToken = useSelector(
     (state) => state.persistedReducer?.loginAuth?.currentLogin?.token
   );
-  const getCurrentUser = useSelector(
-    (state) => state.persistedReducer?.userInfo?.currentUser?.data
-  );
-
-  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     if (getToken) {
@@ -23,6 +18,11 @@ function App() {
       setAuth(false);
     }
   }, [getToken]);
+
+  const getCurrentUser = useSelector(
+    (state) => state.persistedReducer?.userInfo?.currentUser?.data
+  );
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     if (getCurrentUser) {

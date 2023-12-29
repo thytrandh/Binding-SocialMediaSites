@@ -1,10 +1,11 @@
 import Carousel from "react-elastic-carousel";
 import "../StoriesStream/StoriesStream.scss";
 import StoriesFeed from "./StoriesFeed/StoriesFeed";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { OpenStoriesFeed } from "./context/openStoriesContext";
 import CreateStory from "./CreateStory/CreateStory";
 import { OpenCreateStory } from "./context/openCreateStory";
+import { DataContext } from "../../../../context/dataContext";
 
 const StoriesStream = () => {
   const stories = [
@@ -119,6 +120,8 @@ const StoriesStream = () => {
   const [openStoriesFeed, setOpenStoriesFeed] = useState(false);
   const [openCreateStory, setOpenCreateStory] = useState(false);
 
+  const { userData } = useContext(DataContext);
+
   return (
     <>
       <div className="story-stream">
@@ -130,7 +133,15 @@ const StoriesStream = () => {
             }}
           >
             <div className="avatar-box">
-              <img src="/images/User/user-01.jpg" alt="" className="avatar" />
+              <img
+                src={
+                  userData?.image?.imgLink 
+                    ? userData?.image?.imgLink
+                    : "/images/DefaultPage/default-avatar.jpg"
+                }
+                alt=""
+                className="avatar"
+              />
               <div className="add-badge">
                 <i class="fa-regular fa-plus"></i>
               </div>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../CreatePost/CreatePost.scss";
 import CreatePostDropdown from "./CreatePostDropdown/CreatePostDropdown";
 import { DropdownContext } from "./dropdownContext";
+import { useDispatch } from "react-redux";
 const CreatePost = ({ userInfo, postOnPage }) => {
   const optionPost = [
     {
@@ -26,6 +27,8 @@ const CreatePost = ({ userInfo, postOnPage }) => {
 
   const [openDropdown, setOpenDropdown] = useState(false);
 
+  
+
   return (
     <DropdownContext.Provider value={{ openDropdown, setOpenDropdown }}>
       <div className="create-post">
@@ -37,7 +40,15 @@ const CreatePost = ({ userInfo, postOnPage }) => {
         >
           <div className="create-post-header">
             <div className="user">
-              <img src={userInfo?.avatar} alt="" className="avatar" />
+              <img
+                src={
+                  userInfo?.avatar
+                    ? userInfo?.avatar
+                    : "/images/DefaultPage/default-avatar.jpg"
+                }
+                alt=""
+                className="avatar"
+              />
             </div>
             <ul className="option">
               {optionPost.map((item) => (

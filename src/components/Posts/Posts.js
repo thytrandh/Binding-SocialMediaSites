@@ -8,7 +8,7 @@ import { PostsOpenContext } from "./context/postsOpenContext";
 import EditPosts from "../EditPosts/EditPosts";
 import { PostsEditContext } from "./context/postsEditContext";
 
-const Posts = ({ accountOwner, posts }) => {
+const Posts = ({ posts }) => {
   const listEmoji = [
     {
       id: 1,
@@ -37,54 +37,95 @@ const Posts = ({ accountOwner, posts }) => {
     },
   ];
   const [postsOpen, setPostsOpen] = useState(null);
+
   const [openEditPosts, setOpenEditPosts] = useState(false);
+  const [postsEditInfo, setPostsEditInfo] = useState(null);
+
   return (
     <PostsOpenContext.Provider value={{ postsOpen, setPostsOpen }}>
-      <PostsEditContext.Provider value={{ openEditPosts, setOpenEditPosts }}>
+      <PostsEditContext.Provider
+        value={{
+          openEditPosts,
+          setOpenEditPosts,
+
+          postsEditInfo,
+          setPostsEditInfo,
+        }}
+      >
         <div className="posts-stream">
-          {posts.map((item) => (
-            <div key={item.id} className="posts">
-              <PostsHeader
-                accountOwner={accountOwner}
-                avatar={item.user.avatar}
-                username={item.user.username}
-                status={item.status}
-                time={item.time}
-              />
-              <PostsBody
-                postsId={item.id}
-                postsContent={item.content}
-                postsImage={item.images}
-                postsVideo={item.videos}
-                postsReaction={item.react}
-                listEmoji={listEmoji}
-              />
-              <PostsFooter postsComment={item.comment} listEmoji={listEmoji} />
-            </div>
-          ))}
+          {posts
+            .map((item) => (
+              <div key={item.id} className="posts">
+                <PostsHeader
+                  avatar={
+                    item?.page !== null
+                      ? item?.page?.avatar?.imgLink
+                      : item?.userPost?.avatar
+                  }
+                  username={
+                    item?.page !== null
+                      ? item?.page?.pageName
+                      : item?.userPost?.firstName +
+                        " " +
+                        item?.userPost?.lastName
+                  }
+                  status={item?.feeling}
+                  time={item?.createDate.slice(0, 10)}
+                  postsItem={item}
+                />
+                <PostsBody
+                  postsId={item?.id}
+                  postsContent={item?.content}
+                  postsImage={item?.images}
+                  postsVideo={item?.videos}
+                  postsReaction={[
+                    {
+                      idUser: 0,
+                      username: "Marvin McKinney",
+                      emojiCode: 1,
+                    },
+                    {
+                      idUser: 1,
+                      username: "Jenny Wilson",
+                      emojiCode: 1,
+                    },
+                    {
+                      idUser: 3,
+                      username: "Aaron Jones",
+                      emojiCode: 4,
+                    },
+                  ]}
+                  listEmoji={listEmoji}
+                  postsItem={item}
+                  countLike={item.countLike}
+                />
+                <PostsFooter
+                  postsId={item?.id}
+                  postsComment={item?.comments}
+                  listEmoji={listEmoji}
+                />
+              </div>
+            ))
+            .reverse()}
         </div>
         {postsOpen !== null && (
           <PostsOpen
-            postsUser={posts[postsOpen].user}
-            postsTime={posts[postsOpen].time}
-            postsImage={posts[postsOpen].images}
-            postsVideo={posts[postsOpen].videos}
-            postsContent={posts[postsOpen].content}
-            postsComment={posts[postsOpen].comment}
-            postsReaction={posts[postsOpen].react}
-            listEmoji={listEmoji}
+            postsUser={postsOpen?.userPost}
+            postsPages={postsOpen?.page}
+            postsTime={postsOpen?.createDate}
+            postsImage={postsOpen?.images}
+            postsVideo={postsOpen?.videos}
+            postsContent={postsOpen?.content}
+            postsComment={postsOpen?.comments}
+            postsFeeling={postsOpen?.feeling}
+            // postsReaction={posts[postsOpen].react}
+            // listEmoji={listEmoji}
           />
         )}
         {openEditPosts && (
           <EditPosts
-            userInfo={{
-              id: 0,
-              userName:
-                "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM",
-              avatar:
-                "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
-            }}
-            postOnPage={true}
+            postInfo={postsEditInfo}
+            postOnPage={postsEditInfo?.page !== null ? true : false}
           />
         )}
       </PostsEditContext.Provider>

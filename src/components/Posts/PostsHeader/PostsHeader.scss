@@ -33,10 +33,10 @@
         .info-posts {
             width: calc(100% - 30px);
             .desc {
-                margin-bottom: 5px;
+                margin-bottom: 4px;
                 span.username {
                     color: var(--title-text);
-                    font-size: 1.05rem;
+                    font-size: 1.07rem;
                     font-weight: 500;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -47,7 +47,7 @@
                     margin-bottom: -2px;
                 }
                 span.status {
-                    font-size: 0.95rem;
+                    font-size: 1rem;
                     // overflow: hidden;
                     // text-overflow: ellipsis;
                     // white-space: nowrap;

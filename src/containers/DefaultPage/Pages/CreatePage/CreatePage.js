@@ -1,10 +1,21 @@
 import { useForm } from "react-hook-form";
 import "../CreatePage/CreatePage.scss";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PageContext } from "../context/pageContext";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createPages,
+  deleteStatePages,
+} from "../../../../redux/slice/Pages/pagesSlice";
 const CreatePage = () => {
   const { setOpenCreatePage } = useContext(PageContext);
+
+  const isSuccess = useSelector(
+    (state) => state.persistedReducer?.pages?.createPages?.status
+  );
+
+  const refresh = () => window.location.reload(true);
 
   const {
     handleSubmit,
@@ -13,28 +24,53 @@ const CreatePage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    const { name, category, contact, intro } = data;
-    console.log(name, category, contact, intro);
-  };
-
   const [namePage, setNamePage] = useState(watch("name"));
   const [categoryPage, setCategoryPage] = useState(watch("category"));
 
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const onSelectAvatar = (event) => {
     const selectedFile = event.target.files[0];
-    const temp = URL.createObjectURL(selectedFile);
-    setSelectedAvatar(temp);
+    // const temp = URL.createObjectURL(selectedFile);
+    setSelectedAvatar(selectedFile);
   };
 
   const [selectedBgCover, setSelectedBgCover] = useState(null);
   const onSelectBgCover = (event) => {
     const selectedFile = event.target.files[0];
-    const temp = URL.createObjectURL(selectedFile);
-    console.log(temp);
-    setSelectedBgCover(temp);
+    // const temp = URL.createObjectURL(selectedFile);
+    setSelectedBgCover(selectedFile);
   };
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    const { name, category, contact, intro } = data;
+
+    const pageName = name;
+    const introduce = intro;
+    const avatar = selectedAvatar;
+    const background = selectedBgCover;
+
+    dispatch(
+      createPages({
+        pageName,
+        introduce,
+        avatar,
+        background,
+        category,
+        contact,
+      })
+    );
+
+    refresh();
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenCreatePage(false);
+      dispatch(deleteStatePages());
+    }
+  }, [isSuccess, dispatch, setOpenCreatePage]);
 
   return (
     <div className="create-page-dropdown">
@@ -168,7 +204,7 @@ const CreatePage = () => {
                   <img
                     src={
                       selectedBgCover !== null
-                        ? selectedBgCover
+                        ? URL.createObjectURL(selectedBgCover)
                         : "/images/DefaultPage/bg-default.jpg"
                     }
                     alt=""
@@ -180,7 +216,7 @@ const CreatePage = () => {
                   <img
                     src={
                       selectedAvatar !== null
-                        ? selectedAvatar
+                        ? URL.createObjectURL(selectedAvatar)
                         : "/images/DefaultPage/default-avatar.jpg"
                     }
                     alt=""

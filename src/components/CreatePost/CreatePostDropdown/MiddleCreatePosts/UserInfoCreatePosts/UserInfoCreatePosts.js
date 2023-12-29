@@ -2,7 +2,11 @@ import "../UserInfoCreatePosts/UserInfoCreatePosts.scss";
 const UserInfoCreatePosts = ({ avatar, userName, feelingArr, postOnPage }) => {
   return (
     <div className="middle-top user-info">
-      <img src={avatar} alt="" className="avatar" />
+      <img
+        src={avatar ? avatar : "/images/DefaultPage/default-avatar.jpg"}
+        alt=""
+        className="avatar"
+      />
       <div className="subject">
         <p className="username">
           {userName}

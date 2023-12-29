@@ -9,26 +9,26 @@ import HeaderAdmin from "./HeaderAdmin/HeaderAdmin";
 const AdminLayout = () => {
   const { width } = useWindowSize();
 
-  const [toggleSliderbar, setToggleSliderBar] = useState(true);
+  const [toggleSliderbarAdmin, setToggleSliderBarAdmin] = useState(true);
 
   useEffect(() => {
     if (width < 1050) {
-      setToggleSliderBar(false);
+      setToggleSliderBarAdmin(false);
     } else {
-      setToggleSliderBar(true);
+      setToggleSliderBarAdmin(true);
     }
   }, [width]);
 
   return (
     <div className="admin-layout">
       <ToggleAdminContext.Provider
-        value={{ toggleSliderbar, setToggleSliderBar }}
+        value={{ toggleSliderbarAdmin, setToggleSliderBarAdmin }}
       >
         <SliderbarAdmin />
       </ToggleAdminContext.Provider>
       <div
         className={
-          toggleSliderbar
+          toggleSliderbarAdmin
             ? "admin-layout-content ml-270"
             : "admin-layout-content ml-90"
         }
@@ -38,7 +38,7 @@ const AdminLayout = () => {
           <div
             className="main-content-admin container"
             style={
-              toggleSliderbar
+              toggleSliderbarAdmin
                 ? { width: `${width - 270 - 30}px` }
                 : { width: `${width - 90 - 20}px` }
             }

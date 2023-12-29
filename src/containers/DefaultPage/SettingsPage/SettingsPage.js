@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BannerAds from "../../../components/BannerAds/BannerAds";
 import "../SettingsPage/SettingsPage.scss";
 import Tick from "../../../components/Tick/Tick";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { DataContext } from "../../../context/dataContext";
 
 const SettingsPage = () => {
+  const { userData } = useContext(DataContext);
+
   const [profileMenuDropdown, setProfileMenuDropdown] = useState(true);
   const [profileSetting, setProfileSetting] = useState([
     {
@@ -29,12 +32,12 @@ const SettingsPage = () => {
 
   const [accountMenuDropdown, setAccountMenuDropdown] = useState(false);
   const [accountSetting, setAccountSetting] = useState([
-    {
-      id: 0,
-      name: "Account Information",
-      link: "/settings/account-info",
-      isActive: false,
-    },
+    // {
+    //   id: 0,
+    //   name: "Account Information",
+    //   link: "/settings/account-info",
+    //   isActive: false,
+    // },
     {
       id: 1,
       name: "Change Password",
@@ -172,10 +175,18 @@ const SettingsPage = () => {
         </div>
         <div className="right">
           <div className="profile-box">
-            <img src="/images/User/user-01.jpg" alt="" className="img-avt" />
+            <img
+              src={
+                userData?.image?.imgLink
+                  ? userData?.image?.imgLink
+                  : "/images/User/Avatar Default/default-avatar.jpg"
+              }
+              alt=""
+              className="img-avt"
+            />
             <div className="desc">
               <p className="username">
-                Marvin McKinney <Tick />
+                {userData?.firstName} {userData?.lastName} <Tick />
               </p>
               <p className="year">Member since 2024</p>
             </div>

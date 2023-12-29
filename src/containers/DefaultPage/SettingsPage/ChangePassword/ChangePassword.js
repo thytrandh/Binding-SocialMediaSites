@@ -1,7 +1,17 @@
 import { useForm } from "react-hook-form";
 import "../ChangePassword/ChangePassword.scss";
+import { useContext } from "react";
+import { DataContext } from "../../../../context/dataContext";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../../../../redux/slice/Account/updateAccountSlice";
 
 const ChangePassword = () => {
+  const { userData } = useContext(DataContext);
+  const email = userData?.email;
+  const phone = userData?.phone;
+
+  const dispatch = useDispatch();
+
   const {
     handleSubmit,
     register,
@@ -11,6 +21,26 @@ const ChangePassword = () => {
   const onSubmit = (data) => {
     const { current, newP, confirm } = data;
     console.log(current, newP, confirm);
+    const oldPassword = current;
+    const newPassword = newP;
+
+    if (email === null) {
+      dispatch(
+        changePassword({
+          phone,
+          oldPassword,
+          newPassword,
+        })
+      );
+    } else {
+      dispatch(
+        changePassword({
+          email,
+          oldPassword,
+          newPassword,
+        })
+      );
+    }
   };
 
   return (

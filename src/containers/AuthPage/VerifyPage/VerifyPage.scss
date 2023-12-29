@@ -30,7 +30,7 @@
                 font-weight: 500;
                 color: rgba(#b3b3b3, 0.6);
                 transition: all 0.3s ease;
-                 color: var(--white);
+                color: var(--white);
                 &:hover {
                     background-color: var(--primary);
                     //border-color: var(--primary);
@@ -104,6 +104,17 @@
                 width: 100%;
                 .input-item {
                     margin-bottom: 20px;
+                    span {
+                        color: var(--body-text);
+                        font-weight: 500;
+                    }
+                    span.badge-choose {
+                        cursor: pointer;
+                        font-weight: 600;
+                    }
+                    span.badge-choose.active {
+                        color: var(--title-text);
+                    }
                     label.lb-input {
                         color: var(--title-text);
                         font-weight: 600;

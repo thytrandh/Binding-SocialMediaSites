@@ -44,7 +44,7 @@
             }
         }
         .show-selected-images,
-        .show-selected-videos {
+        > .show-selected-videos {
             width: 100%;
             border-radius: 5px;
             overflow: hidden;
@@ -58,7 +58,8 @@
                     width: 100%;
                     height: 294px;
                     overflow: hidden;
-                    video,
+                    video.video-selected-post,
+                    // video.video-selected,
                     img {
                         position: absolute;
                         z-index: 100;
@@ -70,7 +71,16 @@
                         //object-fit: cover;
                     }
                     video {
-                        min-width: 100%;
+                        //min-width: 100%;
+                        position: absolute;
+                        z-index: 100;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 100%;
+                        max-width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                     }
                     img.img-bg,
                     video.video-bg {

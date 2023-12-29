@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { DataEditPostsContext } from "../../context/dataEditPostsContext";
+import "../../../CreatePost/CreatePostDropdown/MiddleCreatePosts/UploadText/UploadText.scss";
 
 const EditText = ({ addOption }) => {
   const { postContent, setPostContent } = useContext(DataEditPostsContext);

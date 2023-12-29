@@ -1,54 +1,58 @@
+import { useContext, useEffect, useState } from "react";
 import CreatePost from "../../../../../components/CreatePost/CreatePost";
-import Posts from "../../../../../components/Posts/Posts";
 import "../Timeline/Timeline.scss";
+import { DataContext } from "../../../../../context/dataContext";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Posts from "../../../../../components/Posts/Posts";
 const Timeline = ({ pageOwner }) => {
-  const galleryShow = [
-    {
-      id: 0,
-      image:
-        "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/403725548_681713644104893_8066501004765465097_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=wXev7FdSA2IAX-LyxpK&_nc_ht=scontent.fvca1-2.fna&oh=00_AfAN9vKq4y1IBNMs3XzmRsChLqC-or7cj0kPM-rVH0Jdjg&oe=65820EED",
-    },
-    {
-      id: 1,
-      image:
-        "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368264947_633338548942403_7477692598024200880_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=tN27LMm3L8oAX-NFCKg&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCCdIM47qnOEo3K5xpsHiYXXjGUDzU8R0FijC12ItZsjg&oe=65824F06",
-    },
-    {
-      id: 2,
-      image:
-        "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368779625_633338538942404_1730240197883271005_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=uIM6ZhB3y4EAX_vlJwV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfDvcmw6dOWv6BADfdIZs3bIs6lZQoVaCAo_Wiq-r8OPGA&oe=65836603",
-    },
-    {
-      id: 3,
-      image:
-        "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/369045159_633338565609068_8963413622339356511_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=z-0X0Y6Ti-4AX9rbMjQ&_nc_ht=scontent.fvca1-3.fna&oh=00_AfDjOQuxRRJ1Lijmft8M7PwzD_mnau5V1mznen6v9ax0dQ&oe=65837BF0",
-    },
-    {
-      id: 4,
-      image:
-        "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/407270679_686693956940195_7195009788901474971_n.jpg?stp=dst-jpg_p960x960&_nc_cat=106&ccb=1-7&_nc_sid=3635dc&_nc_ohc=1pz0k_FtagQAX-YlScV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCZ3ZDLEWW0HTWprnIrR8YkucuIJjtTdBeq_TlLr4pTUg&oe=65827D2F",
-    },
-    {
-      id: 5,
-      image:
-        "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/406358738_684707837138807_1319695252887792540_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=3635dc&_nc_ohc=eZITG1xSu0AAX8aRSGy&_nc_ht=scontent.fvca1-3.fna&oh=00_AfBNNzIpRBid4luidT4YVcsct934VVGF4Zg-v1HyC_IoYg&oe=6582B667",
-    },
-    {
-      id: 6,
-      image:
-        "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/405046380_684659200477004_1667525826295611894_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=3635dc&_nc_ohc=XUwRz1Ev34QAX_qRQSp&_nc_ht=scontent.fvca1-2.fna&oh=00_AfD2Auo2sugxr3oLXSVztAclGfIF6YyvQpIWff3LXdRmTg&oe=6581D200",
-    },
-    {
-      id: 7,
-      image:
-        "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/405911164_684586117150979_3298045674183475549_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=3635dc&_nc_ohc=4sL_q-UUh6IAX__E45y&_nc_ht=scontent.fvca1-4.fna&oh=00_AfBTbz2ruWNa8oWxOcz1gHsaozl3obDG92tlHgXRZ5makA&oe=65835485",
-    },
-    {
-      id: 8,
-      image:
-        "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/400317902_675498058059785_8340930423287595148_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=6rIlFV0G7HQAX9zoAgf&_nc_ht=scontent.fvca1-4.fna&oh=00_AfD64fyyByRtjBpN824BxoI54seAgd1Zb1VwrK7t0yr4tA&oe=65833170",
-    },
-  ];
+  // const galleryShow = [
+  //   {
+  //     id: 0,
+  //     image:
+  //       "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/403725548_681713644104893_8066501004765465097_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=wXev7FdSA2IAX-LyxpK&_nc_ht=scontent.fvca1-2.fna&oh=00_AfAN9vKq4y1IBNMs3XzmRsChLqC-or7cj0kPM-rVH0Jdjg&oe=65820EED",
+  //   },
+  //   {
+  //     id: 1,
+  //     image:
+  //       "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368264947_633338548942403_7477692598024200880_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=tN27LMm3L8oAX-NFCKg&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCCdIM47qnOEo3K5xpsHiYXXjGUDzU8R0FijC12ItZsjg&oe=65824F06",
+  //   },
+  //   {
+  //     id: 2,
+  //     image:
+  //       "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368779625_633338538942404_1730240197883271005_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=uIM6ZhB3y4EAX_vlJwV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfDvcmw6dOWv6BADfdIZs3bIs6lZQoVaCAo_Wiq-r8OPGA&oe=65836603",
+  //   },
+  //   {
+  //     id: 3,
+  //     image:
+  //       "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/369045159_633338565609068_8963413622339356511_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=z-0X0Y6Ti-4AX9rbMjQ&_nc_ht=scontent.fvca1-3.fna&oh=00_AfDjOQuxRRJ1Lijmft8M7PwzD_mnau5V1mznen6v9ax0dQ&oe=65837BF0",
+  //   },
+  //   {
+  //     id: 4,
+  //     image:
+  //       "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/407270679_686693956940195_7195009788901474971_n.jpg?stp=dst-jpg_p960x960&_nc_cat=106&ccb=1-7&_nc_sid=3635dc&_nc_ohc=1pz0k_FtagQAX-YlScV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCZ3ZDLEWW0HTWprnIrR8YkucuIJjtTdBeq_TlLr4pTUg&oe=65827D2F",
+  //   },
+  //   {
+  //     id: 5,
+  //     image:
+  //       "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/406358738_684707837138807_1319695252887792540_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=3635dc&_nc_ohc=eZITG1xSu0AAX8aRSGy&_nc_ht=scontent.fvca1-3.fna&oh=00_AfBNNzIpRBid4luidT4YVcsct934VVGF4Zg-v1HyC_IoYg&oe=6582B667",
+  //   },
+  //   {
+  //     id: 6,
+  //     image:
+  //       "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/405046380_684659200477004_1667525826295611894_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=3635dc&_nc_ohc=XUwRz1Ev34QAX_qRQSp&_nc_ht=scontent.fvca1-2.fna&oh=00_AfD2Auo2sugxr3oLXSVztAclGfIF6YyvQpIWff3LXdRmTg&oe=6581D200",
+  //   },
+  //   {
+  //     id: 7,
+  //     image:
+  //       "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/405911164_684586117150979_3298045674183475549_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=3635dc&_nc_ohc=4sL_q-UUh6IAX__E45y&_nc_ht=scontent.fvca1-4.fna&oh=00_AfBTbz2ruWNa8oWxOcz1gHsaozl3obDG92tlHgXRZ5makA&oe=65835485",
+  //   },
+  //   {
+  //     id: 8,
+  //     image:
+  //       "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/400317902_675498058059785_8340930423287595148_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=6rIlFV0G7HQAX9zoAgf&_nc_ht=scontent.fvca1-4.fna&oh=00_AfD64fyyByRtjBpN824BxoI54seAgd1Zb1VwrK7t0yr4tA&oe=65833170",
+  //   },
+  // ];
   const membersShow = [
     {
       id: 0,
@@ -91,171 +95,36 @@ const Timeline = ({ pageOwner }) => {
       avatar: "/images/User/user-profile.jpg",
     },
   ];
-  const posts = [
-    {
-      id: 0,
-      user: {
-        username:
-          "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM ",
-        avatar:
-          "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
-      },
-      status: "posted an update in the timeline",
-      time: "a year ago",
-      content: "Thầy dạy tụi em bắn súng, còn tụi em bắn tim cho thầy ♥️",
-      images: [
-        {
-          src:
-            "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/403725548_681713644104893_8066501004765465097_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=wXev7FdSA2IAX-LyxpK&_nc_ht=scontent.fvca1-2.fna&oh=00_AfAN9vKq4y1IBNMs3XzmRsChLqC-or7cj0kPM-rVH0Jdjg&oe=65820EED",
-        },
-      ],
-      videos: [],
-      react: [
-        {
-          idUser: 0,
-          username: "Marvin McKinney",
-          emojiCode: 1,
-        },
-        {
-          idUser: 1,
-          username: "Jenny Wilson",
-          emojiCode: 1,
-        },
-        {
-          idUser: 3,
-          username: "Aaron Jones",
-          emojiCode: 4,
-        },
-      ],
-      comment: [
-        {
-          idComment: 0,
-          user: {
-            idUser: 0,
-            username: "Marvin McKinney",
-            avatar: "/images/User/user-01.jpg",
-          },
-          time: "5 month",
-          content: "Believe in yourself and you will be unstoppable.",
-        },
-        {
-          idComment: 1,
-          user: {
-            idUser: 1,
-            username: "Jenny Wilson",
-            avatar: "/images/User/user-02.jpg",
-          },
-          time: "5 month",
-          content: "superb!! Great Work..",
-        },
-      ],
-    },
-    {
-      id: 1,
-      user: {
-        username: "Jenny Wilson",
-        avatar:
-          "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
-      },
-      status: "posted an update in the timeline",
-      time: "a month ago",
-      content: "Sư phạm Kỹ thuật ở vũ trụ anime.....",
-      images: [
-        {
-          src:
-            "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368264947_633338548942403_7477692598024200880_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=tN27LMm3L8oAX-NFCKg&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCCdIM47qnOEo3K5xpsHiYXXjGUDzU8R0FijC12ItZsjg&oe=65824F06",
-        },
-        {
-          src:
-            "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/368779625_633338538942404_1730240197883271005_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=uIM6ZhB3y4EAX_vlJwV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfDvcmw6dOWv6BADfdIZs3bIs6lZQoVaCAo_Wiq-r8OPGA&oe=65836603",
-        },
-        {
-          src:
-            "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/369045159_633338565609068_8963413622339356511_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=z-0X0Y6Ti-4AX9rbMjQ&_nc_ht=scontent.fvca1-3.fna&oh=00_AfDjOQuxRRJ1Lijmft8M7PwzD_mnau5V1mznen6v9ax0dQ&oe=65837BF0",
-        },
-        {
-          src:
-            "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/368714500_633338672275724_7967119174315642615_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=UEeB2-fADb8AX_5v4M-&_nc_ht=scontent.fvca1-4.fna&oh=00_AfAYDj4EUio_jcfAxTE8iAtAPAUPP5aWDNsZaJNB9FE0ww&oe=65831797",
-        },
-      ],
-      videos: [
-        {
-          src: "/images/Posts/Posts2/video-01.mp4",
-        },
-      ],
-      react: [
-        {
-          idUser: 0,
-          username: "Marvin McKinney",
-          emojiCode: 1,
-        },
-        {
-          idUser: 1,
-          username: "Jenny Wilson",
-          emojiCode: 1,
-        },
-      ],
-      comment: [
-        {
-          idComment: 0,
-          user: {
-            idUser: 0,
-            username: "Ariana Grand",
-            avatar: "/images/User/user-profile.jpg",
-          },
-          time: "5 month",
-          content: "Believe in yourself and you will be unstoppable.",
-        },
-        {
-          idComment: 1,
-          user: {
-            idUser: 1,
-            username: "David McKinney",
-            avatar: "/images/User/user-05.jpg",
-          },
-          time: "5 month",
-          content: "superb!! Great Work..",
-        },
-      ],
-    },
-    {
-      id: 2,
-      user: {
-        username: "Ariana Grande",
-        avatar:
-          "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
-      },
-      status: "posted an update in the timeline",
-      time: "a year ago",
-      content:
-        "“Such short little lives our pets have to spend with us, and they spend most of it waiting for us to come home each day.”",
-      images: [
-        {
-          src:
-            "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-6/407270679_686693956940195_7195009788901474971_n.jpg?stp=dst-jpg_p960x960&_nc_cat=106&ccb=1-7&_nc_sid=3635dc&_nc_ohc=1pz0k_FtagQAX-YlScV&_nc_ht=scontent.fvca1-1.fna&oh=00_AfCZ3ZDLEWW0HTWprnIrR8YkucuIJjtTdBeq_TlLr4pTUg&oe=65827D2F",
-        },
-      ],
-      videos: [],
-      react: [
-        {
-          idUser: 0,
-          username: "Marvin McKinney",
-          emojiCode: 1,
-        },
-        {
-          idUser: 1,
-          username: "Jenny Wilson",
-          emojiCode: 2,
-        },
-        {
-          idUser: 3,
-          username: "Aaron Jones",
-          emojiCode: 3,
-        },
-      ],
-      comment: [],
-    },
-  ];
+
+  const { userData } = useContext(DataContext);
+  const [pagesData, setPagesData] = useState(userData?.page);
+  const [galleryShow, setGalleryShow] = useState(null);
+  const [posts, setPosts] = useState(null);
+
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const handleOwner = () => {
+    if (pageOwner) {
+      setGalleryShow(pagesData?.images);
+      setPosts(pagesData?.posts);
+      return;
+    } else {
+      // const memberId = params.memberId;
+      // const userId = memberId;
+      // dispatch(getUserById({ userId }));
+      // if (memberData) {
+      //   setGalleryShow(memberData?.images);
+      //   setPosts(memberData?.posts);
+      // }
+      return;
+    }
+  };
+
+  useEffect(() => {
+    handleOwner();
+  }, []);
+
   return (
     <div className="timeline-page-binding">
       <div className="detail">
@@ -265,7 +134,7 @@ const Timeline = ({ pageOwner }) => {
             <p className="view">View more</p>
           </div>
           <div className="gallery">
-            {galleryShow.length > 0 ? (
+            {galleryShow !== null ? (
               <div
                 className={
                   galleryShow.length > 0 && galleryShow.length <= 3
@@ -278,7 +147,7 @@ const Timeline = ({ pageOwner }) => {
                 {galleryShow.map((image) => (
                   <img
                     key={image.id}
-                    src={image.image}
+                    src={image.imgLink}
                     alt=""
                     className="item-img"
                   />
@@ -295,7 +164,7 @@ const Timeline = ({ pageOwner }) => {
             <p className="view">View more</p>
           </div>
           <div className="friends">
-            {membersShow.length > 0 ? (
+            {membersShow !== null ? (
               <div
                 className={
                   membersShow.length > 0 && membersShow.length <= 3
@@ -327,17 +196,19 @@ const Timeline = ({ pageOwner }) => {
         {pageOwner && (
           <CreatePost
             userInfo={{
-              id: 0,
-              userName:
-                "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM",
-              avatar:
-                "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
+              userId: pagesData?.id,
+              userName: pagesData?.pageName,
+              avatar: pagesData?.avatar?.imgLink,
             }}
             postOnPage={true}
           />
         )}
 
-        <Posts accountOwner={pageOwner} posts={posts} />
+        {posts !== null ? (
+          <Posts accountOwner={pageOwner} posts={posts} />
+        ) : (
+          <p className="mess-center">There are no posts yet</p>
+        )}
       </div>
     </div>
   );

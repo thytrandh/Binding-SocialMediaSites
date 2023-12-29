@@ -1,80 +1,92 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../Searchbar/Searchbar.scss";
 import ListResult from "./ListResult/ListResult";
 import useWindowSize from "../../../../library/hooks/useWindowSize";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUser } from "../../../../redux/slice/User/userSlice";
+import { getAllPages } from "../../../../redux/slice/Pages/pagesSlice";
 
 const Searchbar = () => {
-  const users = [
-    {
-      id: 0,
-      avatar: "/images/User/user-02.jpg",
-      name: "Jenny Wilson",
-      mutual: 2,
-    },
-    {
-      id: 1,
-      avatar: "/images/User/user-03.jpg",
-      name: "Freya Davies",
-      mutual: 8,
-    },
-    {
-      id: 2,
-      avatar: "/images/User/user-04.jpg",
-      name: "Aaron Jones",
-      mutual: 5,
-    },
-    {
-      id: 3,
-      avatar: "/images/User/user-05.jpg",
-      name: "Ariene McCoy",
-      mutual: 1,
-    },
-    {
-      id: 4,
-      avatar: "/images/User/user-06.jpg",
-      name: "Alex Fob",
-      mutual: 5,
-    },
-  ];
+  // const users = [
+  //   {
+  //     id: 0,
+  //     avatar: "/images/User/user-02.jpg",
+  //     name: "Jenny Wilson",
+  //     mutual: 2,
+  //   },
+  //   {
+  //     id: 1,
+  //     avatar: "/images/User/user-03.jpg",
+  //     name: "Freya Davies",
+  //     mutual: 8,
+  //   },
+  //   {
+  //     id: 2,
+  //     avatar: "/images/User/user-04.jpg",
+  //     name: "Aaron Jones",
+  //     mutual: 5,
+  //   },
+  //   {
+  //     id: 3,
+  //     avatar: "/images/User/user-05.jpg",
+  //     name: "Ariene McCoy",
+  //     mutual: 1,
+  //   },
+  //   {
+  //     id: 4,
+  //     avatar: "/images/User/user-06.jpg",
+  //     name: "Alex Fob",
+  //     mutual: 5,
+  //   },
+  // ];
 
-  const pages = [
-    {
-      id: 0,
-      avatar: "/images/Pages/page-01.jpg",
-      name: "Animal Crackers",
-      registionDate: "July 16, 2022",
-    },
-    {
-      id: 1,
-      avatar: "/images/Pages/page-02.jpg",
-      name: "The Best Wing",
-      registionDate: "July 16, 2022",
-    },
-    {
-      id: 2,
-      avatar: "/images/Pages/page-03.jpg",
-      name: "Squad Ghouls",
-      registionDate: "July 16, 2022",
-    },
-    {
-      id: 3,
-      avatar: "/images/Pages/page-04.jpg",
-      name: "Wombo Combo",
-      registionDate: "July 16, 2022",
-    },
-    {
-      id: 4,
-      avatar: "/images/Pages/page-05.jpg",
-      name: "Three Amigos",
-      registionDate: "July 16, 2022",
-    },
-    {
-      id: 5,
-      avatar: "/images/Pages/page-06.jpg",
-      name: "Film Fanatics",
-      registionDate: "July 16, 2022",
-    },
-  ];
+  // const pages = [
+  //   {
+  //     id: 0,
+  //     avatar: "/images/Pages/page-01.jpg",
+  //     name: "Animal Crackers",
+  //     registionDate: "July 16, 2022",
+  //   },
+  //   {
+  //     id: 1,
+  //     avatar: "/images/Pages/page-02.jpg",
+  //     name: "The Best Wing",
+  //     registionDate: "July 16, 2022",
+  //   },
+  //   {
+  //     id: 2,
+  //     avatar: "/images/Pages/page-03.jpg",
+  //     name: "Squad Ghouls",
+  //     registionDate: "July 16, 2022",
+  //   },
+  //   {
+  //     id: 3,
+  //     avatar: "/images/Pages/page-04.jpg",
+  //     name: "Wombo Combo",
+  //     registionDate: "July 16, 2022",
+  //   },
+  //   {
+  //     id: 4,
+  //     avatar: "/images/Pages/page-05.jpg",
+  //     name: "Three Amigos",
+  //     registionDate: "July 16, 2022",
+  //   },
+  //   {
+  //     id: 5,
+  //     avatar: "/images/Pages/page-06.jpg",
+  //     name: "Film Fanatics",
+  //     registionDate: "July 16, 2022",
+  //   },
+  // ];
+
+  const users = useSelector(
+    (state) => state?.persistedReducer?.userInfo?.allUser?.data
+  );
+
+  const pages = useSelector(
+    (state) => state.persistedReducer?.pages?.allPages?.data
+  );
+
   const [resultFilterUser, setResultFilterUser] = useState(null);
   const [resultFilterPage, setResultFilterPage] = useState(null);
 
@@ -83,19 +95,30 @@ const Searchbar = () => {
   const [input, setInput] = useState(null);
   const handleChangeInput = (value) => {
     setInput(value);
+    if (users) {
+      const filterUser = users.filter((user) => {
+        const name = user?.firstName + " " + user?.lastName;
+        return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+      });
+      setResultFilterUser(filterUser);
+    }
 
-    const filterUser = users.filter((val) =>
-      val.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    );
-    setResultFilterUser(filterUser);
-
-    const filterPage = pages.filter((val) =>
-      val.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    );
-    setResultFilterPage(filterPage);
+    if (pages) {
+      const filterPage = pages.filter((val) =>
+        val.pageName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+      );
+      setResultFilterPage(filterPage);
+    }
   };
 
   const { width } = useWindowSize();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUser());
+    dispatch(getAllPages());
+  }, [dispatch]);
 
   return (
     <div className="header-searchbar">

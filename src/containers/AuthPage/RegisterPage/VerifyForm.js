@@ -10,9 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
 const VerifyForm = () => {
-  const { setOpenVeriryRegister, setEmailRegister, emailRegister } = useContext(
-    RegisterContext
-  );
+  const { setOpenVeriryRegister } = useContext(RegisterContext);
+  const { userRegister, setUserRegister } = useContext(RegisterContext);
+  const { isRegisterPhone } = useContext(RegisterContext);
 
   const isError = useSelector(
     (state) => state.persistedReducer?.registerAuth?.error
@@ -38,18 +38,28 @@ const VerifyForm = () => {
 
   const handleSubmit = () => {
     var code = otp.join("");
-    const email = emailRegister;
 
-    dispatch(
-      verifyRegister({
-        email,
-        code,
-      })
-    );
+    if (isRegisterPhone) {
+      const phone = userRegister;
+      dispatch(
+        verifyRegister({
+          phone,
+          code,
+        })
+      );
+    } else {
+      const email = userRegister;
+      dispatch(
+        verifyRegister({
+          email,
+          code,
+        })
+      );
+    }
   };
 
   const handleBackRegister = () => {
-    setEmailRegister("");
+    setUserRegister("");
     setOpenVeriryRegister(false);
     dispatch(deteteStateRegister());
   };

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { DropdownContext } from "../dropdownContext";
@@ -10,6 +10,12 @@ import UploadFeeling from "./MiddleCreatePosts/UploadFeeling/UploadFeeling";
 import UploadFiles from "./MiddleCreatePosts/UploadFiles/UploadFiles";
 import UploadText from "./MiddleCreatePosts/UploadText/UploadText";
 import OptionAddPosts from "./MiddleCreatePosts/OptionAddPosts/OptionAddPosts";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createPosts,
+  deleteStateUserPosts,
+} from "../../../redux/slice/Posts/postsSlice";
+import { getCurrentPages } from "../../../redux/slice/Pages/pagesSlice";
 
 const CreatePostDropdown = ({ userInfo, postOnPage }) => {
   const { setOpenDropdown } = useContext(DropdownContext);
@@ -283,16 +289,32 @@ const CreatePostDropdown = ({ userInfo, postOnPage }) => {
     },
   ]);
 
+  const isSuccess = useSelector(
+    (state) => state.persistedReducer?.userPosts?.currentCreatePosts?.status
+  );
+  const isError = useSelector(
+    (state) => state.persistedReducer?.userPosts?.error
+  );
+  const currentPages = useSelector(
+    (state) => state.persistedReducer?.pages?.currentPages?.data
+  );
+
+  const dispatch = useDispatch();
+
   const handleSubmitPost = () => {
     const emojiFilter = feelingArr.filter((val) => {
       return val.isChoose;
     });
-    const feeling =
-      emojiFilter[0]?.icon + " feeling " + emojiFilter[0]?.content;
+    var feeling = null;
+    if (emojiFilter.length > 0) {
+      feeling = emojiFilter[0]?.icon + " feeling " + emojiFilter[0]?.content;
+    } else {
+      feeling = null;
+    }
+
     const content = postContent;
-    const images = [...selectedImages];
-    const videos = [...selectedVideos];
-    console.log("test", feeling, content, images, videos);
+    const image = [...selectedImages];
+    const video = [...selectedVideos];
     if (
       postContent.length <= 0 &&
       selectedImages.length <= 0 &&
@@ -300,9 +322,47 @@ const CreatePostDropdown = ({ userInfo, postOnPage }) => {
     ) {
       return false;
     } else {
-      setOpenDropdown(false);
+      if (postOnPage) {
+        const pageId = currentPages.id;
+        dispatch(
+          createPosts({
+            content,
+            video,
+            image,
+            feeling,
+            pageId,
+          })
+        );
+      } else {
+        dispatch(
+          createPosts({
+            content,
+            video,
+            image,
+            feeling,
+          })
+        );
+      }
+
+      // setOpenDropdown(false);
     }
   };
+
+  useEffect(() => {
+    dispatch(getCurrentPages());
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenDropdown(false);
+      dispatch(deleteStateUserPosts());
+    }
+    // if (isError) {
+    //   setPostContent("");
+    //   setSelectedImages([]);
+    //   selectedVideos([]);
+    // }
+  }, [isSuccess, dispatch, setOpenDropdown, isError, selectedVideos]);
 
   return (
     <DataCreatePostContext.Provider
@@ -335,7 +395,10 @@ const CreatePostDropdown = ({ userInfo, postOnPage }) => {
                 postOnPage={postOnPage}
               />
               <div className="middle-content">
-                <UploadText addOption={addOption} />
+                <UploadText
+                  addOption={addOption}
+                  userName={userInfo?.userName}
+                />
                 {(addOption[0].isActive || addOption[1].isActive) && (
                   <UploadFiles />
                 )}

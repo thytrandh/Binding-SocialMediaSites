@@ -1,33 +1,66 @@
 import { useForm } from "react-hook-form";
 import "../MyPages/MyPages.scss";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CreatePage from "../CreatePage/CreatePage";
 import { PageContext } from "../context/pageContext";
 import { useNavigate } from "react-router-dom";
+import { DataContext } from "../../../../context/dataContext";
+import { useDispatch } from "react-redux";
+import { updatePages } from "../../../../redux/slice/Pages/pagesSlice";
 const MyPages = ({ isPage }) => {
+  const { userData } = useContext(DataContext);
+  const [pagesData, setPagesData] = useState(userData?.page);
+
+  const pageName = pagesData?.pageName;
+  const category = pagesData?.category;
+  const contact = pagesData?.contact;
+  const introduce = pagesData?.introduce;
+
+  const initialValues = {
+    name: pageName,
+    category: category,
+    contact: contact,
+    intro: introduce,
+  };
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: initialValues });
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    const { name, category, contact, intro } = data;
+    const pageName = name;
+    const introduce = intro;
+    const avatar = selectedAvatar;
+    const background = selectedBgCover;
+    dispatch(
+      updatePages({
+        pageName,
+        introduce,
+        avatar,
+        background,
+        category,
+        contact,
+      })
+    );
+  };
 
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const onSelectAvatar = (event) => {
     const selectedFile = event.target.files[0];
-    const temp = URL.createObjectURL(selectedFile);
-    setSelectedAvatar(temp);
+    // const temp = URL.createObjectURL(selectedFile);
+    setSelectedAvatar(selectedFile);
   };
 
   const [selectedBgCover, setSelectedBgCover] = useState(null);
   const onSelectBgCover = (event) => {
     const selectedFile = event.target.files[0];
-    const temp = URL.createObjectURL(selectedFile);
-    setSelectedBgCover(temp);
-  };
-
-  const onSubmit = (data) => {
-    const { name, category, contact, intro } = data;
-    console.log(name, category, contact, intro);
+    // const temp = URL.createObjectURL(selectedFile);
+    setSelectedBgCover(selectedFile);
   };
 
   const [openCreatePage, setOpenCreatePage] = useState(false);
@@ -96,7 +129,7 @@ const MyPages = ({ isPage }) => {
                   <img
                     src={
                       selectedAvatar !== null
-                        ? selectedAvatar
+                        ? URL.createObjectURL(selectedAvatar)
                         : "/images/User/Avatar Default/default-avatar.jpg"
                     }
                     alt=""
@@ -191,7 +224,7 @@ const MyPages = ({ isPage }) => {
                     <div className="selected-file">
                       <div className="img-selected">
                         <img
-                          src={selectedBgCover}
+                          src={URL.createObjectURL(selectedBgCover)}
                           alt=""
                           className="img-show"
                         />

@@ -5,6 +5,11 @@ import Step01 from "./ForgotPassword/Step01";
 import Step02 from "./ForgotPassword/Step02";
 import Step03 from "./ForgotPassword/Step03";
 import { StepContext } from "./stepContext";
+import { useDispatch } from "react-redux";
+import {
+  deleteStateResetPassword,
+  deleteStateResetPasswordRq,
+} from "../../../redux/slice/Auth/resetPasswordSlice";
 
 const VerifyPage = () => {
   const [stepArr, setStepArr] = useState([
@@ -25,7 +30,19 @@ const VerifyPage = () => {
     },
   ]);
 
+  const [userResetPassword, setUserResetPassword] = useState("");
+  const [isResetPhone, setIsResetPhone] = useState(false);
+  const [verifyCode, setVerifyCode] = useState("");
+
+  const dispatch = useDispatch();
+
   const handleClickStep = (step) => {
+    if (step === 1) {
+      dispatch(deleteStateResetPasswordRq());
+    } else if (step === 2) {
+      dispatch(deleteStateResetPassword());
+    }
+
     setStepArr((prev) => {
       return prev.map((item) => {
         if (item.step === step) {
@@ -42,7 +59,6 @@ const VerifyPage = () => {
       });
     });
   };
-
 
   return (
     <div className="verify-page auth-page">
@@ -66,7 +82,21 @@ const VerifyPage = () => {
         ))}
       </div>
       <div className="forgot-password-form auth-form">
-        <StepContext.Provider value={{ stepArr, setStepArr }}>
+        <StepContext.Provider
+          value={{
+            stepArr,
+            setStepArr,
+
+            userResetPassword,
+            setUserResetPassword,
+
+            isResetPhone,
+            setIsResetPhone,
+
+            verifyCode,
+            setVerifyCode,
+          }}
+        >
           {stepArr.map(
             (item, index) =>
               item.active &&

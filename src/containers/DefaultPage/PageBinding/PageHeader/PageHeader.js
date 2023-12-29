@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../PageHeader/PageHeader.scss";
+import { DataContext } from "../../../../context/dataContext";
+import { useSelector } from "react-redux";
+import { PAGES } from "../../../../settings/constant";
+import { useNavigate } from "react-router-dom";
 const PageHeader = ({ pageOwner }) => {
   const members = [
     {
@@ -33,33 +37,68 @@ const PageHeader = ({ pageOwner }) => {
       email: "freyaDavies@gmail.com",
     },
   ];
+
+  const { userData } = useContext(DataContext);
+  const pagesData = userData?.page;
+  const memberPagesData = useSelector(
+    (state) => state.persistedReducer?.pages?.getPage?.data
+  );
+
   const [isLikePage, setIsLikePage] = useState(false);
 
-  const pageInfo = {
-    idPage: 0,
-    namePage:
-      "UTE TV - Kênh truyền hình trường Đại học Sư phạm Kỹ thuật TPHCM ",
-    categoryPage: "Education",
-    avatar:
-      "https://scontent.fvca1-2.fna.fbcdn.net/v/t39.30808-6/317094198_2181493305354980_6460664330045934311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=EglUTZpdA6cAX_G3NVI&_nc_oc=AQl5cptiCfPV9yZe_v1AUKJyvy3H0pO4wd6X0QJdkAltddhs7Lo2qXgePggTZy_7s0toqgu3SncEE3cXFR0WSKBL&_nc_ht=scontent.fvca1-2.fna&oh=00_AfA9BuAt1SGudC5RuKDtu0ammj1oSulUt-WdhLe6taWr5w&oe=65830F58",
-    bgCover:
-      "https://scontent.fvca1-3.fna.fbcdn.net/v/t39.30808-6/270541902_1928618510642462_2661247953309366017_n.jpg?stp=dst-jpg_p720x720&_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=uWfvhF2B25MAX-lj4mQ&_nc_ht=scontent.fvca1-3.fna&oh=00_AfAxiC0buZvA3xcPxbXmLrb0eTYt2M3G4YoVbJh24O3jmw&oe=6582FEEB",
-  };
+  const [avatar, setAvatar] = useState(null);
+  const [background, setBackground] = useState(null);
+  const [name, setName] = useState(null);
+  // const [contact, setContact] = useState(null);
+  const [category, setCategory] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const hanldeInformation = () => {
+      if (pageOwner) {
+        setAvatar(pagesData?.avatar?.imgLink);
+        setBackground(pagesData?.background?.imgLink);
+        setName(pagesData?.pageName);
+        // setContact(pagesData?.contact);
+        setCategory(pagesData?.category);
+      } else {
+        setAvatar(memberPagesData?.avatar?.imgLink);
+        setBackground(memberPagesData?.background?.imgLink);
+        setName(memberPagesData?.pageName);
+        // setContact(memberPagesData?.contact);
+        setCategory(memberPagesData?.category);
+      }
+    };
+    hanldeInformation();
+  }, [memberPagesData, pagesData, pageOwner]);
 
   return (
     <div className="page-binding-header">
       <div className="banner-cover">
-        <img src={pageInfo?.bgCover} alt="" className="img-banner" />
+        <img
+          src={background ? background : "/images/DefaultPage/bg-default.jpg"}
+          alt=""
+          className="img-banner"
+        />
         <div className="blur"></div>
       </div>
       <div className="header-content">
         <div className="page-info">
           <div className="avatar">
-            <img src={pageInfo.avatar} alt="" className="img-avt" />
+            <img
+              src={
+                avatar
+                  ? avatar
+                  : "/images/User/Avatar Default/default-avatar.jpg"
+              }
+              alt=""
+              className="img-avt"
+            />
           </div>
           <div className="info">
-            <p className="namepage">{pageInfo?.namePage}</p>
-            <p className="category">{[pageInfo?.categoryPage]}</p>
+            <p className="namepage">{name}</p>
+            <p className="category">{category ? category : "Category"}</p>
             {!pageOwner && (
               <div className="status-friend-box">
                 <button
@@ -75,8 +114,13 @@ const PageHeader = ({ pageOwner }) => {
           </div>
         </div>
         <div className="option-settings">
-          {pageOwner ? (
-            <div className="edit-cover-photo">
+          {pageOwner && (
+            <div
+              className="edit-cover-photo"
+              onClick={() => {
+                navigate(PAGES);
+              }}
+            >
               <img
                 src="/images/Pages/Edit Square.png"
                 alt=""
@@ -84,22 +128,6 @@ const PageHeader = ({ pageOwner }) => {
               />
               <p className="subject">Edit your Page's</p>
             </div>
-          ) : (
-            <>
-              {members && (
-                <div className="list-members">
-                  {members &&
-                    members.map((member) => (
-                      <img
-                        src={member.avatar}
-                        alt=""
-                        className="img-avt-member"
-                      />
-                    ))}
-                  {/* <p className="subject">{friends.length} followers</p> */}
-                </div>
-              )}
-            </>
           )}
         </div>
       </div>
