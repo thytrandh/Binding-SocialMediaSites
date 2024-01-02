@@ -19,7 +19,6 @@
     "p-min-delay": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-elastic-carousel": "^0.11.5",
     "react-fb-image-grid": "^0.1.5",
     "react-hook-form": "^7.49.2",
     "react-loader-spinner": "^6.1.6",

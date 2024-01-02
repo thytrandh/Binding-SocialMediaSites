@@ -149,7 +149,7 @@ const StoriesStream = () => {
             <p className="title">Add story</p>
           </div>
           <ul className="stories">
-            <Carousel
+            {/* <Carousel
               showEmptySlots
               enableSwipe={true}
               enableMouseSwipe={true}
@@ -157,7 +157,7 @@ const StoriesStream = () => {
               breakPoints={breakPoints}
               showArrows={false}
               pagination={false}
-            >
+            > */}
               {stories.map((item) => (
                 <li
                   key={item.id}
@@ -173,7 +173,7 @@ const StoriesStream = () => {
                   <p className="name">{item.userInfo.userName}</p>
                 </li>
               ))}
-            </Carousel>
+            {/* </Carousel> */}
           </ul>
         </div>
       </div>
