@@ -2,6 +2,10 @@ import { Outlet } from "react-router-dom";
 import "../AuthLayout/auth-layout.scss";
 // import Carousel from "react-elastic-carousel";
 import ItemBannerAuth from "../../components/Auth/ItemBannerAuth/ItemBannerAuth";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
 const AuthLayout = () => {
   return (
@@ -25,27 +29,45 @@ const AuthLayout = () => {
           autoPlaySpeed={2000}
           enableSwipe={true}
         > */}
-          <ItemBannerAuth
-            imgBanner={"/images/AuthPage/BannerImg/banner-01.png"}
-            title={"Connect With The World"}
-            desc={
-              "It is a long established fact that a reader will be distracted by the readable content."
-            }
-          />
-          <ItemBannerAuth
-            imgBanner={"/images/AuthPage/BannerImg/banner-02.png"}
-            title={"Power UP Your Friendship"}
-            desc={
-              "It is a long established fact that a reader will be distracted by the readable content."
-            }
-          />
-          <ItemBannerAuth
-            imgBanner={"/images/AuthPage/BannerImg/banner-03.jpg"}
-            title={"Together Is Better"}
-            desc={
-              "It is a long established fact that a reader will be distracted by the readable content."
-            }
-          />
+        <Swiper
+          pagination={true}
+          modules={[Pagination]}
+          loop={true}
+          autoplay={{
+            delay: 1000,
+            disableOnInteraction: false,
+          }}
+          className="mySwiper banner-image-slider"
+        >
+          <SwiperSlide>
+            <ItemBannerAuth
+              imgBanner={"/images/AuthPage/BannerImg/banner-01.png"}
+              title={"Connect With The World"}
+              desc={
+                "It is a long established fact that a reader will be distracted by the readable content."
+              }
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <ItemBannerAuth
+              imgBanner={"/images/AuthPage/BannerImg/banner-02.png"}
+              title={"Power UP Your Friendship"}
+              desc={
+                "It is a long established fact that a reader will be distracted by the readable content."
+              }
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <ItemBannerAuth
+              imgBanner={"/images/AuthPage/BannerImg/banner-03.jpg"}
+              title={"Together Is Better"}
+              desc={
+                "It is a long established fact that a reader will be distracted by the readable content."
+              }
+            />
+          </SwiperSlide>
+        </Swiper>
+
         {/* </Carousel> */}
       </div>
 

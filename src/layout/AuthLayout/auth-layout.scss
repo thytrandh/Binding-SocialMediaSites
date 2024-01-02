@@ -89,6 +89,13 @@
             top: 53%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 100%;
+            > .swiper-pagination {
+                transform: translate(0, 65%);
+                > .swiper-pagination-bullet-active {
+                    background-color: var(--white);
+                }
+            }
         }
     }
     .auth-content {

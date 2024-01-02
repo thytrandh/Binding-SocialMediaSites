@@ -1,4 +1,4 @@
-import Carousel from "react-elastic-carousel";
+// import Carousel from "react-elastic-carousel";
 import "../StoriesStream/StoriesStream.scss";
 import StoriesFeed from "./StoriesFeed/StoriesFeed";
 import { useContext, useState } from "react";
