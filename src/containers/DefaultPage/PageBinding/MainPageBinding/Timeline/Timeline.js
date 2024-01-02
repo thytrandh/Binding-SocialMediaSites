@@ -105,15 +105,22 @@ const Timeline = ({ pageOwner }) => {
 
   const [pagesData, setPagesData] = useState(getCurrentPage);
 
-  const [galleryShow, setGalleryShow] = useState(null);
-  const [posts, setPosts] = useState(null);
+  const [galleryShow, setGalleryShow] = useState([]);
+  const [listMember, setListMember] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   // const params = useParams();
   const dispatch = useDispatch();
 
-  const listMember = useSelector(
+  const getListMemberData = useSelector(
     (state) => state.persistedReducer?.pages?.memberPage?.data
   );
+
+  useEffect(() => {
+    if (getListMemberData !== null && getListMemberData !== undefined) {
+      setListMember(getListMemberData);
+    }
+  }, [getListMemberData]);
 
   useEffect(() => {
     if (pageOwner) {
@@ -130,12 +137,28 @@ const Timeline = ({ pageOwner }) => {
   useEffect(() => {
     const handleInfomation = () => {
       if (pageOwner) {
-        setGalleryShow(pagesData?.images);
-        setPosts(pagesData?.posts);
+        if (pagesData?.images !== null && pagesData?.images !== undefined) {
+          setGalleryShow(pagesData?.images);
+        }
+        if (pagesData?.posts !== null && pagesData?.posts !== undefined) {
+          setPosts(pagesData?.posts);
+        }
+
         return;
       } else {
-        setGalleryShow(memberPagesData?.images);
-        setPosts(memberPagesData?.posts);
+        if (
+          memberPagesData?.images !== null &&
+          memberPagesData?.images !== undefined
+        ) {
+          setGalleryShow(memberPagesData?.images);
+        }
+        if (
+          memberPagesData?.posts !== null &&
+          memberPagesData?.posts !== undefined
+        ) {
+          setPosts(memberPagesData?.posts);
+        }
+
         return;
       }
     };
@@ -143,7 +166,7 @@ const Timeline = ({ pageOwner }) => {
   }, [pageOwner, pagesData, memberPagesData]);
 
   useEffect(() => {
-    if (getCurrentPage) {
+    if (getCurrentPage !== null && getCurrentPage !== undefined) {
       setPagesData(getCurrentPage);
     }
   }, [getCurrentPage]);

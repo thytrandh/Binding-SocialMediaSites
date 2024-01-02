@@ -126,6 +126,8 @@ export const likePage = createAsyncThunk(
     try {
       const result = await api.put(`/api/v1/follow-page/${pageId}`);
       thunkAPI.dispatch(getIsLikePage({ pageId }));
+      thunkAPI.dispatch(getPageById({ pageId }));
+      thunkAPI.dispatch(getMemberPage({ pageId }));
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");

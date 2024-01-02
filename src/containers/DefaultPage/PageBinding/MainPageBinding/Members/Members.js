@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowSize from "../../../../../library/hooks/useWindowSize";
 import "../Members/Members.scss";
 import Tick from "../../../../../components/Tick/Tick";
@@ -58,9 +58,17 @@ const Members = ({ pageOwner }) => {
   // ];
   // const handleRemove = () => {};
 
-  const members = useSelector(
+  const getMembersData = useSelector(
     (state) => state.persistedReducer?.pages?.memberPage?.data
   );
+
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    if (getMembersData !== null && getMembersData !== undefined) {
+      setMembers(getMembersData);
+    }
+  }, [getMembersData]);
 
   const [inputSearch, setInputSearch] = useState(null);
   const [resultSearch, setResultSearch] = useState([...members]);

@@ -10,12 +10,19 @@ const TimelineProfile = ({ accountOwner }) => {
     (state) => state.persistedReducer?.userInfo?.currentMember?.data
   );
 
-  const [galleryShow, setGalleryShow] = useState(null);
-  const [posts, setPosts] = useState(null);
+  const [galleryShow, setGalleryShow] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  const listFriend = useSelector(
+  const getListFriendData = useSelector(
     (state) => state.persistedReducer?.friend?.listFriend?.data
   );
+  const [listFriend, setListFriend] = useState([]);
+
+  useEffect(() => {
+    if (getListFriendData !== null && getListFriendData !== undefined) {
+      setListFriend(getListFriendData);
+    }
+  }, [getListFriendData]);
 
   const dispatch = useDispatch();
 
@@ -32,11 +39,25 @@ const TimelineProfile = ({ accountOwner }) => {
   useEffect(() => {
     const hanldeInformation = () => {
       if (accountOwner) {
-        setGalleryShow(userData?.images);
-        // setPosts(userData?.posts);
+        if (userData?.images !== null && userData?.images !== undefined) {
+          setGalleryShow(userData?.images);
+        }
+        if (userData?.posts !== null && userData?.posts !== undefined) {
+          setPosts(userData?.posts);
+        }
       } else {
-        setGalleryShow(getCurrentMember?.images);
-        // setPosts(getCurrentMember?.posts);
+        if (
+          getCurrentMember?.images !== null &&
+          getCurrentMember?.images !== undefined
+        ) {
+          setGalleryShow(getCurrentMember?.images);
+        }
+        if (
+          getCurrentMember?.posts !== null &&
+          getCurrentMember?.posts !== undefined
+        ) {
+          setPosts(getCurrentMember?.posts);
+        }
       }
     };
     hanldeInformation();
@@ -45,19 +66,8 @@ const TimelineProfile = ({ accountOwner }) => {
   useEffect(() => {
     const handleFilterPosts = () => {
       if (accountOwner) {
-        if (userData?.posts !== null) {
-          const filter = userData?.posts.filter(
-            (val) => val?.pagePost === null
-          );
-          if (filter.length > 0) {
-            setPosts(filter);
-          }
-        }
-      } else {
-        if (getCurrentMember?.posts !== null) {
-          const filter = getCurrentMember?.posts.filter(
-            (val) => val?.pagePost === null
-          );
+        if (posts.length > 0) {
+          const filter = posts.filter((val) => val?.pagePost === null);
           if (filter.length > 0) {
             setPosts(filter);
           }

@@ -106,8 +106,6 @@ const MessagesPage = () => {
   const chatId = Number(params.chatId);
   const location = useLocation();
 
-  
-
   useEffect(() => {
     const handleConversationNavigate = () => {
       const filterConversation = messages.filter(
