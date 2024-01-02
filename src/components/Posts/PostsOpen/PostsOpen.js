@@ -92,7 +92,7 @@ const PostsOpen = ({
     const arrFilter = monthTime.filter((item) => item.value === month);
     setMm(arrFilter[0].month);
 
-    console.log("postsUser", postsUser);
+    // console.log("postsUser", postsUser);
   }, [month]);
 
   // function RenderEmotion({ arr }) {
@@ -113,20 +113,21 @@ const PostsOpen = ({
 
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
-  const handleInfo = () => {
-    if (postsPages !== null) {
-      setAvatar(postsPages.avatar?.imgLink);
-      setName(postsPages?.pageName);
-    } else {
-      setAvatar(postsUser?.avatar);
-      setName(`${postsUser?.firstName} ${postsUser?.lastName}`);
-    }
-  };
+
   useEffect(() => {
+    const handleInfo = () => {
+      if (postsPages !== null) {
+        setAvatar(postsPages.avatar?.imgLink);
+        setName(postsPages?.pageName);
+      } else {
+        setAvatar(postsUser?.avatar);
+        setName(`${postsUser?.firstName} ${postsUser?.lastName}`);
+      }
+    };
     handleInfo();
-    console.log("postsUser", postsUser);
-    console.log("postsPages", postsPages);
-  }, []);
+    // console.log("postsUser", postsUser);
+    // console.log("postsPages", postsPages);
+  }, [postsPages, postsUser]);
 
   return (
     <div className="posts-open">

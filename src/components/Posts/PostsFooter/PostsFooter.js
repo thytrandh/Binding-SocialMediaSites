@@ -25,22 +25,23 @@ const PostsFooter = ({ postsId, postsComment, listEmoji }) => {
 
   const { userData } = useContext(DataContext);
   const [isLikePosts, setIsLikePosts] = useState(false);
-  const checkIsLikePost = () => {
-    const userPostsLike = userData?.postLike;
-    if (userPostsLike !== null) {
-      for (var i = 0; i < userPostsLike.length; i++) {
-        if (userPostsLike[i] === postsId) {
-          setIsLikePosts(true);
-          return;
-        } else {
-          setIsLikePosts(false);
+
+  useEffect(() => {
+    const checkIsLikePost = () => {
+      const userPostsLike = userData?.postLike;
+      if (userPostsLike !== null) {
+        for (var i = 0; i < userPostsLike.length; i++) {
+          if (userPostsLike[i] === postsId) {
+            setIsLikePosts(true);
+            return;
+          } else {
+            setIsLikePosts(false);
+          }
         }
       }
-    }
-  };
-  useEffect(() => {
+    };
     checkIsLikePost();
-  }, []);
+  }, [userData, postsId]);
 
   const handlePostComment = () => {
     if (editCmt) {

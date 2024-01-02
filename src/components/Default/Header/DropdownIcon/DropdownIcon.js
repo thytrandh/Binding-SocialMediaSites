@@ -1,11 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../DropdownIcon/DropdownIcon.scss";
 import { useNavigate } from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../../redux/slice/Auth/loginSlice";
 import { DataContext } from "../../../../context/dataContext";
 import { NEWSFEED_PAGE, SETTINGS_PAGE } from "../../../../settings/constant";
+import {
+  addFriend,
+  cancelFriendRequest,
+  getRequestFriendList,
+} from "../../../../redux/slice/User/friendSlice";
 
 const DropdownIcon = () => {
   const { userData } = useContext(DataContext);
@@ -28,138 +33,102 @@ const DropdownIcon = () => {
       name: "Friend Requests",
       icon: "/images/Icon/IconDropdown/User.png",
       active: false,
-      data: [
-        {
-          id: 0,
-          avatar: "/images/User/user-02.jpg",
-          userName: "Jenny Wilson",
-          mutual: 2,
-          time: "1 hours",
-        },
-        {
-          id: 1,
-          avatar: "/images/User/user-03.jpg",
-          userName: "Freya Davies",
-          mutual: 8,
-          time: "a day",
-        },
-        {
-          id: 2,
-          avatar: "/images/User/user-04.jpg",
-          userName: "Aaron Jones",
-          mutual: 5,
-          time: "1 months",
-        },
-        {
-          id: 3,
-          avatar: "/images/User/user-05.jpg",
-          userName: "Ariene McCoy",
-          mutual: 1,
-          time: "4 months",
-        },
-        {
-          id: 4,
-          avatar: "/images/User/user-06.jpg",
-          userName: "Alex Fob",
-          mutual: 5,
-          time: "5 months",
-        },
-      ],
+      data: [],
     },
-    {
-      id: 3,
-      name: "Messages",
-      icon: "/images/Icon/IconDropdown/Message.png",
-      active: false,
-      data: [
-        {
-          id: 0,
-          avatar: "/images/User/user-02.jpg",
-          userName: "Jenny Wilson",
-          message: "Good morning",
-          time: "1h",
-        },
-        {
-          id: 1,
-          avatar: "/images/User/user-03.jpg",
-          userName: "Freya Davies",
-          message: "Yes, same here. Bye",
-          time: "2h",
-        },
-        {
-          id: 2,
-          avatar: "/images/User/user-04.jpg",
-          userName: "Aaron Jones",
-          message: "That's great, see you soon",
-          time: "1 mo.",
-        },
-        {
-          id: 3,
-          avatar: "/images/User/user-05.jpg",
-          userName: "Ariene McCoy",
-          message: "Let's go to hospital to see him guys.",
-          time: "4 mo.",
-        },
-        {
-          id: 4,
-          avatar: "/images/User/user-06.jpg",
-          userName: "Ariene McCoy",
-          message:
-            "We should make use of this trip to learn the maximum possible about the places we are visiting.",
-          time: "4 mo.",
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "Notifications",
-      icon: "/images/Icon/IconDropdown/Notification.png",
-      active: false,
-      data: [
-        {
-          id: 0,
-          avatar: "/images/User/user-02.jpg",
-          userName: "Jenny Wilson",
-          content: "accepted your friendship request",
-          time: "1 hours",
-        },
-        {
-          id: 1,
-          avatar: "/images/User/user-03.jpg",
-          userName: "Freya Davies",
-          content: "accepted your friendship request",
-          time: "a day",
-        },
-        {
-          id: 2,
-          avatar: "/images/User/user-04.jpg",
-          userName: "Aaron Jones",
-          content: "accepted your friendship request",
-          time: "1 months",
-        },
-        {
-          id: 3,
-          avatar: "/images/User/user-05.jpg",
-          userName: "Ariene McCoy",
-          content: "accepted your friendship request",
-          time: "4 months",
-        },
-        {
-          id: 4,
-          avatar: "/images/User/user-06.jpg",
-          userName: "Aaron Jones",
-          content: "accepted your friendship request",
-          time: "1 months",
-        },
-        {
-          id: 5,
-          avatar: "/images/User/user-07.jpg",
-          userName: "Ariene McCoy",
-          content: "accepted your friendship request",
-          time: "4 months",
-        },
-      ],
-    },
+    // {
+    //   id: 3,
+    //   name: "Messages",
+    //   icon: "/images/Icon/IconDropdown/Message.png",
+    //   active: false,
+    //   data: [
+    //     {
+    //       id: 0,
+    //       avatar: "/images/User/user-02.jpg",
+    //       userName: "Jenny Wilson",
+    //       message: "Good morning",
+    //       time: "1h",
+    //     },
+    //     {
+    //       id: 1,
+    //       avatar: "/images/User/user-03.jpg",
+    //       userName: "Freya Davies",
+    //       message: "Yes, same here. Bye",
+    //       time: "2h",
+    //     },
+    //     {
+    //       id: 2,
+    //       avatar: "/images/User/user-04.jpg",
+    //       userName: "Aaron Jones",
+    //       message: "That's great, see you soon",
+    //       time: "1 mo.",
+    //     },
+    //     {
+    //       id: 3,
+    //       avatar: "/images/User/user-05.jpg",
+    //       userName: "Ariene McCoy",
+    //       message: "Let's go to hospital to see him guys.",
+    //       time: "4 mo.",
+    //     },
+    //     {
+    //       id: 4,
+    //       avatar: "/images/User/user-06.jpg",
+    //       userName: "Ariene McCoy",
+    //       message:
+    //         "We should make use of this trip to learn the maximum possible about the places we are visiting.",
+    //       time: "4 mo.",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 4,
+    //   name: "Notifications",
+    //   icon: "/images/Icon/IconDropdown/Notification.png",
+    //   active: false,
+    //   data: [
+    //     {
+    //       id: 0,
+    //       avatar: "/images/User/user-02.jpg",
+    //       userName: "Jenny Wilson",
+    //       content: "accepted your friendship request",
+    //       time: "1 hours",
+    //     },
+    //     {
+    //       id: 1,
+    //       avatar: "/images/User/user-03.jpg",
+    //       userName: "Freya Davies",
+    //       content: "accepted your friendship request",
+    //       time: "a day",
+    //     },
+    //     {
+    //       id: 2,
+    //       avatar: "/images/User/user-04.jpg",
+    //       userName: "Aaron Jones",
+    //       content: "accepted your friendship request",
+    //       time: "1 months",
+    //     },
+    //     {
+    //       id: 3,
+    //       avatar: "/images/User/user-05.jpg",
+    //       userName: "Ariene McCoy",
+    //       content: "accepted your friendship request",
+    //       time: "4 months",
+    //     },
+    //     {
+    //       id: 4,
+    //       avatar: "/images/User/user-06.jpg",
+    //       userName: "Aaron Jones",
+    //       content: "accepted your friendship request",
+    //       time: "1 months",
+    //     },
+    //     {
+    //       id: 5,
+    //       avatar: "/images/User/user-07.jpg",
+    //       userName: "Ariene McCoy",
+    //       content: "accepted your friendship request",
+    //       time: "4 months",
+    //     },
+    //   ],
+    // },
   ]);
   const handleClickIconDropdown = (index) => {
     if (index === 0) {
@@ -234,7 +203,48 @@ const DropdownIcon = () => {
     navigate(pathname);
   };
 
+  const friendsReqs = useSelector(
+    (state) => state.persistedReducer?.friend?.requestFriend?.data
+  );
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRequestFriendList());
+  },[dispatch]);
+
+  useEffect(() => {
+    const setFriendReq = () => {
+      setMenuDropdown((prev) => {
+        return prev.map((item) => {
+          if (item.id === 2) {
+            return {
+              ...item,
+              data: [...friendsReqs],
+            };
+          } else {
+            return {
+              ...item,
+            };
+          }
+        });
+      });
+    };
+    setFriendReq();
+  }, [friendsReqs]);
+
+  const handleConfirm = (friendId) => {
+    dispatch(
+      addFriend({
+        friendId,
+      })
+    );
+  };
+  const handleDelete = (friendId) => {
+    dispatch(
+      cancelFriendRequest({
+        friendId,
+      })
+    );
+  };
 
   return (
     <div className="header-dropdown-icon">
@@ -298,25 +308,53 @@ const DropdownIcon = () => {
                     {/* FRIEND REQUESTS*/}
                     {item.name === "Friend Requests" && (
                       <ul className="requests-list list">
-                        {item?.data.map((req) => (
-                          <li key={req.id} className="item-req item">
-                            <img className="avatar" src={req.avatar} alt="" />
-                            <div className="content-req">
-                              <div className="user-info">
-                                <p className="username">{req.userName}</p>
-                                <p className="mutual">
-                                  {req.mutual} mutual friends
-                                </p>
-                              </div>
-                              <div className="btn-option">
-                                <button className="btn-confirm">Confirm</button>
-                                <button className="btn-delete">
-                                  Delete Request
-                                </button>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
+                        {item?.data !== null && item?.data.length > 0 ? (
+                          <>
+                            {item?.data.map((req) => (
+                              <li key={req.id} className="item-req item">
+                                <img
+                                  className="avatar"
+                                  src={
+                                    req?.image?.imgLink
+                                      ? req?.image?.imgLink
+                                      : "/images/DefaultPage/default-avatar.jpg"
+                                  }
+                                  alt=""
+                                />
+                                <div className="content-req">
+                                  <div className="user-info">
+                                    <p className="username">{`${req?.firstName} ${req?.lastName}`}</p>
+                                    {/* <p className="mutual">
+                                      {req.mutual} mutual friends
+                                    </p> */}
+                                  </div>
+                                  <div className="btn-option">
+                                    <button
+                                      className="btn-confirm"
+                                      onClick={() => {
+                                        handleConfirm(req?.id);
+                                      }}
+                                    >
+                                      Confirm
+                                    </button>
+                                    <button
+                                      className="btn-delete"
+                                      onClick={() => {
+                                        handleDelete(req?.id);
+                                      }}
+                                    >
+                                      Delete Request
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </>
+                        ) : (
+                          <p className="mess">
+                            There are no friends request yet
+                          </p>
+                        )}
                       </ul>
                     )}
                   </div>

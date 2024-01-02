@@ -3,7 +3,8 @@ import { AuthContext } from "./context/authContext";
 import { DataContext } from "./context/dataContext";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getRequestFriendList } from "./redux/slice/User/friendSlice";
 
 function App() {
   const [isAuth, setAuth] = useState(true);
@@ -29,6 +30,11 @@ function App() {
       setUserData(getCurrentUser);
     }
   }, [setUserData, getCurrentUser]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRequestFriendList());
+  }, [dispatch]);
 
   return (
     <>

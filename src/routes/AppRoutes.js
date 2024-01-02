@@ -55,6 +55,7 @@ import CommentsManagement from "../containers/AdminPage/CommentsManagement/Comme
 import PagesManagement from "../containers/AdminPage/PagesManagement/PagesManagement";
 import PolicyPage from "../containers/DefaultPage/PolicyPage/PolicyPage";
 import Loader from "../components/Loader/Loader";
+import ChatApp from "../containers/DefaultPage/ChatApp/ChatApp";
 
 //Authencation Page
 //================================= AUTHENCATION PAGE ==================================
@@ -405,6 +406,14 @@ const AppRoutes = () => {
           element={
             <React.Suspense fallback={<Loader />}>
               <PolicyPage />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path={"/chat-app"}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <ChatApp />
             </React.Suspense>
           }
         />

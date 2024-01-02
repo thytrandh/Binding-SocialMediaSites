@@ -2,7 +2,33 @@ import "./Conversation.scss";
 import ItemReceivedMessages from "./ReceivedMessages/ItemReceivedMessages";
 import ItemSentMessages from "./SentMessages/ItemSentMessages";
 import MessageComposeBox from "./MessageComposeBox/MessageComposeBox";
+// import { useEffect, useState } from "react";
+// import Stomp from 'stompjs';
+// import SockJS from "sockjs-client";
 const Conversation = () => {
+  // const [messages, setMessages] = useState([]);
+  // const [message, setMessage] = useState("");
+  // const [nickname, setNickname] = useState("");
+  // const [stompClient, setStompClient] = useState(null);
+
+  // useEffect(() => {
+  //   const socket = new SockJS("http://localhost:5000/ws");
+  //   const client = Stomp.over(socket);
+
+  //   client.connect({}, () => {
+  //     client.subscribe("/topic/messages", (message) => {
+  //       const receivedMessage = JSON.parse(message.body);
+  //       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+  //     });
+  //   });
+
+  //   setStompClient(client);
+
+  //   return () => {
+  //     client.disconnect();
+  //   };
+  // }, []); 
+
   return (
     <div className="conversation">
       <div className="conversation-content middle-box">

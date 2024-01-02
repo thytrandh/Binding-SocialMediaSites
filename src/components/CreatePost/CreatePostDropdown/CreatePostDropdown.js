@@ -350,7 +350,7 @@ const CreatePostDropdown = ({ userInfo, postOnPage }) => {
 
   useEffect(() => {
     dispatch(getCurrentPages());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
