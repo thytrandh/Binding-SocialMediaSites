@@ -6,6 +6,8 @@ import Tick from "../../../../components/Tick/Tick";
 import "../SliderbarAdmin/SliderbarAdmin.scss";
 import { ToggleAdminContext } from "../../context/toggleAdminContext";
 import useWindowSize from "../../../../library/hooks/useWindowSize";
+import { logOut } from "../../../../redux/slice/Auth/loginSlice";
+import { useDispatch } from "react-redux";
 
 const SliderbarAdmin = () => {
   const { userData } = useContext(DataContext);
@@ -70,10 +72,15 @@ const SliderbarAdmin = () => {
       });
     });
   };
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleNavigate = (path) => {
-    navigate(path);
+    if (path === "/login") {
+      dispatch(logOut());
+      navigate(path);
+    } else {
+      navigate(path);
+    }
   };
 
   const location = useLocation();
@@ -112,7 +119,7 @@ const SliderbarAdmin = () => {
       </div>
       <div className="slider-bar-admin-content">
         <div
-          className="user-info"
+          className="user-info-admin"
           onClick={() => {
             navigate("/profile");
           }}
@@ -137,9 +144,9 @@ const SliderbarAdmin = () => {
             </p>
           </div>
         </div>
-        <div className="navigate-menu">
+        <div className="navigate-menu-admin">
           <p className="title">MENU</p>
-          <ul className="menu">
+          <ul className="menu-admin">
             {menuArr
               .map((item) => {
                 return (
@@ -158,9 +165,9 @@ const SliderbarAdmin = () => {
               .filter((e, k) => k < 4)}
           </ul>
         </div>
-        <div className="navigate-menu">
+        <div className="navigate-menu-admin">
           <p className="title">ACCOUNT</p>
-          <ul className="menu">
+          <ul className="menu-admin">
             {menuArr
               .map((item) => {
                 return (

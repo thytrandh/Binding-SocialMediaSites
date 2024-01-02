@@ -3,6 +3,12 @@ import DropdownIcon from "./DropdownIcon/DropdownIcon";
 import "./Header.scss";
 import Searchbar from "./Searchbar/Searchbar";
 import OutsideClickHandler from "react-outside-click-handler";
+import {
+  NEWSFEED_PAGE,
+  POLICY_PAGE,
+  PROFILE_PAGE,
+} from "../../../settings/constant";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const menu = [
     {
@@ -49,6 +55,8 @@ const Header = () => {
   ];
 
   const [openMenuMini, setOpenMenuMini] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <div className="header ">
@@ -97,11 +105,39 @@ const Header = () => {
       <div className="header-default">
         <div className="header-left">
           <ul className="main-menu">
-            <li className="item-menu">HOME</li>
-            <li className="item-menu">ACTIVITY</li>
-            <li className="item-menu">TIMELINE</li>
-            <li className="item-menu">POLICY</li>
-            <li className="item-menu">CONDITIONS</li>
+            <li
+              className="item-menu"
+              onClick={() => {
+                navigate(NEWSFEED_PAGE);
+              }}
+            >
+              HOME
+            </li>
+            <li
+              className="item-menu"
+              onClick={() => {
+                navigate(NEWSFEED_PAGE);
+              }}
+            >
+              ACTIVITY
+            </li>
+            <li
+              className="item-menu"
+              onClick={() => {
+                navigate(PROFILE_PAGE);
+              }}
+            >
+              TIME LINE
+            </li>
+            <li
+              className="item-menu"
+              onClick={() => {
+                navigate(POLICY_PAGE);
+              }}
+            >
+              PRIVACY POLICY
+            </li>
+            {/* <li className="item-menu">CONDITIONS</li> */}
           </ul>
         </div>
         <div className="header-right">

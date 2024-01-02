@@ -1,44 +1,52 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BannerAds from "../../../components/BannerAds/BannerAds";
 import "../Pages/Pages.scss";
 import DiscoverPages from "./DiscoverPages/DiscoverPages";
-import LikedPages from "./LikedPages/LikedPages";
 import MyPages from "./MyPages/MyPages";
-import { DataContext } from "../../../context/dataContext";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentPages } from "../../../redux/slice/Pages/pagesSlice";
 
 const Pages = () => {
-  const { userData } = useContext(DataContext);
+  const getCurrentPage = useSelector(
+    (state) => state?.persistedReducer?.pages?.currentPages?.data
+  );
 
   const [tabMenu, setTabMenu] = useState([
     {
       id: 0,
-      name: "Discover Pages",
+      name: "All Pages",
       isActive: true,
       navigate: "/pages",
     },
+    // {
+    //   id: 1,
+    //   name: "Liked Pages",
+    //   isActive: false,
+    //   navigate: "/pages/liked-pages",
+    // },
     {
       id: 1,
-      name: "Liked Pages",
-      isActive: false,
-      navigate: "/pages/liked-pages",
-    },
-    {
-      id: 2,
       name: "My Pages",
       isActive: false,
       navigate: "/pages/my-pages",
     },
   ]);
 
-  const [isPage, setIsPage] = useState(true);
+  const [isPage, setIsPage] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userData?.page !== null) {
+    dispatch(getCurrentPages());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (getCurrentPage !== null) {
       setIsPage(true);
     } else {
       setIsPage(false);
     }
-  }, []);
+  }, [getCurrentPage]);
   // const callAPICheckMyPage = () => {};
   return (
     <div className="pages pages-control">
@@ -79,8 +87,8 @@ const Pages = () => {
         </div>
         <div className="pages-content">
           {tabMenu[0].isActive && <DiscoverPages />}
-          {tabMenu[1].isActive && <LikedPages />}
-          {tabMenu[2].isActive && <MyPages isPage={isPage} />}
+          {/* {tabMenu[1].isActive && <LikedPages />} */}
+          {tabMenu[1].isActive && <MyPages isPage={isPage} />}
         </div>
       </div>
     </div>

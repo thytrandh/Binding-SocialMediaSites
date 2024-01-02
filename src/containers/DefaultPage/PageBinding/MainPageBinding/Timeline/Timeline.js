@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CreatePost from "../../../../../components/CreatePost/CreatePost";
 import "../Timeline/Timeline.scss";
-import { DataContext } from "../../../../../context/dataContext";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Posts from "../../../../../components/Posts/Posts";
+import { getMemberPage } from "../../../../../redux/slice/Pages/pagesSlice";
 const Timeline = ({ pageOwner }) => {
   // const galleryShow = [
   //   {
@@ -53,77 +52,101 @@ const Timeline = ({ pageOwner }) => {
   //       "https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/400317902_675498058059785_8340930423287595148_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=6rIlFV0G7HQAX9zoAgf&_nc_ht=scontent.fvca1-4.fna&oh=00_AfD64fyyByRtjBpN824BxoI54seAgd1Zb1VwrK7t0yr4tA&oe=65833170",
   //   },
   // ];
-  const membersShow = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-08.jpg",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-07.jpg",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-06.jpg",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-05.jpg",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-04.jpg",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-09.jpg",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-10.jpg",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-profile.jpg",
-    },
-  ];
+  // const membersShow = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-08.jpg",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Philip Ninomar",
+  //     avatar: "/images/User/user-07.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Iris Cana",
+  //     avatar: "/images/User/user-06.jpg",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Cana Diket",
+  //     avatar: "/images/User/user-05.jpg",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Cris Wilson",
+  //     avatar: "/images/User/user-04.jpg",
+  //   },
+  //   {
+  //     id: 6,
+  //     userName: "Anana Crew",
+  //     avatar: "/images/User/user-09.jpg",
+  //   },
+  //   {
+  //     id: 7,
+  //     userName: "Anana Zona",
+  //     avatar: "/images/User/user-10.jpg",
+  //   },
+  //   {
+  //     id: 8,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-profile.jpg",
+  //   },
+  // ];
 
-  const { userData } = useContext(DataContext);
-  const [pagesData, setPagesData] = useState(userData?.page);
+  const getCurrentPage = useSelector(
+    (state) => state?.persistedReducer?.pages?.currentPages?.data
+  );
+
+  const memberPagesData = useSelector(
+    (state) => state.persistedReducer?.pages?.getPage?.data
+  );
+
+  const [pagesData, setPagesData] = useState(getCurrentPage);
+
   const [galleryShow, setGalleryShow] = useState(null);
   const [posts, setPosts] = useState(null);
 
-  const params = useParams();
+  // const params = useParams();
   const dispatch = useDispatch();
 
-  const handleOwner = () => {
-    if (pageOwner) {
-      setGalleryShow(pagesData?.images);
-      setPosts(pagesData?.posts);
-      return;
-    } else {
-      // const memberId = params.memberId;
-      // const userId = memberId;
-      // dispatch(getUserById({ userId }));
-      // if (memberData) {
-      //   setGalleryShow(memberData?.images);
-      //   setPosts(memberData?.posts);
-      // }
-      return;
-    }
-  };
+  const listMember = useSelector(
+    (state) => state.persistedReducer?.pages?.memberPage?.data
+  );
 
   useEffect(() => {
-    handleOwner();
-  }, []);
+    if (pageOwner) {
+      const pageId = getCurrentPage?.id;
+      dispatch(getMemberPage({ pageId }));
+    } else {
+      const pageId = memberPagesData?.id;
+      dispatch(getMemberPage({ pageId }));
+    }
+  }, [pageOwner, getCurrentPage, memberPagesData, dispatch]);
+
+  //get list members
+
+  useEffect(() => {
+    const handleInfomation = () => {
+      if (pageOwner) {
+        setGalleryShow(pagesData?.images);
+        setPosts(pagesData?.posts);
+        return;
+      } else {
+        setGalleryShow(memberPagesData?.images);
+        setPosts(memberPagesData?.posts);
+        return;
+      }
+    };
+    handleInfomation();
+  }, [pageOwner, pagesData, memberPagesData]);
+
+  useEffect(() => {
+    if (getCurrentPage) {
+      setPagesData(getCurrentPage);
+    }
+  }, [getCurrentPage]);
 
   return (
     <div className="timeline-page-binding">
@@ -135,24 +158,30 @@ const Timeline = ({ pageOwner }) => {
           </div>
           <div className="gallery">
             {galleryShow !== null ? (
-              <div
-                className={
-                  galleryShow.length > 0 && galleryShow.length <= 3
-                    ? "list-image h-1row"
-                    : galleryShow.length > 3 && galleryShow.length <= 6
-                    ? "list-image h-2row"
-                    : "list-image h-3row"
-                }
-              >
-                {galleryShow.map((image) => (
-                  <img
-                    key={image.id}
-                    src={image.imgLink}
-                    alt=""
-                    className="item-img"
-                  />
-                ))}
-              </div>
+              <>
+                {galleryShow.length > 0 ? (
+                  <div
+                    className={
+                      galleryShow.length > 0 && galleryShow.length <= 3
+                        ? "list-image h-1row"
+                        : galleryShow.length > 3 && galleryShow.length <= 6
+                        ? "list-image h-2row"
+                        : "list-image h-3row"
+                    }
+                  >
+                    {galleryShow.map((image) => (
+                      <img
+                        key={image.id}
+                        src={image.imgLink}
+                        alt=""
+                        className="item-img"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mess">There are no images yet</p>
+                )}
+              </>
             ) : (
               <p className="mess">There are no images yet</p>
             )}
@@ -164,28 +193,34 @@ const Timeline = ({ pageOwner }) => {
             <p className="view">View more</p>
           </div>
           <div className="friends">
-            {membersShow !== null ? (
-              <div
-                className={
-                  membersShow.length > 0 && membersShow.length <= 3
-                    ? "list-users h-1row"
-                    : membersShow.length > 3 && membersShow.length <= 6
-                    ? "list-users h-2row"
-                    : "list-users h-3row"
-                }
-              >
-                {membersShow.map((user) => (
-                  <div className="item-user">
-                    <img
-                      key={user.id}
-                      src={user.avatar}
-                      alt=""
-                      className="img-avt"
-                    />
-                    <p className="username">{user.userName}</p>
+            {listMember !== null ? (
+              <>
+                {listMember.length > 0 ? (
+                  <div
+                    className={
+                      listMember.length > 0 && listMember.length <= 3
+                        ? "list-users h-1row"
+                        : listMember.length > 3 && listMember.length <= 6
+                        ? "list-users h-2row"
+                        : "list-users h-3row"
+                    }
+                  >
+                    {listMember.map((user) => (
+                      <div className="item-user">
+                        <img
+                          key={user.id}
+                          src={user?.image?.imgLink}
+                          alt=""
+                          className="img-avt"
+                        />
+                        <p className="username">{`${user?.firstName} ${user?.lastName}`}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                ) : (
+                  <p className="mess">There are no members yet</p>
+                )}
+              </>
             ) : (
               <p className="mess">There are no members yet</p>
             )}

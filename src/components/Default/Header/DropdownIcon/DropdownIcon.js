@@ -5,6 +5,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../../../redux/slice/Auth/loginSlice";
 import { DataContext } from "../../../../context/dataContext";
+import { NEWSFEED_PAGE, SETTINGS_PAGE } from "../../../../settings/constant";
 
 const DropdownIcon = () => {
   const { userData } = useContext(DataContext);
@@ -161,8 +162,10 @@ const DropdownIcon = () => {
     },
   ]);
   const handleClickIconDropdown = (index) => {
-    if (index === 0 || index === 1) {
-      navigate("/home");
+    if (index === 0) {
+      navigate(NEWSFEED_PAGE);
+    } else if (index === 1) {
+      navigate(SETTINGS_PAGE);
     } else {
       setMenuDropdown((prev) => {
         return prev.map((item) => {

@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
+  ADMIN_PAGE,
   NEWSFEED_PAGE,
   REGISTER_PAGE,
   VERIFY_PAGE,
@@ -31,6 +32,8 @@ const LoginForm = () => {
     (state) => state.persistedReducer?.loginAuth?.error
   );
 
+  const [emailLogin, setEmailLogin] = useState("");
+
   const onSubmit = (data) => {
     const { email, phone, password } = data;
     console.log(email, phone, password);
@@ -51,6 +54,8 @@ const LoginForm = () => {
       );
     }
 
+    setEmailLogin(email);
+
     reset({
       phone: "",
       email: "",
@@ -67,10 +72,14 @@ const LoginForm = () => {
       });
     }
     if (isAuth) {
-      navigate(NEWSFEED_PAGE);
+      if (emailLogin === "admin@gmail.com") {
+        navigate(ADMIN_PAGE);
+      } else {
+        navigate(NEWSFEED_PAGE);
+      }
     }
     dispatch(deteteStateRegister());
-  }, [reset, isError, navigate, isAuth, dispatch]);
+  }, [reset, isError, navigate, isAuth, dispatch, emailLogin]);
 
   return (
     <div className="login-form auth-form">

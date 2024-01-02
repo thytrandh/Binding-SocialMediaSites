@@ -6,6 +6,13 @@ import { useEffect, useState } from "react";
 import useWindowSize from "../../../library/hooks/useWindowSize";
 import Footer from "../../../components/Default/Footer/Footer";
 import HeaderAdmin from "./HeaderAdmin/HeaderAdmin";
+import { useDispatch } from "react-redux";
+import {
+  getCommentReported,
+  getPostsReported,
+} from "../../../redux/slice/Report/reportSlice";
+import { getAllUser } from "../../../redux/slice/User/userSlice";
+import { getAllPages } from "../../../redux/slice/Pages/pagesSlice";
 const AdminLayout = () => {
   const { width } = useWindowSize();
 
@@ -18,6 +25,18 @@ const AdminLayout = () => {
       setToggleSliderBarAdmin(true);
     }
   }, [width]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleGetInformation = () => {
+      dispatch(getPostsReported());
+      dispatch(getCommentReported());
+      dispatch(getAllUser());
+      dispatch(getAllPages());
+    };
+    handleGetInformation();
+  }, [dispatch]);
 
   return (
     <div className="admin-layout">

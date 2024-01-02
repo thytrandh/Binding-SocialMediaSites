@@ -2,236 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import Posts from "../../../../../components/Posts/Posts";
 import "../TimelineProfile/TimelineProfile.scss";
 import { DataContext } from "../../../../../context/dataContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getListFriend } from "../../../../../redux/slice/User/friendSlice";
 const TimelineProfile = ({ accountOwner }) => {
-  const friendsShow = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-08.jpg",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-07.jpg",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-06.jpg",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-05.jpg",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-04.jpg",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-09.jpg",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-10.jpg",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-profile.jpg",
-    },
-  ];
-  // const posts = [
-  //   {
-  //     id: 0,
-  //     user: {
-  //       username: "Aaron Jones",
-  //       avatar: "/images/User/user-02.jpg",
-  //     },
-  //     status: "posted an update in the timeline",
-  //     time: "a year ago",
-  //     content: "It is really a great moment.",
-  //     images: [{ src: "/images/Posts/Posts1/img-01.jpeg" }],
-  //     videos: [],
-  //     react: [
-  //       {
-  //         idUser: 0,
-  //         username: "Marvin McKinney",
-  //         emojiCode: 1,
-  //       },
-  //       {
-  //         idUser: 1,
-  //         username: "Jenny Wilson",
-  //         emojiCode: 1,
-  //       },
-  //       {
-  //         idUser: 3,
-  //         username: "Aaron Jones",
-  //         emojiCode: 4,
-  //       },
-  //     ],
-  //     comment: [
-  //       {
-  //         idComment: 0,
-  //         user: {
-  //           idUser: 0,
-  //           username: "Marvin McKinney",
-  //           avatar: "/images/User/user-01.jpg",
-  //         },
-  //         time: "5 month",
-  //         content: "Believe in yourself and you will be unstoppable.",
-  //       },
-  //       {
-  //         idComment: 1,
-  //         user: {
-  //           idUser: 1,
-  //           username: "Jenny Wilson",
-  //           avatar: "/images/User/user-02.jpg",
-  //         },
-  //         time: "5 month",
-  //         content: "superb!! Great Work..",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       username: "Jenny Wilson",
-  //       avatar: "/images/User/user-03.jpg",
-  //     },
-  //     status: "posted an update in the timeline",
-  //     time: "a month ago",
-  //     content:
-  //       "Squad means family and family means nobody gets left behind.Squad means family and family means nobody gets left behind.Squad means family and family means nobody gets left behind.Squad means family and family means nobody gets left behind.",
-  //     images: [
-  //       {
-  //         src: "/images/Posts/Posts2/img-01.jpg",
-  //       },
-  //       {
-  //         src: "/images/Posts/Posts2/img-02.jpg",
-  //       },
-  //       {
-  //         src: "/images/Posts/Posts2/img-03.jpg",
-  //       },
-  //       {
-  //         src: "/images/Posts/Posts2/img-04.jpg",
-  //       },
-  //     ],
-  //     videos: [
-  //       {
-  //         src: "/images/Posts/Posts2/video-01.mp4",
-  //       },
-  //     ],
-  //     react: [
-  //       {
-  //         idUser: 0,
-  //         username: "Marvin McKinney",
-  //         emojiCode: 1,
-  //       },
-  //       {
-  //         idUser: 1,
-  //         username: "Jenny Wilson",
-  //         emojiCode: 1,
-  //       },
-  //     ],
-  //     comment: [
-  //       {
-  //         idComment: 0,
-  //         user: {
-  //           idUser: 0,
-  //           username: "Ariana Grand",
-  //           avatar: "/images/User/user-profile.jpg",
-  //         },
-  //         time: "5 month",
-  //         content: "Believe in yourself and you will be unstoppable.",
-  //       },
-  //       {
-  //         idComment: 1,
-  //         user: {
-  //           idUser: 1,
-  //           username: "David McKinney",
-  //           avatar: "/images/User/user-05.jpg",
-  //         },
-  //         time: "5 month",
-  //         content: "superb!! Great Work..",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     user: {
-  //       username: "Ariana Grande",
-  //       avatar: "/images/User/user-04.jpg",
-  //     },
-  //     status: "posted an update in the timeline",
-  //     time: "a year ago",
-  //     content:
-  //       "“Such short little lives our pets have to spend with us, and they spend most of it waiting for us to come home each day.”",
-  //     images: [{ src: "/images/Posts/Posts3/img-01.jpeg" }],
-  //     videos: [],
-  //     react: [
-  //       {
-  //         idUser: 0,
-  //         username: "Marvin McKinney",
-  //         emojiCode: 1,
-  //       },
-  //       {
-  //         idUser: 1,
-  //         username: "Jenny Wilson",
-  //         emojiCode: 2,
-  //       },
-  //       {
-  //         idUser: 3,
-  //         username: "Aaron Jones",
-  //         emojiCode: 3,
-  //       },
-  //     ],
-  //     comment: [],
-  //   },
-  //   {
-  //     id: 3,
-  //     user: {
-  //       username: "David McCallum",
-  //       avatar: "/images/User/user-05.jpg",
-  //     },
-  //     status: "posted an update in the timeline",
-  //     time: "a year ago",
-  //     content: "Memories you create, and we capture..😍",
-  //     images: [
-  //       {
-  //         src: "/images/Posts/Posts4/img-01.jpg",
-  //       },
-  //       {
-  //         src: "/images/Posts/Posts4/img-02.jpg",
-  //       },
-  //     ],
-  //     videos: [{ src: "/images/Posts/Posts4/video-01.mp4" }],
-  //     react: [
-  //       {
-  //         idUser: 0,
-  //         username: "Marvin McKinney",
-  //         emojiCode: 1,
-  //       },
-  //       {
-  //         idUser: 1,
-  //         username: "Jenny Wilson",
-  //         emojiCode: 2,
-  //       },
-  //       {
-  //         idUser: 3,
-  //         username: "Aaron Jones",
-  //         emojiCode: 3,
-  //       },
-  //     ],
-  //     comment: [],
-  //   },
-  // ];
-
   const { userData } = useContext(DataContext);
   const getCurrentMember = useSelector(
     (state) => state.persistedReducer?.userInfo?.currentMember?.data
@@ -240,18 +13,59 @@ const TimelineProfile = ({ accountOwner }) => {
   const [galleryShow, setGalleryShow] = useState(null);
   const [posts, setPosts] = useState(null);
 
+  const listFriend = useSelector(
+    (state) => state.persistedReducer?.friend?.listFriend?.data
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (accountOwner) {
+      const userId = userData?.id;
+      dispatch(getListFriend({ userId }));
+    } else {
+      const userId = getCurrentMember?.id;
+      dispatch(getListFriend({ userId }));
+    }
+  }, [accountOwner, dispatch, userData, getCurrentMember]);
+
   useEffect(() => {
     const hanldeInformation = () => {
       if (accountOwner) {
         setGalleryShow(userData?.images);
-        setPosts(userData?.posts);
+        // setPosts(userData?.posts);
       } else {
         setGalleryShow(getCurrentMember?.images);
-        setPosts(getCurrentMember?.posts);
+        // setPosts(getCurrentMember?.posts);
       }
     };
     hanldeInformation();
   }, [accountOwner, getCurrentMember, userData]);
+
+  useEffect(() => {
+    const handleFilterPosts = () => {
+      if (accountOwner) {
+        if (userData?.posts !== null) {
+          const filter = userData?.posts.filter(
+            (val) => val?.pagePost === null
+          );
+          if (filter.length > 0) {
+            setPosts(filter);
+          }
+        }
+      } else {
+        if (getCurrentMember?.posts !== null) {
+          const filter = getCurrentMember?.posts.filter(
+            (val) => val?.pagePost === null
+          );
+          if (filter.length > 0) {
+            setPosts(filter);
+          }
+        }
+      }
+    };
+    handleFilterPosts();
+  }, [posts, userData, accountOwner, getCurrentMember]);
 
   return (
     <div className="timeline-profile">
@@ -272,14 +86,16 @@ const TimelineProfile = ({ accountOwner }) => {
                     : "list-image h-3row"
                 }
               >
-                {galleryShow.map((image) => (
-                  <img
-                    key={image.id}
-                    src={image.imgLink}
-                    alt=""
-                    className="item-img"
-                  />
-                ))}
+                {galleryShow
+                  .map((image) => (
+                    <img
+                      key={image.id}
+                      src={image.imgLink}
+                      alt=""
+                      className="item-img"
+                    />
+                  ))
+                  .filter((e, k) => k < 9)}
               </div>
             ) : (
               <p className="mess">There are no images yet</p>
@@ -292,30 +108,40 @@ const TimelineProfile = ({ accountOwner }) => {
             <p className="view">View more</p>
           </div>
           <div className="friends">
-            {friendsShow.length > 0 ? (
-              <div
-                className={
-                  friendsShow.length > 0 && friendsShow.length <= 3
-                    ? "list-users h-1row"
-                    : friendsShow.length > 3 && friendsShow.length <= 6
-                    ? "list-users h-2row"
-                    : "list-users h-3row"
-                }
-              >
-                {friendsShow.map((user) => (
-                  <div className="item-user">
-                    <img
-                      key={user.id}
-                      src={user.avatar}
-                      alt=""
-                      className="img-avt"
-                    />
-                    <p className="username">{user.userName}</p>
+            {listFriend !== null && (
+              <>
+                {listFriend.length > 0 ? (
+                  <div
+                    className={
+                      listFriend.length > 0 && listFriend.length <= 3
+                        ? "list-users h-1row"
+                        : listFriend.length > 3 && listFriend.length <= 6
+                        ? "list-users h-2row"
+                        : "list-users h-3row"
+                    }
+                  >
+                    {listFriend
+                      .map((user) => (
+                        <div className="item-user">
+                          <img
+                            key={user.id}
+                            src={
+                              user?.image
+                                ? user?.image?.imgLink
+                                : "/images/DefaultPage/default-avatar.jpg"
+                            }
+                            alt=""
+                            className="img-avt"
+                          />
+                          <p className="username">{`${user?.firstName} ${user?.lastName}`}</p>
+                        </div>
+                      ))
+                      .filter((e, k) => k < 9)}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="mess">There are no friends yet</p>
+                ) : (
+                  <p className="mess">There are no friends yet</p>
+                )}
+              </>
             )}
           </div>
         </div>

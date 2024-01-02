@@ -1,15 +1,19 @@
 import { useForm } from "react-hook-form";
 import "../MyPages/MyPages.scss";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CreatePage from "../CreatePage/CreatePage";
 import { PageContext } from "../context/pageContext";
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../../../context/dataContext";
-import { useDispatch } from "react-redux";
-import { updatePages } from "../../../../redux/slice/Pages/pagesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCurrentPages,
+  updatePages,
+} from "../../../../redux/slice/Pages/pagesSlice";
 const MyPages = ({ isPage }) => {
-  const { userData } = useContext(DataContext);
-  const [pagesData, setPagesData] = useState(userData?.page);
+  const getCurrentPage = useSelector(
+    (state) => state?.persistedReducer?.pages?.currentPages?.data
+  );
+  const [pagesData, setPagesData] = useState(getCurrentPage);
 
   const pageName = pagesData?.pageName;
   const category = pagesData?.category;
@@ -30,6 +34,17 @@ const MyPages = ({ isPage }) => {
   } = useForm({ defaultValues: initialValues });
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (getCurrentPage) {
+      setPagesData(getCurrentPage);
+    }
+  }, [getCurrentPage]);
+
+  useEffect(() => {
+    // console.log("getCurrentPage", getCurrentPage);
+    dispatch(getCurrentPages());
+  }, [dispatch]);
 
   const onSubmit = (data) => {
     const { name, category, contact, intro } = data;

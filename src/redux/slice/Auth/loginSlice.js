@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { message } from "antd";
 import api from "../../api/api";
 import { clearAuthHeader, setAuthHeader } from "../../api/setHeader";
-import { getUser } from "../User/userSlice";
+import { getAllUser, getUser } from "../User/userSlice";
+import { getAllPages } from "../Pages/pagesSlice";
+import { getCommentReported, getPostsReported } from "../Report/reportSlice";
 
 const initialState = {
   currentLogin: null,
@@ -32,6 +34,11 @@ export const login = createAsyncThunk("loginAuth", async (data, thunkAPI) => {
     } else {
       setAuthHeader(result.data.token);
       thunkAPI.dispatch(getUser());
+      //Admin
+      thunkAPI.dispatch(getPostsReported());
+      thunkAPI.dispatch(getCommentReported());
+      thunkAPI.dispatch(getAllUser());
+      thunkAPI.dispatch(getAllPages());
     }
     return result.data;
   } catch (error) {

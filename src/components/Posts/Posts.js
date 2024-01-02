@@ -53,65 +53,67 @@ const Posts = ({ posts }) => {
         }}
       >
         <div className="posts-stream">
-          {posts
-            .map((item) => (
-              <div key={item.id} className="posts">
-                <PostsHeader
-                  avatar={
-                    item?.page !== null
-                      ? item?.page?.avatar?.imgLink
-                      : item?.userPost?.avatar
-                  }
-                  username={
-                    item?.page !== null
-                      ? item?.page?.pageName
-                      : item?.userPost?.firstName +
-                        " " +
-                        item?.userPost?.lastName
-                  }
-                  status={item?.feeling}
-                  time={item?.createDate.slice(0, 10)}
-                  postsItem={item}
-                />
-                <PostsBody
-                  postsId={item?.id}
-                  postsContent={item?.content}
-                  postsImage={item?.images}
-                  postsVideo={item?.videos}
-                  postsReaction={[
-                    {
-                      idUser: 0,
-                      username: "Marvin McKinney",
-                      emojiCode: 1,
-                    },
-                    {
-                      idUser: 1,
-                      username: "Jenny Wilson",
-                      emojiCode: 1,
-                    },
-                    {
-                      idUser: 3,
-                      username: "Aaron Jones",
-                      emojiCode: 4,
-                    },
-                  ]}
-                  listEmoji={listEmoji}
-                  postsItem={item}
-                  countLike={item.countLike}
-                />
-                <PostsFooter
-                  postsId={item?.id}
-                  postsComment={item?.comments}
-                  listEmoji={listEmoji}
-                />
-              </div>
-            ))
-            .reverse()}
+          {posts !== null && (
+            <>
+              {posts.map((item) => (
+                <div key={item.id} className="posts">
+                  <PostsHeader
+                    avatar={
+                      item?.pagePost !== null
+                        ? item?.pagePost?.avatar?.imgLink
+                        : item?.userPost?.avatar
+                    }
+                    username={
+                      item?.pagePost !== null
+                        ? item?.pagePost?.pageName
+                        : item?.userPost?.firstName +
+                          " " +
+                          item?.userPost?.lastName
+                    }
+                    status={item?.feeling}
+                    time={item?.createDate.slice(0, 10)}
+                    postsItem={item}
+                  />
+                  <PostsBody
+                    postsId={item?.id}
+                    postsContent={item?.content}
+                    postsImage={item?.images}
+                    postsVideo={item?.videos}
+                    postsReaction={[
+                      {
+                        idUser: 0,
+                        username: "Marvin McKinney",
+                        emojiCode: 1,
+                      },
+                      {
+                        idUser: 1,
+                        username: "Jenny Wilson",
+                        emojiCode: 1,
+                      },
+                      {
+                        idUser: 3,
+                        username: "Aaron Jones",
+                        emojiCode: 4,
+                      },
+                    ]}
+                    listEmoji={listEmoji}
+                    postsItem={item}
+                    countLike={item?.countLike}
+                  />
+                  <PostsFooter
+                    postsId={item?.id}
+                    postsComment={item?.comments}
+                    listEmoji={listEmoji}
+                  />
+                </div>
+              ))}
+            </>
+          )}
         </div>
         {postsOpen !== null && (
           <PostsOpen
             postsUser={postsOpen?.userPost}
-            postsPages={postsOpen?.page}
+            postsPages={postsOpen?.pagePost}
             postsTime={postsOpen?.createDate}
             postsImage={postsOpen?.images}
             postsVideo={postsOpen?.videos}
@@ -125,7 +127,7 @@ const Posts = ({ posts }) => {
         {openEditPosts && (
           <EditPosts
             postInfo={postsEditInfo}
-            postOnPage={postsEditInfo?.page !== null ? true : false}
+            postOnPage={postsEditInfo?.pagePost !== null ? true : false}
           />
         )}
       </PostsEditContext.Provider>

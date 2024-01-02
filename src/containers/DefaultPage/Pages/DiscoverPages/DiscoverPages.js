@@ -230,46 +230,48 @@ const DiscoverPages = () => {
 
   return (
     <div className="discover-pages pages-component">
-      {discoverPages !== null && (
+      {discoverPages !== null ? (
         <>
-          {discoverPages.map((item) => (
-            <div
-              key={item.id}
-              className="item-page-box"
-              onClick={() => handleViewPages(item.id)}
-            >
-              <div className="top-item">
-                <img
-                  src={
-                    item?.background?.imgLink
-                      ? item?.background?.imgLink
-                      : "/images/Ads/banner-bg.jpg"
-                  }
-                  alt=""
-                  className="bg-cover"
-                />
-                <img
-                  src={
-                    item?.avatar?.imgLink
-                      ? item?.avatar?.imgLink
-                      : "/images/DefaultPage/default-avatar.jpg"
-                  }
-                  alt=""
-                  className="avatar"
-                />
-              </div>
-              <div className="middle-item">
-                <p className="name-page">{item?.pageName}</p>
-                <div className="members">
-                  <img
-                    src="/images/Icon/IconDropdown/User.png"
-                    alt=""
-                    className="ic-user"
-                  />
-                  <p className="subject">Member {item.countMember}</p>
-                </div>
-              </div>
-              {/* <div className="bottom-item">
+          {discoverPages.length > 0 ? (
+            <>
+              {discoverPages.map((item) => (
+                <div
+                  key={item.id}
+                  className="item-page-box"
+                  onClick={() => handleViewPages(item.id)}
+                >
+                  <div className="top-item">
+                    <img
+                      src={
+                        item?.background?.imgLink
+                          ? item?.background?.imgLink
+                          : "/images/Ads/banner-bg.jpg"
+                      }
+                      alt=""
+                      className="bg-cover"
+                    />
+                    <img
+                      src={
+                        item?.avatar?.imgLink
+                          ? item?.avatar?.imgLink
+                          : "/images/DefaultPage/default-avatar.jpg"
+                      }
+                      alt=""
+                      className="avatar"
+                    />
+                  </div>
+                  <div className="middle-item">
+                    <p className="name-page">{item?.pageName}</p>
+                    <div className="members">
+                      <img
+                        src="/images/Icon/IconDropdown/User.png"
+                        alt=""
+                        className="ic-user"
+                      />
+                      <p className="subject">Member {item.countMember}</p>
+                    </div>
+                  </div>
+                  {/* <div className="bottom-item">
                 <div className="members-list">
                   {item.member?.length > 0 ? (
                     <>
@@ -288,9 +290,15 @@ const DiscoverPages = () => {
                 </div>
                 <button className="btn-choose btn-blue">Like Page</button>
               </div> */}
-            </div>
-          ))}
+                </div>
+              ))}
+            </>
+          ) : (
+            <p className="mess">There are no pages yet</p>
+          )}
         </>
+      ) : (
+        <p className="mess">There are no pages yet</p>
       )}
     </div>
   );

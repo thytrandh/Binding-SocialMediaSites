@@ -33,6 +33,7 @@ import {
   PAGE_MEMBER_INTRO,
   PAGE_MEMBER_MEMBERS,
   PASSWORD_SETTING,
+  POLICY_PAGE,
   POSTS_MANAGEMENT,
   PROFILES_ABOUT,
   PROFILES_FRIENDS,
@@ -52,6 +53,8 @@ import UsersManagement from "../containers/AdminPage/UsersManagement/UsersManage
 import PostsManagement from "../containers/AdminPage/PostsManagement/PostsManagement";
 import CommentsManagement from "../containers/AdminPage/CommentsManagement/CommentsManagement";
 import PagesManagement from "../containers/AdminPage/PagesManagement/PagesManagement";
+import PolicyPage from "../containers/DefaultPage/PolicyPage/PolicyPage";
+import Loader from "../components/Loader/Loader";
 
 //Authencation Page
 //================================= AUTHENCATION PAGE ==================================
@@ -275,9 +278,9 @@ const Conversation = React.lazy(() =>
 );
 
 const AppRoutes = () => {
-  const Loader = () => {
-    return <>Loading</>;
-  };
+  // const Loader = () => {
+  //   return <>Loading</>;
+  // };
 
   return (
     <Routes>
@@ -393,6 +396,15 @@ const AppRoutes = () => {
           element={
             <React.Suspense fallback={<Loader />}>
               <HomePage />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path={POLICY_PAGE}
+          element={
+            <React.Suspense fallback={<Loader />}>
+              <PolicyPage />
             </React.Suspense>
           }
         />

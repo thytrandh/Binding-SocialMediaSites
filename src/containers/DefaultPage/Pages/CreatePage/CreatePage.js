@@ -15,7 +15,7 @@ const CreatePage = () => {
     (state) => state.persistedReducer?.pages?.createPages?.status
   );
 
-  const refresh = () => window.location.reload(true);
+  // const refresh = () => window.location.reload(true);
 
   const {
     handleSubmit,
@@ -62,7 +62,7 @@ const CreatePage = () => {
       })
     );
 
-    refresh();
+    // refresh();
   };
 
   useEffect(() => {

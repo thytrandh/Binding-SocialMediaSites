@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getUserById } from "../../../../../redux/slice/User/userSlice";
 import { getIsFriend } from "../../../../../redux/slice/User/friendSlice";
 import {
+  getCurrentPages,
   getIsLikePage,
   getPageById,
 } from "../../../../../redux/slice/Pages/pagesSlice";
@@ -31,10 +32,17 @@ const ListResult = ({ title, listResult }) => {
         navigate(`/members/${memberId}`, { replace: true });
       }
     } else if (title === "Page") {
-      const pageId = profileId;
-      dispatch(getPageById({ pageId }));
-      dispatch(getIsLikePage({ pageId }));
-      navigate(`/page-binding/${pageId}`, { replace: true });
+      //pageId of current user
+      const userPageId = userData?.page?.id;
+      if (profileId === userPageId) {
+        dispatch(getCurrentPages());
+        navigate("/page-binding");
+      } else {
+        const pageId = profileId;
+        dispatch(getPageById({ pageId }));
+        dispatch(getIsLikePage({ pageId }));
+        navigate(`/page-binding/${pageId}`, { replace: true });
+      }
     }
   };
 
@@ -57,6 +65,8 @@ const ListResult = ({ title, listResult }) => {
                 user?.image?.imgLink
                   ? user?.image?.imgLink
                   : user?.avatar?.imgLink
+                  ? user?.avatar?.imgLink
+                  : "/images/DefaultPage/default-avatar.jpg"
               }
               alt=""
             />

@@ -3,6 +3,7 @@ import api from "../../api/api";
 import { getUser } from "../User/userSlice";
 import { message } from "antd";
 import { getNewsfeed } from "./postsSlice";
+import { getCommentReported } from "../Report/reportSlice";
 
 const initialState = {
   currentPostComment: null,
@@ -63,6 +64,7 @@ export const deleteComment = createAsyncThunk(
       const result = await api.delete(`/api/v1/comment/${commentId}`);
       thunkAPI.dispatch(getNewsfeed());
       thunkAPI.dispatch(getUser());
+      thunkAPI.dispatch(getCommentReported());
       message.success("Your comments successfully deleted.");
       return result.data;
     } catch (error) {

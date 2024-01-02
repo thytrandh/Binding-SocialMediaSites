@@ -73,7 +73,6 @@
                                 font-size: 0.9rem;
                                 color: var(--white);
                                 font-weight: 500;
-
                             }
                         }
 
@@ -148,6 +147,85 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.detail-box {
+    position: fixed;
+    z-index: 1010;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000, 0.75);
+    .detail {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80vw;
+        max-width: 520px;
+        max-height: 650px;
+        min-height: 500;
+        background-color: var(--white);
+        border-radius: 5px;
+
+        .header-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            border-bottom: 1px solid var(--grey);
+            p.title {
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: var(--title-text);
+            }
+        }
+        .detail-content {
+            padding: 25px 25px;
+            height: calc(100% - 60px);
+            overflow: hidden;
+            overflow-y: scroll;
+            .box-content {
+                // display: flex;
+                margin-bottom: 10px;
+                p.title {
+                    font-weight: 500;
+                    color: var(--title-text);
+
+                    span.desc {
+                        margin-left: 5px;
+                        font-weight: 400;
+                        color: var(--body-text);
+                    }
+                }
+                .box-link {
+                    font-style: italic;
+                    color: dodgerblue;
+                    font-size: 0.95rem;
+                    width: 100%;
+                    overflow: hidden;
+                    p.link{
+                        width: 100%;
+                        text-wrap: wrap;
+                    }
+                }
+            }
+        }
+        ::-webkit-scrollbar-track {
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 20px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
         }
     }
 }

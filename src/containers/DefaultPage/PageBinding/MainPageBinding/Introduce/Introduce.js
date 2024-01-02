@@ -1,40 +1,43 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Advertisement from "../../../NewsfeedPage/Advertisement/Advertisement";
 import ServiceAdvertisement from "../../../NewsfeedPage/ServiceAdvertisement/ServiceAdvertisement";
 import "../Introduce/Introduce.scss";
-import { DataContext } from "../../../../../context/dataContext";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const Introduce = ({ pageOwner }) => {
-  const { userData } = useContext(DataContext);
-  const [pagesData, setPagesData] = useState(userData?.page);
-  const params = useParams();
-  const dispatch = useDispatch();
+  const getCurrentPage = useSelector(
+    (state) => state?.persistedReducer?.pages?.currentPages?.data
+  );
+  const memberPagesData = useSelector(
+    (state) => state.persistedReducer?.pages?.getPage?.data
+  );
+  const [pagesData, setPagesData] = useState(getCurrentPage);
+
   const [category, setCategory] = useState(null);
   const [contact, setContact] = useState(null);
   const [intro, setIntro] = useState(null);
 
-  const handleInformation = () => {
-    if (pageOwner) {
-      setCategory(pagesData?.category);
-      setContact(pagesData?.contact);
-      setIntro(pagesData?.introduce);
-      return;
-    } else {
-      // const memberId = params.memberId;
-      // const userId = memberId;
-      // dispatch(getUserById({ userId }));
-      // if (memberData) {
-      //   setGalleryShow(memberData?.images);
-      //   setPosts(memberData?.posts);
-      // }
-      return;
+  useEffect(() => {
+    if (getCurrentPage) {
+      setPagesData(getCurrentPage);
     }
-  };
+  }, [getCurrentPage]);
 
   useEffect(() => {
+    const handleInformation = () => {
+      if (pageOwner) {
+        setCategory(pagesData?.category);
+        setContact(pagesData?.contact);
+        setIntro(pagesData?.introduce);
+        return;
+      } else {
+        setCategory(memberPagesData?.category);
+        setContact(memberPagesData?.contact);
+        setIntro(memberPagesData?.introduce);
+        return;
+      }
+    };
     handleInformation();
-  }, []);
+  }, [pageOwner, memberPagesData, pagesData]);
   return (
     <div className="introduce-page-binding">
       <div className="left">

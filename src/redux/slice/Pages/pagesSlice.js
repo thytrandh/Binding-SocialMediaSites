@@ -9,7 +9,10 @@ const initialState = {
   createPages: null,
   updatePages: null,
   allPages: null,
+  memberPage: null,
   isLikePage: null,
+  likePage: null,
+  unlikePage: null,
   loading: false,
   error: false,
 };
@@ -66,6 +69,7 @@ export const createPages = createAsyncThunk(
       const result = await api.post("/api/v1/page", formData);
       thunkAPI.dispatch(getUser());
       thunkAPI.dispatch(getAllPages());
+      thunkAPI.dispatch(getCurrentPages());
       message.success("Pages created successfully.");
       return result.data;
     } catch (error) {
@@ -103,10 +107,39 @@ export const getIsLikePage = createAsyncThunk(
   "pages/isLikePage",
   async (data, thunkAPI) => {
     const { pageId } = data;
-    const formData = new FormData();
-    formData.append("pageId", pageId);
+    // const formData = new FormData();
+    // formData.append("pageId", pageId);
     try {
-      const result = await api.get("/api/v1/is-followed", formData);
+      const result = await api.get(`/api/v1/is-followed/${pageId}`);
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+//Like page
+export const likePage = createAsyncThunk(
+  "pages/likePage",
+  async (data, thunkAPI) => {
+    const { pageId } = data;
+    try {
+      const result = await api.put(`/api/v1/follow-page/${pageId}`);
+      thunkAPI.dispatch(getIsLikePage({ pageId }));
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+//get members page
+export const getMemberPage = createAsyncThunk(
+  "pages/getMemberPage",
+  async (data, thunkAPI) => {
+    const { pageId } = data;
+    try {
+      const result = await api.get(`/api/v1/follower/${pageId}`);
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");
@@ -150,13 +183,13 @@ const pagesSlice = createSlice({
       state.error = true;
     },
 
-     //get is like page
-     [getIsLikePage.pending]: (state, action) => {
+    //get is like page
+    [getIsLikePage.pending]: (state, action) => {
       state.loading = true;
     },
     [getIsLikePage.fulfilled]: (state, action) => {
       state.loading = false;
-      state.isLikePage= action.payload;
+      state.isLikePage = action.payload;
       state.error = false;
     },
     [getIsLikePage.rejected]: (state, action) => {
@@ -200,6 +233,19 @@ const pagesSlice = createSlice({
       state.error = false;
     },
     [updatePages.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+    },
+    //get member page
+    [getMemberPage.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getMemberPage.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.memberPage = action.payload;
+      state.error = false;
+    },
+    [getMemberPage.rejected]: (state, action) => {
       state.loading = false;
       state.error = true;
     },

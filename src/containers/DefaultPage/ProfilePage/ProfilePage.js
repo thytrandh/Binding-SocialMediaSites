@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../ProfilePage/ProfilePage.scss";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import { Outlet } from "react-router-dom";
 import { OpenShowFileContext } from "./MainProfile/context/openShowFileContext";
 import TabMenuNavbar from "./TabMenuNavbar/TabMenuNavbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProfileDataContext } from "./context/profileDataContext";
+import { getAllPostsByUser } from "../../../redux/slice/Posts/postsSlice";
+import { DataContext } from "../../../context/dataContext";
+import { getUserListFriend } from "../../../redux/slice/User/friendSlice";
 
 const ProfilePage = ({ accountOwner }) => {
+  const { userData } = useContext(DataContext);
   const [openFileBox, setOpenFileBox] = useState(false);
+
   const getCurrentMember = useSelector(
     (state) => state.persistedReducer?.userInfo?.currentMember?.data
   );
@@ -19,6 +24,23 @@ const ProfilePage = ({ accountOwner }) => {
       setMemberData(getCurrentMember);
     }
   }, [getCurrentMember, setMemberData]);
+
+  const dispatch = useDispatch();
+  const userId = userData?.id;
+
+  useEffect(() => {
+    dispatch(
+      getAllPostsByUser({
+        userId,
+      })
+    );
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    const userid = userData?.id;
+    dispatch(getUserListFriend({ userid }));
+  }, [dispatch, userData]);
+  
 
   return (
     <ProfileDataContext.Provider value={{ memberData, setMemberData }}>

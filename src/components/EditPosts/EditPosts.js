@@ -316,7 +316,7 @@ const EditPosts = ({ postOnPage, postInfo }) => {
       return false;
     } else {
       if (postOnPage) {
-        const pageId = postInfo?.page?.id;
+        const pageId = postInfo?.pagePost?.id;
         dispatch(
           editPosts({
             id,
@@ -348,7 +348,7 @@ const EditPosts = ({ postOnPage, postInfo }) => {
     }
 
     console.log("postInfo", postInfo);
-  }, [isSuccess, dispatch, setOpenEditPosts]);
+  }, [isSuccess, dispatch, setOpenEditPosts, postInfo]);
 
   return (
     <DataEditPostsContext.Provider
@@ -383,13 +383,13 @@ const EditPosts = ({ postOnPage, postInfo }) => {
             <div className="middle">
               <UserInfoEditPosts
                 avatar={
-                  postInfo?.page !== null
-                    ? postInfo?.page?.avatar?.imgLink
+                  postInfo?.pagePost !== null
+                    ? postInfo?.pagePost?.avatar?.imgLink
                     : postInfo?.userPost?.avatar
                 }
                 userName={
-                  postInfo?.page !== null
-                    ? postInfo?.page?.pageName
+                  postInfo?.pagePost !== null
+                    ? postInfo?.pagePost?.pageName
                     : postInfo?.userPost?.firstName +
                       " " +
                       postInfo?.userPost?.lastName

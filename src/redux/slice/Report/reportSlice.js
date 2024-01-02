@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import { message } from "antd";
+import { getAllUser } from "../User/userSlice";
+import { getAllPages } from "../Pages/pagesSlice";
 const initialState = {
   currentReport: null,
   currentPostsReported: null,
@@ -47,7 +49,7 @@ export const getCommentReported = createAsyncThunk(
   "report/getCommentReported",
   async (data, thunkAPI) => {
     try {
-      const result = await api.get("/api/v1/admin/comment-reported");
+      const result = await api.get("/api/v1/admin/comment-reported/");
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");
@@ -59,7 +61,101 @@ export const getPostsReported = createAsyncThunk(
   "report/getPostsReported",
   async (data, thunkAPI) => {
     try {
-      const result = await api.get("/api/v1/admin/post-reported");
+      const result = await api.get("/api/v1/admin/post-reported/");
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const disabledUser = createAsyncThunk(
+  "report/disabledUser",
+  async (data, thunkAPI) => {
+    const { userId } = data;
+    try {
+      const result = await api.put(`/api/v1/admin/disable-user/${userId}`);
+      thunkAPI.dispatch(getAllUser());
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const enabledUser = createAsyncThunk(
+  "report/disabledUser",
+  async (data, thunkAPI) => {
+    const { userId } = data;
+    try {
+      const result = await api.put(`/api/v1/admin/enabled-user/${userId}`);
+      thunkAPI.dispatch(getAllUser());
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const disabledPosts = createAsyncThunk(
+  "report/disabledPosts",
+  async (data, thunkAPI) => {
+    const { id } = data;
+    try {
+      const result = await api.put("/api/v1/admin/disabled-post/", {
+        id,
+      });
+      message.success("Posts successfully disabled.");
+      thunkAPI.dispatch(getPostsReported());
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const disabledComment = createAsyncThunk(
+  "report/disabledComment",
+  async (data, thunkAPI) => {
+    const { id } = data;
+    try {
+      const result = await api.put("/api/v1/admin/disable-comment/", {
+        id,
+      });
+      message.success("Comment successfully disabled.");
+      thunkAPI.dispatch(getCommentReported());
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const disabledPage = createAsyncThunk(
+  "report/disabledPage",
+  async (data, thunkAPI) => {
+    const { id } = data;
+    try {
+      const result = await api.put("/api/v1/admin/disable-page/", {
+        id,
+      });
+      message.success("Pages successfully disabled.");
+      thunkAPI.dispatch(getAllPages());
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const deletePage = createAsyncThunk(
+  "report/disabledPage",
+  async (data, thunkAPI) => {
+    const { id } = data;
+    try {
+      const result = await api.delete(`/api/v1/delete-page/${id}`);
+      message.success("Pages successfully deleted.");
+      thunkAPI.dispatch(getAllPages());
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");

@@ -28,12 +28,12 @@ const TabMenuNavbar = ({ accountOwner }) => {
       link: "/profile/gallery",
       isActive: false,
     },
-    {
-      id: 4,
-      name: "Archive",
-      link: "/profile/archive",
-      isActive: false,
-    },
+    // {
+    //   id: 4,
+    //   name: "Archive",
+    //   link: "/profile/archive",
+    //   isActive: false,
+    // },
   ]);
 
   const params = useParams();

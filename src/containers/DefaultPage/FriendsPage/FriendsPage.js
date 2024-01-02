@@ -1,11 +1,17 @@
 import "../FriendsPage/FriendsPage.scss";
 import BannerAds from "../../../components/BannerAds/BannerAds";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AllFriends from "./AllFriends/AllFriends";
 import FriendsRequests from "./FriendsRequests/FriendsRequests";
-import SentRequests from "./SentRequests/SentRequests";
+import { DataContext } from "../../../context/dataContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getListFriend,
+  getRequestFriendList,
+} from "../../../redux/slice/User/friendSlice";
 
 const FriendsPage = () => {
+  const { userData } = useContext(DataContext);
   const [tabMenu, setTabMenu] = useState([
     {
       id: 0,
@@ -17,11 +23,11 @@ const FriendsPage = () => {
       name: "Friends Requests",
       isActive: false,
     },
-    {
-      id: 2,
-      name: "Sent Requests",
-      isActive: false,
-    },
+    // {
+    //   id: 2,
+    //   name: "Sent Requests",
+    //   isActive: false,
+    // },
   ]);
 
   const handleClickTabMenu = (idTab) => {
@@ -47,199 +53,233 @@ const FriendsPage = () => {
       setResultSearchFriends(friends);
     } else if (idTab === 1) {
       setResultSearchFrReq(friendsReqs);
-    } else if (idTab === 2) {
-      setResultSearchSentReq(sentReqs);
     }
+    // else if (idTab === 2) {
+    //   setResultSearchSentReq(sentReqs);
+    // }
   };
 
-  const friends = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-08.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-07.jpg",
-      email: "philipNinomar@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-06.jpg",
-      email: "irisCana@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-05.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-04.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-09.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-10.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-profile.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-  ];
+  const friends = useSelector(
+    (state) => state.persistedReducer?.friend?.listFriend?.data
+  );
 
-  const friendsReqs = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-09.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-10.jpg",
-      email: "philipNinomar@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-11.jpg",
-      email: "irisCana@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-12.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-13.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-09.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-10.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-profile.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-  ];
+  const friendsReqs = useSelector(
+    (state) => state.persistedReducer?.friend?.requestFriend?.data
+  );
 
-  const sentReqs = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-01.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-02.jpg",
-      email: "philipNinomar@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-03.jpg",
-      email: "irisCana@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-04.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-05.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-06.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-07.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-08.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-  ];
+  // const friends = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-08.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Philip Ninomar",
+  //     avatar: "/images/User/user-07.jpg",
+  //     email: "philipNinomar@gmail.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Iris Cana",
+  //     avatar: "/images/User/user-06.jpg",
+  //     email: "irisCana@gmail.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Cana Diket",
+  //     avatar: "/images/User/user-05.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Cris Wilson",
+  //     avatar: "/images/User/user-04.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 6,
+  //     userName: "Anana Crew",
+  //     avatar: "/images/User/user-09.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 7,
+  //     userName: "Anana Zona",
+  //     avatar: "/images/User/user-10.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 8,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-profile.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  // ];
+
+  // const friendsReqs = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-09.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Philip Ninomar",
+  //     avatar: "/images/User/user-10.jpg",
+  //     email: "philipNinomar@gmail.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Iris Cana",
+  //     avatar: "/images/User/user-11.jpg",
+  //     email: "irisCana@gmail.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Cana Diket",
+  //     avatar: "/images/User/user-12.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Cris Wilson",
+  //     avatar: "/images/User/user-13.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 6,
+  //     userName: "Anana Crew",
+  //     avatar: "/images/User/user-09.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 7,
+  //     userName: "Anana Zona",
+  //     avatar: "/images/User/user-10.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 8,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-profile.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  // ];
+
+  // const sentReqs = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-01.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Philip Ninomar",
+  //     avatar: "/images/User/user-02.jpg",
+  //     email: "philipNinomar@gmail.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Iris Cana",
+  //     avatar: "/images/User/user-03.jpg",
+  //     email: "irisCana@gmail.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Cana Diket",
+  //     avatar: "/images/User/user-04.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Cris Wilson",
+  //     avatar: "/images/User/user-05.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 6,
+  //     userName: "Anana Crew",
+  //     avatar: "/images/User/user-06.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 7,
+  //     userName: "Anana Zona",
+  //     avatar: "/images/User/user-07.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 8,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-08.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  // ];
 
   const [inputSearch, setInputSearch] = useState("");
 
-  const [resultSearchFriends, setResultSearchFriends] = useState([...friends]);
-  const [resultSearchFrReq, setResultSearchFrReq] = useState([...friendsReqs]);
-  const [resultSearchSentReq, setResultSearchSentReq] = useState([...sentReqs]);
+  const [resultSearchFriends, setResultSearchFriends] = useState([]);
+  const [resultSearchFrReq, setResultSearchFrReq] = useState([]);
+  // const [resultSearchSentReq, setResultSearchSentReq] = useState([...sentReqs]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getInformation = () => {
+      //get list friends
+      const userId = userData?.id;
+      dispatch(getListFriend({ userId }));
+      //get list friend requests
+      dispatch(getRequestFriendList());
+    };
+    getInformation();
+  }, [dispatch, userData]);
+
+  useEffect(() => {
+    if (friends) {
+      setResultSearchFriends(friends);
+    }
+    if (friendsReqs) {
+      setResultSearchFrReq(friendsReqs);
+    }
+  }, [friends, friendsReqs]);
 
   const handleChangeSearchInput = (value) => {
     if (tabMenu[0].isActive) {
-      const filter = friends.filter((val) =>
-        val.userName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      );
+      const filter = friends.filter((val) => {
+        const name = val?.firstName + " " + val?.lastName;
+        return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+      });
       if (filter.length > 0) {
         setResultSearchFriends(filter);
       } else {
         setResultSearchFriends(friends);
       }
     } else if (tabMenu[1].isActive) {
-      const filter = friendsReqs.filter((val) =>
-        val.userName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      );
+      const filter = friendsReqs.filter((val) => {
+        const name = val?.firstName + " " + val?.lastName;
+        return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+      });
       if (filter.length > 0) {
         setResultSearchFrReq(filter);
       } else {
         setResultSearchFrReq(friends);
       }
-    } else if (tabMenu[2].isActive) {
-      const filter = sentReqs.filter((val) =>
-        val.userName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      );
-      if (filter.length > 0) {
-        setResultSearchSentReq(filter);
-      } else {
-        setResultSearchSentReq(friends);
-      }
     }
+    // else if (tabMenu[2].isActive) {
+    //   const filter = sentReqs.filter((val) =>
+    //     val.userName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+    //   );
+    //   if (filter.length > 0) {
+    //     setResultSearchSentReq(filter);
+    //   } else {
+    //     setResultSearchSentReq(friends);
+    //   }
+    // }
   };
 
   return (
@@ -292,9 +332,9 @@ const FriendsPage = () => {
             resultSearch={resultSearchFrReq}
           />
         )}
-        {tabMenu[2].isActive && (
+        {/* {tabMenu[2].isActive && (
           <SentRequests friends={sentReqs} resultSearch={resultSearchSentReq} />
-        )}
+        )} */}
       </div>
     </div>
   );

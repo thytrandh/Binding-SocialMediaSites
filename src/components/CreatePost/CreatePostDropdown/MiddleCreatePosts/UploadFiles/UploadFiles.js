@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DataCreatePostContext } from "../../context/dataCreatePostContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -7,34 +7,34 @@ import { Pagination } from "swiper/modules";
 import "../UploadFiles/UploadFiles.scss";
 
 const UploadFiles = () => {
-  const { selectedImages, setSelectedImages } = useContext(
-    DataCreatePostContext
-  );
-  const { selectedVideos, setSelectedVideos } = useContext(
-    DataCreatePostContext
-  );
+  const { setSelectedImages } = useContext(DataCreatePostContext);
+  const { setSelectedVideos } = useContext(DataCreatePostContext);
   const { addOption, setAddOption } = useContext(DataCreatePostContext);
+
+  const [imageShow, setImageShow] = useState([]);
+  const [videoShow, setVideoShow] = useState([]);
 
   const onSelectImage = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-    // const imagesArray = selectedFilesArray.map((file) => {
-    //   return URL.createObjectURL(file);
-    // });
-    // setSelectedImages(imagesArray);
     setSelectedImages(selectedFilesArray);
+
+    const imagesArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    setImageShow(imagesArray);
   };
 
   const onSelectVideo = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-    // const videosArray = selectedFilesArray.map((file) => {
-    //   return URL.createObjectURL(file);
-    // });
-    // setSelectedVideos(videosArray);
     setSelectedVideos(selectedFilesArray);
+    const videosArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    setVideoShow(videosArray);
   };
-  
+
   return (
     <div className="upload-file">
       <div
@@ -55,7 +55,7 @@ const UploadFiles = () => {
         />
         {addOption[0].isActive && (
           <>
-            {selectedImages.length > 0 ? (
+            {imageShow.length > 0 ? (
               <div className="show-selected-images">
                 <ul className="selected-images">
                   <Swiper
@@ -63,19 +63,11 @@ const UploadFiles = () => {
                     modules={[Pagination]}
                     className="mySwiper"
                   >
-                    {selectedImages.map((image, idx) => (
+                    {imageShow.map((image, idx) => (
                       <SwiperSlide>
                         <li key={idx} className="item-image">
-                          <img
-                            src={URL.createObjectURL(image)}
-                            alt=""
-                            className="img-selected"
-                          />
-                          <img
-                            className="img-bg"
-                            src={URL.createObjectURL(image)}
-                            alt=""
-                          />
+                          <img src={image} alt="" className="img-selected" />
+                          <img className="img-bg" src={image} alt="" />
                         </li>
                       </SwiperSlide>
                     ))}
@@ -94,7 +86,7 @@ const UploadFiles = () => {
         )}
         {addOption[1].isActive && (
           <>
-            {selectedVideos.length > 0 ? (
+            {videoShow.length > 0 ? (
               <div className="show-selected-videos">
                 <ul className="selected-videos">
                   <Swiper
@@ -102,21 +94,17 @@ const UploadFiles = () => {
                     modules={[Pagination]}
                     className="mySwiper"
                   >
-                    {selectedVideos.map((video, idx) => (
+                    {videoShow.map((video, idx) => (
                       <SwiperSlide>
                         <li key={idx} className="item-video">
                           <video
-                            src={URL.createObjectURL(video)}
+                            src={video}
                             alt=""
                             className="video-selected-post"
                             autoPlay
                             // controls
                           />
-                          <video
-                            className="video-bg"
-                            src={URL.createObjectURL(video)}
-                            alt=""
-                          />
+                          <video className="video-bg" src={video} alt="" />
                         </li>
                       </SwiperSlide>
                     ))}

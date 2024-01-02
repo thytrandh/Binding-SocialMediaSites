@@ -43,13 +43,13 @@ const SliderBar = () => {
       navigate: "/pages",
       active: false,
     },
-    {
-      id: 3,
-      icon: "/images/Icon/IconMenu/Bookmark.png",
-      name: "Story Archive",
-      navigate: "/profile/archive",
-      active: false,
-    },
+    // {
+    //   id: 3,
+    //   icon: "/images/Icon/IconMenu/Bookmark.png",
+    //   name: "Story Archive",
+    //   navigate: "/profile/archive",
+    //   active: false,
+    // },
     {
       id: 4,
       icon: "/images/Icon/IconMenu/Notification.png",
@@ -191,7 +191,7 @@ const SliderBar = () => {
                   </li>
                 );
               })
-              .filter((e, k) => k < 7)}
+              .filter((e, k) => k < 6)}
           </ul>
         </div>
         <div className="navigate-menu">

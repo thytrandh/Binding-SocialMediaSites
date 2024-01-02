@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import "../Gallery/Gallery.scss";
 import { PageOpenFileBoxContext } from "../../context/pageOpenFileBoxContext";
 import ShowFileBindingBox from "../ShowFileBindingBox/ShowFileBindingBox";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { DataContext } from "../../../../../context/dataContext";
+import { getPageById } from "../../../../../redux/slice/Pages/pagesSlice";
 
 const Gallery = (pageOwner) => {
   // const images = [
@@ -78,8 +78,12 @@ const Gallery = (pageOwner) => {
   //   },
   // ];
 
-  const { userData } = useContext(DataContext);
-  const [pagesData, setPagesData] = useState(userData?.page);
+  const pagesData = useSelector(
+    (state) => state?.persistedReducer?.pages?.currentPages?.data
+  );
+  const memberPagesData = useSelector(
+    (state) => state.persistedReducer?.pages?.getPage?.data
+  );
 
   const [images, setImages] = useState(null);
   const [videos, setVideos] = useState(null);
@@ -116,24 +120,35 @@ const Gallery = (pageOwner) => {
   const { openShowFileBox, setOpenShowFileBox } = useContext(
     PageOpenFileBoxContext
   );
-  const params = useParams();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleOwner = () => {
+    const handleInfomation = () => {
+      // console.log("hihh");
       if (pageOwner) {
+        // console.log("hihh");
         setImages(pagesData?.images);
         setVideos(pagesData?.videos);
       } else {
-        // const memberId = params.memberId;
-        // const userId = memberId;
-        // dispatch(getUserById({ userId }));
-        // setImages(memberData?.images);
-        // setVideos(memberData?.videos);
+        setImages(memberPagesData?.images);
+        setVideos(memberPagesData?.videos);
       }
     };
-    handleOwner();
-  }, []);
+    handleInfomation();
+  }, [memberPagesData, pageOwner, pagesData]);
+
+  const dispatch = useDispatch();
+  const params = useParams();
+  useEffect(() => {
+    const pageId = params.pageId;
+    dispatch(getPageById({ pageId }));
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    if (memberPagesData) {
+      setImages(memberPagesData?.images);
+      setVideos(memberPagesData?.videos);
+    }
+  }, [memberPagesData]);
 
   return (
     <div className="gallery-page-binding">

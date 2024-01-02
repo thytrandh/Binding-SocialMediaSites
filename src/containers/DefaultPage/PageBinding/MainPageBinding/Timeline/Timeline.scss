@@ -133,7 +133,7 @@
                         img.img-avt {
                             cursor: pointer;
                             width: 100%;
-                            height: 100%;
+                            height: calc(100% - 10px);
                             object-fit: cover;
                             overflow: hidden;
                             border-radius: 5px;
@@ -149,13 +149,16 @@
                     }
                 }
                 .list-users.h-1row {
-                    --height-1r: 125px;
+                    // --height-1r: 125px;
+                    --height-1r: 105px;
                     height: --height-1r;
                     @include xl {
-                        --height-1r: 140px;
+                        // --height-1r: 140px;
+                        --height-1r: 120px;
                     }
                     @include xxl {
-                        --height-1r: 160px;
+                        // --height-1r: 160px;
+                        --height-1r: 130px;
                     }
                     .item-user {
                         height: calc(var(--height-1r));

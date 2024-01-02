@@ -1,50 +1,52 @@
 import { useContext, useEffect, useState } from "react";
 import "../PageHeader/PageHeader.scss";
 import { DataContext } from "../../../../context/dataContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PAGES } from "../../../../settings/constant";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  getIsLikePage,
+  likePage,
+} from "../../../../redux/slice/Pages/pagesSlice";
 const PageHeader = ({ pageOwner }) => {
-  const members = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-02.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Freya Davies",
-      avatar: "/images/User/user-03.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Aaron Jones",
-      avatar: "/images/User/user-04.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-05.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Ariana McCoy",
-      avatar: "/images/User/user-06.jpg",
-      email: "freyaDavies@gmail.com",
-    },
-  ];
+  // const members = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-02.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Freya Davies",
+  //     avatar: "/images/User/user-03.jpg",
+  //     email: "freyaDavies@gmail.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Aaron Jones",
+  //     avatar: "/images/User/user-04.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-05.jpg",
+  //     email: "freyaDavies@gmail.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Ariana McCoy",
+  //     avatar: "/images/User/user-06.jpg",
+  //     email: "freyaDavies@gmail.com",
+  //   },
+  // ];
 
   const { userData } = useContext(DataContext);
   const pagesData = userData?.page;
   const memberPagesData = useSelector(
     (state) => state.persistedReducer?.pages?.getPage?.data
   );
-
-  const [isLikePage, setIsLikePage] = useState(false);
 
   const [avatar, setAvatar] = useState(null);
   const [background, setBackground] = useState(null);
@@ -72,6 +74,32 @@ const PageHeader = ({ pageOwner }) => {
     };
     hanldeInformation();
   }, [memberPagesData, pagesData, pageOwner]);
+
+  const getStatusLikePage = useSelector(
+    (state) => state.persistedReducer?.pages?.isLikePage?.status
+  );
+  const [isLikePage, setIsLikePage] = useState(false);
+  const dispatch = useDispatch();
+  const params = useParams();
+  useEffect(() => {
+    if (!pageOwner) {
+      const pageId = params.pageId;
+      dispatch(getIsLikePage({ pageId }));
+    }
+  }, [dispatch, pageOwner, params]);
+
+  useEffect(() => {
+    if (getStatusLikePage) {
+      setIsLikePage(true);
+    } else {
+      setIsLikePage(false);
+    }
+  }, [getStatusLikePage]);
+
+  const handleClickLikePage = () => {
+    const pageId = params.pageId;
+    dispatch(likePage({ pageId }));
+  };
 
   return (
     <div className="page-binding-header">
@@ -104,7 +132,8 @@ const PageHeader = ({ pageOwner }) => {
                 <button
                   className="btn-action"
                   onClick={() => {
-                    setIsLikePage(!isLikePage);
+                    handleClickLikePage();
+                    // setIsLikePage(!isLikePage);
                   }}
                 >
                   {isLikePage ? "Dislike Page" : "Like Page"}

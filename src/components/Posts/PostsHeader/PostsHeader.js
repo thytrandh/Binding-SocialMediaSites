@@ -8,13 +8,7 @@ import { deletePosts } from "../../../redux/slice/Posts/postsSlice";
 import { DataContext } from "../../../context/dataContext";
 import { createReport } from "../../../redux/slice/Report/reportSlice";
 
-const PostsHeader = ({
-  avatar,
-  username,
-  status,
-  time,
-  postsItem,
-}) => {
+const PostsHeader = ({ avatar, username, status, time, postsItem }) => {
   const [openOptionBox, setOpenOptionBox] = useState(false);
   const { setOpenEditPosts } = useContext(PostsEditContext);
   const { setPostsEditInfo } = useContext(PostsEditContext);
@@ -27,6 +21,7 @@ const PostsHeader = ({
   const dispatch = useDispatch();
 
   const handleDeletePosts = () => {
+    console.log("postsId", postsItem.id);
     const postsId = postsItem.id;
     dispatch(deletePosts({ postsId }));
   };

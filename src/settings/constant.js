@@ -12,6 +12,9 @@ export const FORGOT_PASSWORD_PAGE = "/forgot-password";
 //HOME PAGE SECTION
 export const HOME_PAGE = "/home";
 
+//HOME PAGE SECTION
+export const POLICY_PAGE = "/privacy-policy";
+
 //NEWSFEED PAGE SECTION
 export const NEWSFEED_PAGE = "/";
 

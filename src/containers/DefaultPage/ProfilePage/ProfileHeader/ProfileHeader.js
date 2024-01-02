@@ -7,16 +7,20 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../../../context/dataContext";
 import { useDispatch, useSelector } from "react-redux";
-import { addFriend } from "../../../../redux/slice/User/friendSlice";
+import {
+  addFriend,
+  cancelFriendRequest,
+  getIsFriend,
+  unFriend,
+} from "../../../../redux/slice/User/friendSlice";
+import { ProfileDataContext } from "../context/profileDataContext";
 
 const ProfileHeader = ({ accountOwner }) => {
   const { userData } = useContext(DataContext);
-  const getCurrentMember = useSelector(
-    (state) => state.persistedReducer?.userInfo?.currentMember?.data
-  );
+  const { memberData } = useContext(ProfileDataContext);
 
-  const isFriend = useSelector(
-    (state) => state.persistedReducer?.friend?.checkIsFriend?.message
+  const getStateFriend = useSelector(
+    (state) => state.persistedReducer?.friend?.checkIsFriend
   );
 
   const navigate = useNavigate();
@@ -36,101 +40,134 @@ const ProfileHeader = ({ accountOwner }) => {
         setPhone(userData?.phone);
         setEmail(userData?.email);
       } else {
-        setAvatar(getCurrentMember?.image?.imgLink);
-        setBackground(getCurrentMember?.background?.imgLink);
-        setName(`${getCurrentMember?.firstName} ${getCurrentMember?.lastName}`);
-        setPhone(getCurrentMember?.phone);
-        setEmail(getCurrentMember?.email);
+        setAvatar(memberData?.image?.imgLink);
+        setBackground(memberData?.background?.imgLink);
+        setName(`${memberData?.firstName} ${memberData?.lastName}`);
+        setPhone(memberData?.phone);
+        setEmail(memberData?.email);
       }
     };
     hanldeInformation();
-  }, [accountOwner, getCurrentMember, userData]);
+  }, [accountOwner, memberData, userData]);
 
   const [friendStatus, setFriendStatus] = useState([
     {
       idStatus: 1,
-      status: "friend",
-      nextAction: [{ action: "Unfriend", color: "red" }],
-      isActive: false,
-    },
-    {
-      idStatus: 2,
       status: "stranger",
       nextAction: [{ action: "Add friend", color: "green" }],
       isActive: false,
     },
     {
-      idStatus: 3,
+      idStatus: 2,
       status: "send request",
       nextAction: [{ action: "Cancel request", color: "red" }],
       isActive: false,
     },
     {
-      idStatus: 4,
+      idStatus: 3,
       status: "friend request",
       nextAction: [
         { action: "Confirm", color: "green" },
         { action: "Delete", color: "red" },
       ],
-      isActive: true,
+      isActive: false,
+    },
+    {
+      idStatus: 4,
+      status: "friend",
+      nextAction: [{ action: "Unfriend", color: "red" }],
+      isActive: false,
     },
   ]);
 
   const dispatch = useDispatch();
   const params = useParams();
 
-  const handleStateFriend = (action) => {
-    console.log("action", action);
+  //get is friend if !accountOwner
+  useEffect(() => {
+    if (!accountOwner) {
+      const memberId = params.memberId;
+      const friendId = memberId;
+      dispatch(
+        getIsFriend({
+          friendId,
+        })
+      );
+    }
+  }, [accountOwner, dispatch, getStateFriend, params]);
+
+  const handleSetStateFriend = (state) => {
+    setFriendStatus((prev) => {
+      return prev.map((item) => {
+        if (item.status === state) {
+          return {
+            ...item,
+            isActive: true,
+          };
+        } else {
+          return {
+            ...item,
+            isActive: false,
+          };
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    const handleGetStateFriend = () => {
+      if (getStateFriend === `you and ${name} don't have friend request`) {
+        handleSetStateFriend("stranger");
+      } else if (
+        getStateFriend === `you have been sent friend request to  ${name}`
+      ) {
+        handleSetStateFriend("send request");
+      } else if (getStateFriend === `${name} sent friend request to you`) {
+        handleSetStateFriend("friend request");
+      } else if (getStateFriend === `you and ${name} is a friend`) {
+        handleSetStateFriend("friend");
+      }
+    };
+    if (!accountOwner) {
+      handleGetStateFriend();
+    }
+  }, [getStateFriend, name, accountOwner]);
+
+  const handleClickAction = (action) => {
     const memberId = params.memberId;
     const friendId = memberId;
-    console.log("FriendId", friendId);
     if (action === "Add friend") {
       dispatch(
         addFriend({
           friendId,
         })
       );
+    } else if (action === "Cancel request") {
+      dispatch(
+        addFriend({
+          friendId,
+        })
+      );
+    } else if (action === "Confirm") {
+      dispatch(
+        addFriend({
+          friendId,
+        })
+      );
+    } else if (action === "Delete") {
+      dispatch(
+        cancelFriendRequest({
+          friendId,
+        })
+      );
+    } else if (action === "Unfriend") {
+      dispatch(
+        unFriend({
+          friendId,
+        })
+      );
     }
   };
-
-  useEffect(() => {
-    //chua ket ban
-    if (isFriend === "User isn't friend") {
-      setFriendStatus((prev) => {
-        return prev.map((item) => {
-          if (item.status === "stranger") {
-            return {
-              ...item,
-              isActive: true,
-            };
-          } else {
-            return {
-              ...item,
-              isActive: false,
-            };
-          }
-        });
-      });
-    } else if (isFriend === "Success") {
-      // da la ban be
-      setFriendStatus((prev) => {
-        return prev.map((item) => {
-          if (item.status === "friend") {
-            return {
-              ...item,
-              isActive: true,
-            };
-          } else {
-            return {
-              ...item,
-              isActive: false,
-            };
-          }
-        });
-      });
-    }
-  }, [isFriend]);
-
 
   return (
     <div className="profile-header">
@@ -182,7 +219,8 @@ const ProfileHeader = ({ accountOwner }) => {
                           <button
                             className={`btn-${action.color}`}
                             onClick={() => {
-                              handleStateFriend(action.action);
+                              handleClickAction(action.action);
+                              // handleStateFriend(action.action);
                             }}
                           >
                             {action.action}

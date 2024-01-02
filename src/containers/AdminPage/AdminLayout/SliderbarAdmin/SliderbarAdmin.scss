@@ -24,7 +24,7 @@
         position: relative;
         padding: 0px 28px 100px 28px;
         //margin-bottom: 100px;
-        >.user-info {
+        >.user-info-admin {
             cursor: pointer;
             padding: 23px 0px;
             display: flex;
@@ -63,7 +63,7 @@
                 }
             }
         }
-        >.navigate-menu {
+        >.navigate-menu-admin {
             padding: 25px 0px;
             border-bottom: 1px solid var(--grey);
             p.title {
@@ -71,7 +71,7 @@
                 font-weight: 600;
                 margin-bottom: 20px;
             }
-           >.menu {
+           >.menu-admin {
                 padding: 0px 5px;
                 .item-menu {
                     cursor: pointer;

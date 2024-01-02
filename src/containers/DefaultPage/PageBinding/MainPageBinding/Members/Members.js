@@ -2,74 +2,81 @@ import { useState } from "react";
 import useWindowSize from "../../../../../library/hooks/useWindowSize";
 import "../Members/Members.scss";
 import Tick from "../../../../../components/Tick/Tick";
+import { useSelector } from "react-redux";
 const Members = ({ pageOwner }) => {
   const { width } = useWindowSize();
 
-  const members = [
-    {
-      id: 0,
-      userName: "Jenny Wilson",
-      avatar: "/images/User/user-08.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 1,
-      userName: "Philip Ninomar",
-      avatar: "/images/User/user-07.jpg",
-      email: "philipNinomar@gmail.com",
-    },
-    {
-      id: 3,
-      userName: "Iris Cana",
-      avatar: "/images/User/user-06.jpg",
-      email: "irisCana@gmail.com",
-    },
-    {
-      id: 4,
-      userName: "Cana Diket",
-      avatar: "/images/User/user-05.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 5,
-      userName: "Cris Wilson",
-      avatar: "/images/User/user-04.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 6,
-      userName: "Anana Crew",
-      avatar: "/images/User/user-09.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 7,
-      userName: "Anana Zona",
-      avatar: "/images/User/user-10.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-    {
-      id: 8,
-      userName: "Ariana Grande",
-      avatar: "/images/User/user-profile.jpg",
-      email: "jennyWilson@gmail.com",
-    },
-  ];
-  const handleRemove = () => {};
+  // const members = [
+  //   {
+  //     id: 0,
+  //     userName: "Jenny Wilson",
+  //     avatar: "/images/User/user-08.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 1,
+  //     userName: "Philip Ninomar",
+  //     avatar: "/images/User/user-07.jpg",
+  //     email: "philipNinomar@gmail.com",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Iris Cana",
+  //     avatar: "/images/User/user-06.jpg",
+  //     email: "irisCana@gmail.com",
+  //   },
+  //   {
+  //     id: 4,
+  //     userName: "Cana Diket",
+  //     avatar: "/images/User/user-05.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 5,
+  //     userName: "Cris Wilson",
+  //     avatar: "/images/User/user-04.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 6,
+  //     userName: "Anana Crew",
+  //     avatar: "/images/User/user-09.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 7,
+  //     userName: "Anana Zona",
+  //     avatar: "/images/User/user-10.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  //   {
+  //     id: 8,
+  //     userName: "Ariana Grande",
+  //     avatar: "/images/User/user-profile.jpg",
+  //     email: "jennyWilson@gmail.com",
+  //   },
+  // ];
+  // const handleRemove = () => {};
+
+  const members = useSelector(
+    (state) => state.persistedReducer?.pages?.memberPage?.data
+  );
 
   const [inputSearch, setInputSearch] = useState(null);
   const [resultSearch, setResultSearch] = useState([...members]);
   const handleChangeSearchInput = (value) => {
     setInputSearch(value);
-    const filter = members.filter((val) =>
-      val.userName.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    );
+    const filter = members.filter((val) => {
+      const name = val?.firstName + " " + val?.lastName;
+      return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+    });
     if (filter.length > 0) {
       setResultSearch(filter);
     } else {
       setResultSearch(members);
     }
   };
+
   return (
     <div className="members-page-binding">
       <div className="top-box">
@@ -105,17 +112,27 @@ const Members = ({ pageOwner }) => {
                       : "user-info"
                   }
                 >
-                  <img src={member.avatar} alt="" className="img-avt" />
+                  <img
+                    src={
+                      member.image?.imgLink
+                        ? member.image?.imgLink
+                        : "/images/DefaultPage/default-avatar.jpg"
+                    }
+                    alt=""
+                    className="img-avt"
+                  />
                   <div className="desc-info">
                     <div className="username">
-                      <p className="name">{member.userName}</p>
+                      <p className="name">{`${member.firstName} ${member.lastName}`}</p>
                       <Tick />
                     </div>
-                    <p className="email">{member.email}</p>
+                    <p className="email">
+                      {member.email ? member.email : member.phone}
+                    </p>
                   </div>
                 </div>
 
-                {pageOwner && (
+                {/* {pageOwner && (
                   <div
                     className="remove-box"
                     onClick={() => {
@@ -130,7 +147,7 @@ const Members = ({ pageOwner }) => {
                       </button>
                     )}
                   </div>
-                )}
+                )} */}
               </div>
             ))}
           </>

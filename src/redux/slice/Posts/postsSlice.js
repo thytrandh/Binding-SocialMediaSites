@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import { message } from "antd";
 import { getUser } from "../User/userSlice";
+import { getCurrentPages } from "../Pages/pagesSlice";
+import { getPostsReported } from "../Report/reportSlice";
 
 const initialState = {
   currentCreatePosts: null,
@@ -9,6 +11,7 @@ const initialState = {
   currentDeletePosts: null,
   currentReportPosts: null,
   currentAllPosts: null,
+  allPostsByUser: null,
   newsfeed: null,
   loading: false,
   error: false,
@@ -39,8 +42,8 @@ export const createPosts = createAsyncThunk(
     if (feeling !== null) {
       formData.append("feeling", feeling);
     }
-    if (pageId !== null) {
-      formData.append("pageId", pageId);
+    if (pageId !== undefined) {
+      formData.append("page", pageId);
     }
 
     try {
@@ -48,6 +51,7 @@ export const createPosts = createAsyncThunk(
       const result = await api.post("/api/v1/post", formData);
       thunkAPI.dispatch(getNewsfeed());
       thunkAPI.dispatch(getUser());
+      thunkAPI.dispatch(getCurrentPages());
       message.success("Posts created successfully.");
       return result.data;
     } catch (error) {
@@ -107,7 +111,24 @@ export const deletePosts = createAsyncThunk(
       const result = await api.delete(`/api/v1/delete-post/${postsId}`);
       thunkAPI.dispatch(getNewsfeed());
       thunkAPI.dispatch(getUser());
+      thunkAPI.dispatch(getPostsReported());
       message.success("Your posts successfully deleted.");
+      return result.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error when fetching user information");
+    }
+  }
+);
+
+export const getAllPostsByUser = createAsyncThunk(
+  "userPosts/getAllPostsByUser",
+  async (data, thunkAPI) => {
+    const { userId } = data;
+    console.log("userId", userId);
+    const formData = new FormData();
+    formData.append("userId", userId);
+    try {
+      const result = await api.get("/api/v1/posts-not-page", formData);
       return result.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error when fetching user information");
@@ -187,6 +208,19 @@ const postsSlice = createSlice({
       state.error = false;
     },
     [getNewsfeed.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+    },
+    //getAllPostsByUser
+    [getAllPostsByUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getAllPostsByUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allPostsByUser = action.payload;
+      state.error = false;
+    },
+    [getAllPostsByUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = true;
     },
