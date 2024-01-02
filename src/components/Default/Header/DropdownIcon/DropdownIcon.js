@@ -203,13 +203,22 @@ const DropdownIcon = () => {
     navigate(pathname);
   };
 
-  const friendsReqs = useSelector(
+  const getFriendsReqs = useSelector(
     (state) => state.persistedReducer?.friend?.requestFriend?.data
   );
+
+  const [friendsReqs, setFriendReq] = useState([]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRequestFriendList());
-  },[dispatch]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (getFriendsReqs !== null) {
+      setFriendReq(getFriendsReqs);
+    }
+  }, [getFriendsReqs]);
 
   useEffect(() => {
     const setFriendReq = () => {
@@ -218,7 +227,7 @@ const DropdownIcon = () => {
           if (item.id === 2) {
             return {
               ...item,
-              data: [...friendsReqs],
+              data: friendsReqs,
             };
           } else {
             return {
