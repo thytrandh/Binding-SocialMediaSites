@@ -122,8 +122,6 @@ const Timeline = ({ pageOwner }) => {
     }
   }, [getListMemberData]);
 
-
-
   useEffect(() => {
     if (pageOwner) {
       const pageId = getCurrentPage?.id;
@@ -144,6 +142,8 @@ const Timeline = ({ pageOwner }) => {
         }
         if (pagesData?.posts !== null && pagesData?.posts !== undefined) {
           setPosts(pagesData?.posts);
+        } else {
+          setPosts([]);
         }
 
         return;
@@ -159,6 +159,8 @@ const Timeline = ({ pageOwner }) => {
           memberPagesData?.posts !== undefined
         ) {
           setPosts(memberPagesData?.posts);
+        } else {
+          setPosts([]);
         }
 
         return;

@@ -44,6 +44,8 @@ const TimelineProfile = ({ accountOwner }) => {
         }
         if (userData?.posts !== null && userData?.posts !== undefined) {
           setPosts(userData?.posts);
+        } else {
+          setPosts([]);
         }
       } else {
         if (
@@ -57,6 +59,8 @@ const TimelineProfile = ({ accountOwner }) => {
           getCurrentMember?.posts !== undefined
         ) {
           setPosts(getCurrentMember?.posts);
+        } else {
+          setPosts([]);
         }
       }
     };
