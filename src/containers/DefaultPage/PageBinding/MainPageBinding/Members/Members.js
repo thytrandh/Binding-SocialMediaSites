@@ -71,18 +71,18 @@ const Members = ({ pageOwner }) => {
   }, [getMembersData]);
 
   const [inputSearch, setInputSearch] = useState(null);
-  const [resultSearch, setResultSearch] = useState([...members]);
+  // const [resultSearch, setResultSearch] = useState(members);
   const handleChangeSearchInput = (value) => {
     setInputSearch(value);
-    const filter = members.filter((val) => {
-      const name = val?.firstName + " " + val?.lastName;
-      return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-    });
-    if (filter.length > 0) {
-      setResultSearch(filter);
-    } else {
-      setResultSearch(members);
-    }
+    // const filter = members.filter((val) => {
+    //   const name = val?.firstName + " " + val?.lastName;
+    //   return name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+    // });
+    // if (filter.length > 0) {
+    //   setResultSearch(filter);
+    // } else {
+    //   setResultSearch(members);
+    // }
   };
 
   return (
@@ -111,7 +111,7 @@ const Members = ({ pageOwner }) => {
       <div className="members">
         {members.length > 0 ? (
           <>
-            {resultSearch.map((member) => (
+            {members.map((member) => (
               <div key={member.id} className="item-member">
                 <div
                   className={

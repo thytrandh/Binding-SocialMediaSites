@@ -122,6 +122,8 @@ const Timeline = ({ pageOwner }) => {
     }
   }, [getListMemberData]);
 
+
+
   useEffect(() => {
     if (pageOwner) {
       const pageId = getCurrentPage?.id;

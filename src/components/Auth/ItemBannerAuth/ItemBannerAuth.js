@@ -1,6 +1,6 @@
 import "../ItemBannerAuth/ItemBannerAuth.scss";
 
-const ItemBannerAuth = ({ imgBanner, title, desc }) => {
+const  ItemBannerAuth = ({ imgBanner, title, desc }) => {
   return (
     <div className="item-banner-auth">
       <div className="img-banner">
