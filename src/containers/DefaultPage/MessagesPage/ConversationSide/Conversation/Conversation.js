@@ -2,63 +2,73 @@ import "./Conversation.scss";
 import ItemReceivedMessages from "./ReceivedMessages/ItemReceivedMessages";
 import ItemSentMessages from "./SentMessages/ItemSentMessages";
 import MessageComposeBox from "./MessageComposeBox/MessageComposeBox";
-// import { useEffect, useState } from "react";
-// import Stomp from 'stompjs';
-// import SockJS from "sockjs-client";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DataContext } from "../../../../../context/dataContext";
+import { useParams } from "react-router-dom";
+import { getConversation } from "../../../../../redux/slice/Messages/messagesSlice";
+
 const Conversation = () => {
-  // const [messages, setMessages] = useState([]);
-  // const [message, setMessage] = useState("");
-  // const [nickname, setNickname] = useState("");
-  // const [stompClient, setStompClient] = useState(null);
+  const { userData } = useContext(DataContext);
+  const [conversation, setConversation] = useState([]);
+  const getConversationData = useSelector(
+    (state) => state?.persistedReducer?.messages?.conversation?.data
+  );
 
-  // useEffect(() => {
-  //   const socket = new SockJS("http://localhost:5000/ws");
-  //   const client = Stomp.over(socket);
+  useEffect(() => {
+    if (getConversation !== null && getConversation !== undefined) {
+      setConversation(getConversationData);
+    } else {
+      setConversation([]);
+    }
+  }, [getConversationData]);
 
-  //   client.connect({}, () => {
-  //     client.subscribe("/topic/messages", (message) => {
-  //       const receivedMessage = JSON.parse(message.body);
-  //       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-  //     });
-  //   });
+  const dispatch = useDispatch();
+  const params = useParams();
 
-  //   setStompClient(client);
+  useEffect(() => {
+    const userId = params.chatId;
 
-  //   return () => {
-  //     client.disconnect();
-  //   };
-  // }, []); 
+    const intervalId = setInterval(() => {
+      dispatch(
+        getConversation({
+          userId,
+        })
+      );
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [dispatch, params]);
 
   return (
     <div className="conversation">
       <div className="conversation-content middle-box">
-        <ItemReceivedMessages
-          content={"Helo!"}
-          time={"16:00"}
-          imgUserAvt={"/images/User/user-03.jpg"}
-        />
-        <ItemSentMessages
-          content={
-            " I hope my parents agree to allow me to go for the trip. The amount is a bit high."
-          }
-          time={"16:10"}
-          imgUserAvt={"/images/User/user-01.jpg"}
-        />
-        <ItemSentMessages
-          content={"Good morning!"}
-          time={"16:10"}
-          imgUserAvt={"/images/User/user-01.jpg"}
-        />
-        <ItemReceivedMessages
-          content={" I will have to ask my father today itself for the money."}
-          time={"16:20"}
-          imgUserAvt={"/images/User/user-03.jpg"}
-        />
-        <ItemSentMessages
-          content={" I hope my parents agree to allow me to go for the trip."}
-          time={"16:10"}
-          imgUserAvt={"/images/User/user-01.jpg"}
-        />
+        {conversation &&
+          conversation.map((item) => (
+            <>
+              {item?.sender?.userId === userData?.id ? (
+                <ItemSentMessages
+                  content={item?.message}
+                  time={item?.time.slice(0, 10)}
+                  imgUserAvt={
+                    item?.sender?.avatar
+                      ? item?.sender?.avatar
+                      : "/images/DefaultPage/default-avatar.jpg"
+                  }
+                />
+              ) : (
+                <ItemReceivedMessages
+                  content={item?.message}
+                  time={item?.time.slice(0, 10)}
+                  imgUserAvt={
+                    item?.sender?.avatar
+                      ? item?.sender?.avatar
+                      : "/images/DefaultPage/default-avatar.jpg"
+                  }
+                />
+              )}
+            </>
+          ))}
       </div>
       <MessageComposeBox />
     </div>

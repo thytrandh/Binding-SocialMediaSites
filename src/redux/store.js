@@ -14,6 +14,7 @@ import likePostsSlice from "./slice/Posts/likePostsSlice";
 import friendSlice from "./slice/User/friendSlice";
 import pagesSlice from "./slice/Pages/pagesSlice";
 import storiesSlice from "./slice/Stories/storiesSlice";
+import messagesSlice from "./slice/Messages/messagesSlice";
 
 const persistConfig = {
   key: "root",
@@ -42,6 +43,8 @@ const reducer = combineReducers({
   pages: pagesSlice,
   //Report
   report: reportSlice,
+  //Messages
+  messages: messagesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

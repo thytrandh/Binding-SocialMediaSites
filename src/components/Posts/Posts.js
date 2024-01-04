@@ -55,58 +55,62 @@ const Posts = ({ posts }) => {
         <div className="posts-stream">
           {posts !== null && (
             <>
-              {posts.map((item) => (
-                <div key={item.id} className="posts">
-                  <PostsHeader
-                    avatar={
-                      item?.pagePost !== null
-                        ? item?.pagePost?.avatar?.imgLink
-                        : item?.userPost?.avatar
-                    }
-                    username={
-                      item?.pagePost !== null
-                        ? item?.pagePost?.pageName
-                        : item?.userPost?.firstName +
-                          " " +
-                          item?.userPost?.lastName
-                    }
-                    status={item?.feeling}
-                    time={item?.createDate.slice(0, 10)}
-                    postsItem={item}
-                  />
-                  <PostsBody
-                    postsId={item?.id}
-                    postsContent={item?.content}
-                    postsImage={item?.images}
-                    postsVideo={item?.videos}
-                    postsReaction={[
-                      {
-                        idUser: 0,
-                        username: "Marvin McKinney",
-                        emojiCode: 1,
-                      },
-                      {
-                        idUser: 1,
-                        username: "Jenny Wilson",
-                        emojiCode: 1,
-                      },
-                      {
-                        idUser: 3,
-                        username: "Aaron Jones",
-                        emojiCode: 4,
-                      },
-                    ]}
-                    listEmoji={listEmoji}
-                    postsItem={item}
-                    countLike={item?.countLike}
-                  />
-                  <PostsFooter
-                    postsId={item?.id}
-                    postsComment={item?.comments}
-                    listEmoji={listEmoji}
-                  />
-                </div>
-              ))}
+              {posts.length > 0 && (
+                <>
+                  {posts.map((item) => (
+                    <div key={item.id} className="posts">
+                      <PostsHeader
+                        avatar={
+                          item?.pagePost !== null
+                            ? item?.pagePost?.avatar?.imgLink
+                            : item?.userPost?.avatar
+                        }
+                        username={
+                          item?.pagePost !== null
+                            ? item?.pagePost?.pageName
+                            : item?.userPost?.firstName +
+                              " " +
+                              item?.userPost?.lastName
+                        }
+                        status={item?.feeling}
+                        time={item?.createDate.slice(0, 10)}
+                        postsItem={item}
+                      />
+                      <PostsBody
+                        postsId={item?.id}
+                        postsContent={item?.content}
+                        postsImage={item?.images}
+                        postsVideo={item?.videos}
+                        postsReaction={[
+                          {
+                            idUser: 0,
+                            username: "Marvin McKinney",
+                            emojiCode: 1,
+                          },
+                          {
+                            idUser: 1,
+                            username: "Jenny Wilson",
+                            emojiCode: 1,
+                          },
+                          {
+                            idUser: 3,
+                            username: "Aaron Jones",
+                            emojiCode: 4,
+                          },
+                        ]}
+                        listEmoji={listEmoji}
+                        postsItem={item}
+                        countLike={item?.countLike}
+                      />
+                      <PostsFooter
+                        postsId={item?.id}
+                        postsComment={item?.comments}
+                        listEmoji={listEmoji}
+                      />
+                    </div>
+                  ))}{" "}
+                </>
+              )}
             </>
           )}
         </div>

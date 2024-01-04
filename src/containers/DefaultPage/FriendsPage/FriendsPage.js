@@ -59,13 +59,16 @@ const FriendsPage = () => {
     // }
   };
 
-  const friends = useSelector(
+  const getFriends = useSelector(
     (state) => state.persistedReducer?.friend?.listFriend?.data
   );
 
-  const friendsReqs = useSelector(
+  const getFriendsReqs = useSelector(
     (state) => state.persistedReducer?.friend?.requestFriend?.data
   );
+
+  const [friends, setFriends] = useState([]);
+  const [friendsReqs, setFriendsReqs] = useState([]);
 
   // const friends = [
   //   {
@@ -240,13 +243,21 @@ const FriendsPage = () => {
   }, [dispatch, userData]);
 
   useEffect(() => {
-    if (friends) {
+    if (getFriends !== null && getFriends !== undefined) {
+      setFriends(getFriends);
       setResultSearchFriends(friends);
+    } else {
+      setFriends([]);
+      setResultSearchFriends([]);
     }
-    if (friendsReqs) {
+    if (getFriendsReqs !== null && getFriendsReqs !== undefined) {
+      setFriendsReqs(getFriendsReqs);
       setResultSearchFrReq(friendsReqs);
+    } else {
+      setFriendsReqs([]);
+      setResultSearchFrReq([]);
     }
-  }, [friends, friendsReqs]);
+  }, [friends, friendsReqs, getFriends, getFriendsReqs]);
 
   const handleChangeSearchInput = (value) => {
     if (tabMenu[0].isActive) {

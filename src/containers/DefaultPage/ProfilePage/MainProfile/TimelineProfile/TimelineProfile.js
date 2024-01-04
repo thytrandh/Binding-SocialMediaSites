@@ -161,7 +161,7 @@ const TimelineProfile = ({ accountOwner }) => {
         </div>
       </div>
       <div className="content">
-        {posts !== null ? (
+        {posts.length > 0 ? (
           <Posts accountOwner={accountOwner} posts={posts} />
         ) : (
           <p className="mess-center">There are no posts yet</p>

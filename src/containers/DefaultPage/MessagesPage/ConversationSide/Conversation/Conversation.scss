@@ -9,7 +9,23 @@
 
     .conversation-content {
         width: 100%;
-        height: calc(100% - 60px);
+        //height: calc(100% - 60px);
+        min-height: calc(100% - 60px);
         padding: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    ::-webkit-scrollbar-track {
+        border-radius: 20px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        background-color: var(--primary);
+        transition: all 0.3s ease;
     }
 }

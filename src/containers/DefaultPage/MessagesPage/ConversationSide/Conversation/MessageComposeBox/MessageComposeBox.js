@@ -3,6 +3,9 @@ import data from "@emoji-mart/data";
 import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import "../MessageComposeBox/MessageComposeBox.scss";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { sendMessages } from "../../../../../../redux/slice/Messages/messagesSlice";
 
 const MessageComposeBox = () => {
   const [isPickerVisible, setPickerVisible] = useState(false);
@@ -12,8 +15,18 @@ const MessageComposeBox = () => {
     setMessage(`${message} ${emoji}`);
   };
 
+  const params = useParams();
+
+  const dispatch = useDispatch();
   const handleSendMessage = () => {
     if (message.length > 0) {
+      const idReceiver = params.chatId;
+      dispatch(
+        sendMessages({
+          message,
+          idReceiver,
+        })
+      );
       setMessage("");
       return true;
     } else {
@@ -21,40 +34,40 @@ const MessageComposeBox = () => {
     }
   };
 
-  const [selectedFile, setSelectedFile] = useState([]);
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-    setSelectedFile(selectedFilesArray);
-    formatSelectedFilesArray();
-  };
+  // const [selectedFile, setSelectedFile] = useState([]);
+  // const onSelectFile = (event) => {
+  //   const selectedFiles = event.target.files;
+  //   const selectedFilesArray = Array.from(selectedFiles);
+  //   setSelectedFile(selectedFilesArray);
+  //   formatSelectedFilesArray();
+  // };
 
-  function formatSelectedFilesArray() {
-    setSelectedFile((prev) => {
-      return prev.map((item) => {
-        const strTemp = item.type.slice(0, 5).toString();
-        if (strTemp === "image") {
-          return {
-            source: URL.createObjectURL(item),
-            type: "image",
-          };
-        } else {
-          return {
-            source: URL.createObjectURL(item),
-            type: "video",
-          };
-        }
-      });
-    });
-  }
+  // function formatSelectedFilesArray() {
+  //   setSelectedFile((prev) => {
+  //     return prev.map((item) => {
+  //       const strTemp = item.type.slice(0, 5).toString();
+  //       if (strTemp === "image") {
+  //         return {
+  //           source: URL.createObjectURL(item),
+  //           type: "image",
+  //         };
+  //       } else {
+  //         return {
+  //           source: URL.createObjectURL(item),
+  //           type: "video",
+  //         };
+  //       }
+  //     });
+  //   });
+  // }
 
-  const handleDeleteSelectedFiles = (item) => {
-    const filter = selectedFile.filter((val) => val !== item);
-    setSelectedFile(filter);
-  };
+  // const handleDeleteSelectedFiles = (item) => {
+  //   const filter = selectedFile.filter((val) => val !== item);
+  //   setSelectedFile(filter);
+  // };
   return (
     <>
-      <div className="show-selected-file-box">
+      {/* <div className="show-selected-file-box">
         {selectedFile.map((item, idx) => (
           <div key={item.id} className="img-box">
             <img src={item.source} alt="" />
@@ -68,9 +81,9 @@ const MessageComposeBox = () => {
             </button>
           </div>
         ))}
-      </div>
+      </div> */}
       <div className="bottom-box">
-        <div className="option-box">
+        {/* <div className="option-box">
           <button
             className="btn-option"
             onClick={() =>
@@ -90,7 +103,7 @@ const MessageComposeBox = () => {
           <button className="btn-option">
             <img src="/images/Messages/Voice 2.png" alt="" className="img-ic" />
           </button>
-        </div>
+        </div> */}
         <div className="input-message-box">
           <textarea
             type="text"

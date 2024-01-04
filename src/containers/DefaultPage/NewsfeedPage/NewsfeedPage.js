@@ -17,7 +17,7 @@ const NewsfeedPage = () => {
   const newfeedsData = useSelector(
     (state) => state?.persistedReducer?.userPosts?.newsfeed?.data
   );
-  const [newfeeds, setNewFeeds] = useState(null);
+  const [newfeeds, setNewFeeds] = useState([]);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,16 +25,22 @@ const NewsfeedPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (newfeedsData !== null && newfeedsData !== undefined) {
+      setNewFeeds(newfeedsData);
+    } else setNewFeeds([]);
+  }, [newfeedsData]);
+
+  useEffect(() => {
     dispatch(getListActiveFriend());
   }, [dispatch]);
 
   useEffect(() => {
-    if (newfeedsData) {
+    if (newfeeds.length > 0) {
       const removeDuplicates = () => {
-        const res = newfeedsData.filter(function (item, index) {
+        const res = newfeeds.filter(function (item, index) {
           return (
             index ===
-            newfeedsData.findIndex(function (obj) {
+            newfeeds.findIndex(function (obj) {
               return JSON.stringify(item.id) === JSON.stringify(obj.id);
             })
           );
@@ -45,7 +51,7 @@ const NewsfeedPage = () => {
       };
       removeDuplicates();
     }
-  }, [newfeedsData, setNewFeeds, newfeeds]);
+  }, [ setNewFeeds, newfeeds]);
 
   return (
     <div className="newsfeed-page">
@@ -59,7 +65,7 @@ const NewsfeedPage = () => {
           }}
           postOnPage={false}
         />
-        {newfeedsData && <Posts posts={newfeeds} />}
+        {newfeeds.length > 0 && <Posts posts={newfeeds} />}
       </div>
       <div className="sliderbar-service">
         <ServiceAdvertisement />

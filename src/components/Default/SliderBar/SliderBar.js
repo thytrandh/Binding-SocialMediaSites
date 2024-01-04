@@ -50,36 +50,36 @@ const SliderBar = () => {
     //   navigate: "/profile/archive",
     //   active: false,
     // },
+    // {
+    //   id: 4,
+    //   icon: "/images/Icon/IconMenu/Notification.png",
+    //   name: "Notifications",
+    //   navigate: "/notifications",
+    //   active: false,
+    // },
     {
-      id: 4,
-      icon: "/images/Icon/IconMenu/Notification.png",
-      name: "Notifications",
-      navigate: "/notifications",
-      active: false,
-    },
-    {
-      id: 5,
+      id: 3,
       icon: "/images/Icon/IconMenu/Chat.png",
       name: "Messages",
       navigate: "/message",
       active: false,
     },
     {
-      id: 6,
+      id: 4,
       icon: "/images/Icon/IconMenu/Image.png",
       name: "Gallery",
       navigate: "/profile/gallery",
       active: false,
     },
     {
-      id: 7,
+      id: 5,
       icon: "/images/Icon/IconMenu/Lock.png",
       name: "Log Out",
       navigate: "/login",
       active: false,
     },
     {
-      id: 8,
+      id: 6,
       icon: "/images/Icon/IconMenu/Setting.png",
       name: "Settings",
       navigate: "/settings",
@@ -191,7 +191,7 @@ const SliderBar = () => {
                   </li>
                 );
               })
-              .filter((e, k) => k < 6)}
+              .filter((e, k) => k < 5)}
           </ul>
         </div>
         <div className="navigate-menu">
