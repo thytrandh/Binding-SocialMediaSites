@@ -40,35 +40,115 @@ const Conversation = () => {
     return () => clearInterval(intervalId);
   }, [dispatch, params]);
 
+  const [groupMessage, setGroupMessage] = useState([]);
+  useEffect(() => {
+    const groupDataByDate = (data) => {
+      const groupedData = {};
+
+      data.forEach((message) => {
+        // Extract date from createTime
+        const createDate = new Date(message.createTime).toLocaleDateString();
+
+        // Check if the date is already a key in groupedData
+        if (groupedData.hasOwnProperty(createDate)) {
+          // If the date exists, push the message to the existing array
+          groupedData[createDate].push(message);
+        } else {
+          // If the date doesn't exist, create a new array with the message
+          groupedData[createDate] = [message];
+        }
+      });
+
+      return groupedData;
+    };
+    if (conversation) {
+      const groupedData = groupDataByDate(conversation);
+      setGroupMessage(groupedData);
+      //console.log(groupedData);
+    }
+  }, [conversation]);
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
+  };
+
   return (
     <div className="conversation">
       <div className="conversation-content middle-box">
-        {conversation &&
-          conversation.map((item) => (
+        {conversation && (
+          <>
+            {Object.keys(groupMessage).map((date) => (
+              <div key={date}>
+                <div className="dateGr">
+                  <p className="date">{formatDate(date)}</p>
+                </div>
+                <>
+                  {groupMessage[date].map((item) => (
+                    <>
+                      {item?.usender?.userId === userData?.id ? (
+                        <ItemSentMessages
+                          content={item?.message}
+                          time={item?.createTime.slice(11, 16)}
+                          imgUserAvt={
+                            item?.usender?.avatar
+                              ? item?.usender?.avatar
+                              : "/images/DefaultPage/default-avatar.jpg"
+                          }
+                          image={item?.img?.imgLink}
+                        />
+                      ) : (
+                        <ItemReceivedMessages
+                          content={item?.message}
+                          time={item?.createTime.slice(11, 16)}
+                          imgUserAvt={
+                            item?.usender?.avatar
+                              ? item?.usender?.avatar
+                              : "/images/DefaultPage/default-avatar.jpg"
+                          }
+                          image={item?.img?.imgLink}
+                        />
+                      )}
+                    </>
+                  ))}
+                </>
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* {groupMessage.length > 0 &&
+          groupMessage.map((item) => (
             <>
-              {item?.sender?.userId === userData?.id ? (
+              {item?.usender?.userId === userData?.id ? (
                 <ItemSentMessages
                   content={item?.message}
-                  time={item?.time.slice(0, 10)}
+                  time={item?.createTime.slice(11, 16)}
                   imgUserAvt={
-                    item?.sender?.avatar
-                      ? item?.sender?.avatar
+                    item?.usender?.avatar
+                      ? item?.usender?.avatar
                       : "/images/DefaultPage/default-avatar.jpg"
                   }
+                  image={item?.img?.imgLink}
                 />
               ) : (
                 <ItemReceivedMessages
                   content={item?.message}
-                  time={item?.time.slice(0, 10)}
+                  time={item?.createTime.slice(11, 16)}
                   imgUserAvt={
-                    item?.sender?.avatar
-                      ? item?.sender?.avatar
+                    item?.usender?.avatar
+                      ? item?.usender?.avatar
                       : "/images/DefaultPage/default-avatar.jpg"
                   }
+                  image={item?.img?.imgLink}
                 />
               )}
             </>
-          ))}
+          ))} */}
       </div>
       <MessageComposeBox />
     </div>

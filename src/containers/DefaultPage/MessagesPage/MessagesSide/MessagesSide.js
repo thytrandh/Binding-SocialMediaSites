@@ -49,7 +49,7 @@ const MessagesSide = () => {
 
   const params = useParams();
   const handleOpenConversation = (item) => {
-    console.log("item", item);
+    // console.log("item", item);
     navigate(`/message/${item.id}`);
     setInfoChatUser({ ...item });
     const userId = params.chatId;

@@ -11,18 +11,25 @@ const initialState = {
 export const sendMessages = createAsyncThunk(
   "messages/sendMessages",
   async (data, thunkAPI) => {
-    const { message, idReceiver } = data;
-    const receiver = {
-      id: idReceiver,
-    };
+    const { message, image, receiverId } = data;
+    // const receiver = {
+    //   id: idReceiver,
+    // };
     // const receiver = new Object();
     // receiver.id = idReceiver;
+    const formData = new FormData();
+    if (message !== null && message !== undefined) {
+      formData.append("message", message);
+    }
+
+    if (image !== null && image !== undefined) {
+      formData.append("image", image);
+    }
+    formData.append("receiverId", receiverId);
+
     try {
-      const result = await api.post("/api/v1/send-message", {
-        message,
-        receiver,
-      });
-      const userId = idReceiver;
+      const result = await api.post("/api/v1/send-message", formData);
+      const userId = receiverId;
       thunkAPI.dispatch(
         getConversation({
           userId,

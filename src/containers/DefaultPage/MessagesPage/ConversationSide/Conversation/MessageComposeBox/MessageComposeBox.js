@@ -19,28 +19,37 @@ const MessageComposeBox = () => {
 
   const dispatch = useDispatch();
   const handleSendMessage = () => {
-    if (message.length > 0) {
-      const idReceiver = params.chatId;
+    console.log("ïmage", image);
+    if (message.length > 0 || image !== null) {
+      const receiverId = params.chatId;
       dispatch(
         sendMessages({
           message,
-          idReceiver,
+          image,
+          receiverId,
         })
       );
       setMessage("");
+      setImage(null);
+      setSelectedFile(null);
       return true;
     } else {
       return false;
     }
   };
 
-  // const [selectedFile, setSelectedFile] = useState([]);
-  // const onSelectFile = (event) => {
-  //   const selectedFiles = event.target.files;
-  //   const selectedFilesArray = Array.from(selectedFiles);
-  //   setSelectedFile(selectedFilesArray);
-  //   formatSelectedFilesArray();
-  // };
+  const [image, setImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const onSelectFile = (event) => {
+    const selectedFiles = event.target.files;
+    console.log("selectedFiles", selectedFiles);
+    setImage(selectedFiles[0]);
+    const imgURL = URL.createObjectURL(selectedFiles[0]);
+    setSelectedFile(imgURL);
+    // const selectedFilesArray = Array.from(selectedFiles);
+    // setSelectedFile(selectedFilesArray);
+    // formatSelectedFilesArray();
+  };
 
   // function formatSelectedFilesArray() {
   //   setSelectedFile((prev) => {
@@ -67,23 +76,26 @@ const MessageComposeBox = () => {
   // };
   return (
     <>
-      {/* <div className="show-selected-file-box">
-        {selectedFile.map((item, idx) => (
-          <div key={item.id} className="img-box">
-            <img src={item.source} alt="" />
+      {selectedFile !== null && selectedFile !== undefined && (
+        <div className="show-selected-file-box">
+          <div className="img-box">
+            <img src={selectedFile} alt="" />
             <button
               className="btn-delete"
               onClick={() => {
-                handleDeleteSelectedFiles(item);
+                setImage(null);
+                setSelectedFile(null);
+                // handleDeleteSelectedFiles(item);
               }}
             >
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
-        ))}
-      </div> */}
+        </div>
+      )}
+
       <div className="bottom-box">
-        {/* <div className="option-box">
+        <div className="option-box">
           <button
             className="btn-option"
             onClick={() =>
@@ -94,16 +106,15 @@ const MessageComposeBox = () => {
               type="file"
               className="input-filed-message"
               hidden
-              multiple
-              accept="image/*,video/*"
+              accept="image/*"
               onChange={onSelectFile}
             />
             <img src="/images/Messages/Image 2.png" alt="" className="img-ic" />
           </button>
-          <button className="btn-option">
+          {/* <button className="btn-option">
             <img src="/images/Messages/Voice 2.png" alt="" className="img-ic" />
-          </button>
-        </div> */}
+          </button> */}
+        </div>
         <div className="input-message-box">
           <textarea
             type="text"
