@@ -100,6 +100,7 @@ const MessagesPage = () => {
   // ]);
 
   const [infoChatUser, setInfoChatUser] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -129,7 +130,9 @@ const MessagesPage = () => {
   // }, [dispatch, params]);
 
   return (
-    <MessagesContext.Provider value={{ infoChatUser, setInfoChatUser }}>
+    <MessagesContext.Provider
+      value={{ infoChatUser, setInfoChatUser, searchOpen, setSearchOpen }}
+    >
       <div className="messages-page">
         <MessagesSide />
         <div className="conversation-side-thread">
@@ -142,25 +145,35 @@ const MessagesPage = () => {
           >
             {infoChatUser !== null && (
               <div className="left-top-header">
-                <button
-                  className="btn-back"
+                <div className="info-conversation">
+                  <button
+                    className="btn-back"
+                    onClick={() => {
+                      navigate("/message");
+                      setInfoChatUser(null);
+                    }}
+                  >
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <div className="user-conversation">
+                    <img
+                      src={infoChatUser?.image?.imgLink}
+                      alt=""
+                      className="img-avt"
+                    />
+                    <div className="user-desc">
+                      <p className="userName">{`${infoChatUser?.firstName} ${infoChatUser?.lastName}`}</p>
+                      <p className="status">Active</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="search-message-ic"
                   onClick={() => {
-                    navigate("/message");
-                    setInfoChatUser(null);
+                    setSearchOpen(!searchOpen);
                   }}
                 >
-                  <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <div className="user-conversation">
-                  <img
-                    src={infoChatUser?.image?.imgLink}
-                    alt=""
-                    className="img-avt"
-                  />
-                  <div className="user-desc">
-                    <p className="userName">{`${infoChatUser?.firstName} ${infoChatUser?.lastName}`}</p>
-                    <p className="status">Active</p>
-                  </div>
+                  <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
               </div>
             )}

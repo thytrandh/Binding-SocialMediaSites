@@ -8,13 +8,71 @@
     flex-direction: column;
 
     .conversation-content.middle-box {
+        position: relative;
         width: 100%;
         height: calc(100% - 63px - 10px);
         min-height: calc(100% - 63px - 10px);
         // background-color: aqua;
-        padding: 20px;
-        overflow-y: auto;
-        overflow-x: hidden;
+        padding: 20px 0px;
+
+        .search-message-box {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 90%;
+            form.search-box {
+                background-color: var(--border-light);
+                height: 45px;
+                width: 100%;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                padding: 0px 10px;
+                img.ic-search {
+                    width: 19px;
+                    object-fit: cover;
+                }
+                input.search-input {
+                    width: 100%;
+                    height: 100%;
+                    margin-left: 10px;
+                    &::placeholder {
+                        font-size: 0.93rem;
+                        font-weight: 500;
+                        color: var(--body-text);
+                    }
+                }
+            }
+        }
+        .messages {
+            height: calc(100%);
+            min-height: calc(100%);
+
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0px 20px;
+            .highlighted {
+                > .item-sent-messages,
+                > .item-received-messages {
+                    > .item-sent-messages-box,
+                    > .item-received-messages-box {
+                        > .message-content {
+                            > .message-text {
+                                p.content {
+                                    background-color: #f1c40f;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .messages.searchActive {
+            margin-top: 50px;
+            height: calc(100% - 60px);
+            min-height: calc(100% - 60px);
+        }
     }
     ::-webkit-scrollbar-track {
         border-radius: 20px;
